@@ -1,26 +1,32 @@
 {
-  "name": "manage",
+  "name": "Manage",
   "version": "0.0.1",
-  "description": "",
+  "description": "todo app",
+  "homepage": "not yet",
+  "bugs": "http://github.com/khirayama/manage/issues",
   "main": "index.js",
   "scripts": {
-    "build:js": "browserify -t babelify ./src/scripts/app.js -d | exorcist ./src/bundle.js.map > ./src/bundle.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "gulp develop",
+    "build": "gulp build",
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/khirayama/manage.git"
+    "url": "https://github.com/khirayama/manage"
   },
-  "author": "khirayama",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/khirayama/manage/issues"
-  },
-  "homepage": "https://github.com/khirayama/manage#readme",
+  "author": "Kotaro Hirayama",
+  "license": "BSD",
   "devDependencies": {
+    "babel": "^5.8.20",
     "babelify": "^6.1.3",
-    "browserify": "^11.0.1",
-    "exorcist": "^0.4.0",
-    "watchify": "^3.3.1"
+    "browser-sync": "^2.8.2",
+    "gulp": "^3.9.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-jade": "^1.1.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-pleeease": "^1.2.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-sass": "^2.0.4",
+    "node-sass": "^3.2.0"
   }
 }
