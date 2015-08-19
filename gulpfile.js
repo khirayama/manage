@@ -66,6 +66,7 @@ gulp.task('styles:build', function() {
     .pipe(gulp.dest(release));
 });
 
+// watchifyを導入する
 gulp.task('scripts:develop', function() {
   return gulp.src([src + 'scripts/app.js'])
     .pipe(plumber(options.plumber))
