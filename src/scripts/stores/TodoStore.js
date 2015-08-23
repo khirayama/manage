@@ -1,12 +1,14 @@
 import 'babel/polyfill';
-import Store from '../libs/BaseStore';
+import Store from '../libs/Store';
+import {TODO_CATEGORY} from '../constants/constants';
 
 class TodoStore extends Store {
   constructor() {
     super();
     this.default = {
       text: '',
-      completed: false
+      completed: false,
+      category: TODO_CATEGORY.TODAY
     }
   }
 }

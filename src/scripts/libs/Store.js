@@ -1,9 +1,9 @@
 import 'babel/polyfill';
-import Dispatcher from './TinyDispatcher';
+import Dispatcher from './Dispatcher';
 
 const CHANGE_EVENT = 'CHANGE';
 
-export default class BaseStore extends Dispatcher {
+export default class Store extends Dispatcher {
   constructor() {
     super();
     this._data = this._load || {};

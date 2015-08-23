@@ -1,0 +1,5 @@
+export let TODO_CATEGORY = {
+  TODAY: 'TODAY',
+  LATER: 'LATER',
+  SCHEDULE: 'SCHEDULE'
+};

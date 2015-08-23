@@ -1,4 +1,4 @@
-export default class TinyDispatcher {
+export default class Dispatcher {
   on(event, callback) {
     this._events = this._events || {};
     this._events[event] = this._events[event] || [];
