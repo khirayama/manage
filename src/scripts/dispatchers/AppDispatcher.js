@@ -1,2 +1,3 @@
-import Dispatcher from 'TinyDispatcher';
+import Dispatcher from '../libs/TinyDispatcher';
+
 export default new Dispatcher();

@@ -1,5 +1,5 @@
 import 'babel/polyfill';
-import Store from './BaseStore';
+import Store from '../libs/BaseStore';
 
 class TodoStore extends Store {
   constructor() {

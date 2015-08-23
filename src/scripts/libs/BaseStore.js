@@ -1,10 +1,9 @@
 import 'babel/polyfill';
-import Dispatcher from 'TinyDispatcher';
-import AppDispatcher from '../dispatchers/AppDispatcher';
+import Dispatcher from './TinyDispatcher';
 
 const CHANGE_EVENT = 'CHANGE';
 
-export default class BaseStore extends EventDispatcher {
+export default class BaseStore extends Dispatcher {
   constructor() {
     super();
     this._data = this._load || {};
@@ -31,7 +30,7 @@ export default class BaseStore extends EventDispatcher {
   _load() {
     return JSON.parse(localStorage.getItem('_todos'));
   }
-  getAll() {
+  _getAll() {
     let data = [];
 
     for (let id in this._data) {
@@ -41,7 +40,7 @@ export default class BaseStore extends EventDispatcher {
   }
   get(id) {
     if (id) return this._data[id];
-    return this.getAll();
+    return this._getAll();
   }
 
   // basic method
@@ -60,13 +59,13 @@ export default class BaseStore extends EventDispatcher {
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   }
-  register(actions) {
+  register(dispatcher, actions) {
+    // FIXME: I wan't create a function in for-block.
     for (let key in actions) {
       let action = actions[key];
-      AppDispatcher.on(key, (data) => {
+      dispatcher.on(key, (data) => {
         action(data);
       });
     }
   }
 }
-
