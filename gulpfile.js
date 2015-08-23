@@ -68,7 +68,7 @@ gulp.task('styles:build', function() {
 });
 
 gulp.task('scripts:develop', watchify(function(watchify) {
-  return gulp.src([src + 'scripts/app.js'])
+  return gulp.src([src + 'scripts/app.jsx'])
     .pipe(plumber(options.plumber))
     .pipe(watchify({
       watch: true,
