@@ -11,6 +11,7 @@ export default class TodoApp extends Component {
     };
     this._onUpdate = this.__onUpdate.bind(this);
     this._onClick = this.__onClick.bind(this);
+    this._onClickItem = this.__onClickItem.bind(this);
   }
   componentDidMount() {
     TodoStore.addChangeListener(this._onUpdate);
@@ -20,7 +21,15 @@ export default class TodoApp extends Component {
   }
   render() {
     let todos = this.state.todos.map((todo) => {
-      return <li key={todo.id}>{todo.text}</li>
+      return (
+        <li
+          key={todo.id}
+          onClick={() => {this._onClickItem(todo.id, todo.completed)}}
+          className={todo.completed}
+        >
+          {todo.text}
+        </li>
+      );
     });
     return (
       <section>
@@ -37,5 +46,8 @@ export default class TodoApp extends Component {
   }
   __onClick() {
     TodoActionCreators.create('test');
+  }
+  __onClickItem(id, completed) {
+    TodoActionCreators.update(id, {completed: !completed});
   }
 }
