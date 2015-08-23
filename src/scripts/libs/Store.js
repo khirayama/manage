@@ -10,9 +10,9 @@ export default class Store extends Dispatcher {
   }
 
   // crud method
-  _create(creates) {
+  _create(entity) {
     let id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
-    this._data[id] = Object.assign({}, {id: id}, this.default, creates);
+    this._data[id] = Object.assign({}, {id: id}, this.default, entity);
     this._save();
   }
   _update(id, updates) {

@@ -1,6 +1,7 @@
 import 'babel/polyfill';
 import Store from '../libs/Store';
-import {TODO_CATEGORY} from '../constants/constants';
+import AppDispatcher from '../dispatchers/AppDispatcher';
+import {TODO, TODO_CATEGORY} from '../constants/constants';
 
 class TodoStore extends Store {
   constructor() {
@@ -10,6 +11,11 @@ class TodoStore extends Store {
       completed: false,
       category: TODO_CATEGORY.TODAY
     }
+    this.register(AppDispatcher, {
+      [TODO.CREATE]: (entity) => {
+        this._create(entity);
+      }
+    });
   }
 }
 export default new TodoStore();

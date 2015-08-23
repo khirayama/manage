@@ -1,7 +1,7 @@
 import TodoStore from './stores/TodoStore';
+import TodoActionCreators from './actions/TodoActionCreators';
 
 (() => {
-  console.log('app start');
-  TodoStore._create();
+  TodoActionCreators.create('test text');
   console.log(TodoStore.get());
 })();
