@@ -3,12 +3,9 @@ import {TODO, TODO_CATEGORY} from '../constants/constants';
 
 // TODO: I want to work actions and stores in worker thread.
 const TodoActionCreators = {
-  create: (text) => {
+  create: (entity) => {
     AppDispatcher.dispatch(TODO.CREATE, {
-      entity: {
-        text: text,
-        category: TODO_CATEGORY.TODAY
-      }
+      entity: entity
     });
   },
   update: (id, updates) => {

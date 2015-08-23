@@ -1,5 +1,6 @@
 import React from 'react';
 import {Component} from 'react';
+import {TODO_CATEGORY} from '../constants/constants';
 import TodoStore from '../stores/TodoStore';
 import TodoActionCreators from '../actions/TodoActionCreators';
 
@@ -45,7 +46,7 @@ export default class TodoApp extends Component {
     });
   }
   __onClick() {
-    TodoActionCreators.create('test');
+    TodoActionCreators.create({text: 'Hello World', category: TODO_CATEGORY.TODAY});
   }
   __onClickItem(id, completed) {
     TodoActionCreators.update(id, {completed: !completed});
