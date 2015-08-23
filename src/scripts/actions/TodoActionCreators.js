@@ -5,8 +5,21 @@ import {TODO, TODO_CATEGORY} from '../constants/constants';
 const TodoActionCreators = {
   create: (text) => {
     AppDispatcher.dispatch(TODO.CREATE, {
-      text: text,
-      category: TODO_CATEGORY.TODAY
+      entity: {
+        text: text,
+        category: TODO_CATEGORY.TODAY
+      }
+    });
+  },
+  update: (id, updates) => {
+    AppDispatcher.dispatch(TODO.UPDATE, {
+      id: id,
+      updates: updates
+    });
+  },
+  destroy: (id) => {
+    AppDispatcher.dispatch(TODO.DESTROY, {
+      id: id
     });
   }
 };

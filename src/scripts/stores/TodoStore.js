@@ -12,8 +12,14 @@ class TodoStore extends Store {
       category: TODO_CATEGORY.TODAY
     }
     this.register(AppDispatcher, {
-      [TODO.CREATE]: (entity) => {
-        this._create(entity);
+      [TODO.CREATE]: (payload) => {
+        this._create(payload.entity);
+      },
+      [TODO.UPDATE]: (payload) => {
+        this._update(payload.id, payload.updates);
+      },
+      [TODO.DESTROY]: (payload) => {
+        this._destroy(payload.id);
       }
     });
   }

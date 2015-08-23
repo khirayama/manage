@@ -1,6 +1,8 @@
 export const TODO = {
-  CREATE: 'TODO_CREATE'
-}
+  CREATE: 'TODO_CREATE',
+  UPDATE: 'TODO_UPDATE',
+  DESTROY: 'TODO_DESTROY'
+};
 
 export const TODO_CATEGORY = {
   TODAY: 'TODAY',
