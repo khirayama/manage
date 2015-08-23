@@ -6,22 +6,23 @@ const CHANGE_EVENT = 'CHANGE';
 export default class Store extends Dispatcher {
   constructor() {
     super();
-    this._data = this._load || {};
+    // this._data = this._load || {};
+    this._data = {};
   }
 
   // crud method
   _create(entity) {
     let id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
     this._data[id] = Object.assign({}, {id: id}, this.default, entity);
-    this._save();
+    // this._save();
   }
   _update(id, updates) {
     this._data[id] = Object.assign({}, this._data[id], updates);
-    this._save();
+    // this._save();
   }
   _destroy(id) {
     delete this._data[id];
-    this._save();
+    // this._save();
   }
   _save() {
     localStorage.setItem('_todos', JSON.stringify(this._todos));
