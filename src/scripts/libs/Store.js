@@ -14,14 +14,17 @@ export default class Store extends Dispatcher {
   _create(entity) {
     let id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
     this._data[id] = Object.assign({}, {id: id}, this.default, entity);
+    this.dispatchChange();
     // this._save();
   }
   _update(id, updates) {
     this._data[id] = Object.assign({}, this._data[id], updates);
+    this.dispatchChange();
     // this._save();
   }
   _destroy(id) {
     delete this._data[id];
+    this.dispatchChange();
     // this._save();
   }
   _save() {

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Component} from 'react';
 import TodoStore from '../stores/TodoStore';
+import TodoActionCreators from '../actions/TodoActionCreators';
 
 export default class TodoApp extends Component {
   constructor() {
@@ -8,20 +9,33 @@ export default class TodoApp extends Component {
     this.state = {
       todos: TodoStore.get()
     };
-    this._onChange = this.__onChange.bind(this);
+    this._onUpdate = this.__onUpdate.bind(this);
+    this._onClick = this.__onClick.bind(this);
   }
   componentDidMount() {
-    TodoStore.addChangeListener(this._onChange);
+    TodoStore.addChangeListener(this._onUpdate);
   }
   componentWillUnmount() {
-    TodoStore.removeChangeListener(this._onChange);
+    TodoStore.removeChangeListener(this._onUpdate);
   }
   render() {
-    return <div>Hello World</div>;
+    let todos = this.state.todos.map((todo) => {
+      return <li key={todo.id}>{todo.text}</li>
+    });
+    return (
+      <section>
+        <h1>Manage</h1>
+        <div onClick={this._onClick}>Add todo</div>
+        <ul>{todos}</ul>
+      </section>
+    );
   }
-  __onChange() {
+  __onUpdate() {
     this.setState({
       todos: TodoStore.get()
     });
+  }
+  __onClick() {
+    TodoActionCreators.create('test');
   }
 }
