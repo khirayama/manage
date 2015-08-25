@@ -75,42 +75,39 @@ export default class Store extends Dispatcher {
 }
 
 // indexeddb
-let IDB = function () {
-  let _db = null;
-  const DB_NAME = 'data';
-  const DB_VERSION = 1.0;
-  const DB_STORE_NAME = 'todo';
+class IDB {
+  constructor() {
+    this._db = null;
+    this.DB_NAME = 'data';
+    this.DB_VERSION = 1.0;
+    this.DB_STORE_NAME = 'todo';
 
-  let _indexedDB = (window.indexedDB || window.mozIndexedDB || window.msIndexedDB || window.webkitIndexedDB);
-  if(!(_indexedDB)) throw new Error( 'IndexedDB not supported.' );
-
-  this.open = (callback) => {
-    let request = _indexedDB.open(DB_NAME, DB_VERSION);
+    this._indexedDB = (window.indexedDB || window.mozIndexedDB || window.msIndexedDB || window.webkitIndexedDB);
+    if(!(this._indexedDB)) throw new Error( 'IndexedDB not supported.' );
+  }
+  open(callback) {
+    let request = this._indexedDB.open(this.DB_NAME, this.DB_VERSION);
 
     request.onupgradeneeded = (event) => {
-      console.log('DB [oepn]: Success, Upgrade');
-      _db = event.target.result;
-      _db.createObjectStore(DB_STORE_NAME, {keyPath: 'id', autoIncrement: true});
+      this._db = event.target.result;
+      this._db.createObjectStore(this.DB_STORE_NAME, {keyPath: 'id', autoIncrement: true});
       event.target.transaction.oncomplete = () => {
         if(callback) callback();
       };
     };
     request.onsuccess = (event) => {
-      console.log('DB [ oepn ]: Success');
-      _db = event.target.result;
+      this._db = event.target.result;
       if(callback) callback();
     };
     request.onerror = (event) => {
-      console.log('DB [ oepn ]: Error, ' + event);
       if(callback) callback(event);
     };
-  };
-  this.addItem = (todo, callback) => {
-    if(!(_db)) return;
+  }
+  create(todo, callback) {
+    if(!(this._db)) return;
 
-    let transaction = _db.transaction(DB_STORE_NAME, 'readwrite');
-    let store = transaction.objectStore(DB_STORE_NAME);
-    console.log(todo);
+    let transaction = this._db.transaction(this.DB_STORE_NAME, 'readwrite');
+    let store = transaction.objectStore(this.DB_STORE_NAME);
     let request = store.put(todo);
 
     request.onsuccess = (event) => {
@@ -118,15 +115,14 @@ let IDB = function () {
       if(callback) callback(null, todo);
     };
     request.onerror = (event) => {
-      console.log(event);
       if(callback) callback(event, todo);
     };
-  };
-  this.deleteItem = (id, callback) => {
-    if(!(_db)) return;
+  }
+  delete(id, callback) {
+    if(!(this._db)) return;
 
-    let transaction = _db.transaction(DB_STORE_NAME, 'readwrite');
-    let store = transaction.objectStore(DB_STORE_NAME);
+    let transaction = this._db.transaction(this.DB_STORE_NAME, 'readwrite');
+    let store = transaction.objectStore(this.DB_STORE_NAME);
     let request = store.delete(id);
 
     request.onsuccess = (event) => {
@@ -135,63 +131,61 @@ let IDB = function () {
     request.onerror = (event) => {
       if(callback) callback(event, id);
     };
-  };
-  this.readAll = (callback) => {
-    if(!(_db)) return;
+  }
+  getAll(callback) {
+    if(!(this._db)) return;
 
-    let transaction = _db.transaction(DB_STORE_NAME, 'readonly');
-    let store = transaction.objectStore(DB_STORE_NAME);
+    let transaction = this._db.transaction(this.DB_STORE_NAME, 'readonly');
+    let store = transaction.objectStore(this.DB_STORE_NAME);
     let request = store.openCursor();
-    let todos = [];
+    let _data = [];
 
     request.onsuccess = (event) => {
       var cursor = event.target.result;
       if(cursor) {
-        todos.push(cursor.value);
+        _data.push(cursor.value);
         cursor.continue();
       } else if (callback) {
-        callback(null, todos);
+        callback(null, _data);
       }
     };
     request.onerror = (event) => {
       if(callback) callback(event);
     };
-  };
-  this.clear = (callback) => {
-    if(!(_db)) return;
+  }
+  clear(callback) {
+    if(!(this._db)) return;
 
-    let transaction = _db.transaction(DB_STORE_NAME, 'readwrite');
-    let store = transaction.objectStore(DB_STORE_NAME);
+    let transaction = this._db.transaction(this.DB_STORE_NAME, 'readwrite');
+    let store = transaction.objectStore(this.DB_STORE_NAME);
     let request = store.clear();
 
     request.onsuccess = (event) => {
       if(callback) callback(null);
     };
     request.onerror = (event) => {
-      console.log(event);
       if(callback) callback(event);
     };
-  };
-  this.dispose = (callback) => {
-    if(!(_db)) return;
-    _db.close();
+  }
+  dispose(callback) {
+    if(!(this._db)) return;
+    this._db.close();
 
-    let request = _indexedDB.deleteDatabase(DB_NAME);
+    let request = this._indexedDB.deleteDatabase(this.DB_NAME);
     request.onsuccess = (event) => {
-      console.log('DB [ dispose ]: Success');
-
-      _db = null;
+      this._db = null;
       if(callback) callback();
     };
     request.onerror = (event) => {
-      console.log('DB [ dispose ]: Error, ' + e);
       if(callback) callback(event);
     };
   };
 };
 
 let db = new IDB();
-db.open(() => {
-  db.addItem({text: 'test', completed: false});
-  db.readAll();
+db.open((error) => {
+  db.create({text: 'test', completed: false});
+  db.getAll((error, data) => {
+    console.log(data);
+  });
 });
