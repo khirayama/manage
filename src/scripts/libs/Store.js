@@ -75,19 +75,20 @@ export default class Store extends Dispatcher {
 }
 
 // indexeddb
-class IDB {
-  constructor() {
+class DataBase {
+  constructor(dbName, version) {
+    this.DB_VERSION = version || 1.0;
+    this.DB_NAME = dbName;
+    this.DB_STORE_NAME = '';
     this._db = null;
-    this.DB_NAME = 'data';
-    this.DB_VERSION = 1.0;
-    this.DB_STORE_NAME = 'todo';
 
     this._indexedDB = (window.indexedDB || window.mozIndexedDB || window.msIndexedDB || window.webkitIndexedDB);
     if(!(this._indexedDB)) throw new Error( 'IndexedDB not supported.' );
   }
-  open(callback) {
+  open(storeName, callback) {
     let request = this._indexedDB.open(this.DB_NAME, this.DB_VERSION);
 
+    this.DB_STORE_NAME = storeName;
     request.onupgradeneeded = (event) => {
       this._db = event.target.result;
       this._db.createObjectStore(this.DB_STORE_NAME, {keyPath: 'id', autoIncrement: true});
@@ -182,8 +183,8 @@ class IDB {
   };
 };
 
-let db = new IDB();
-db.open((error) => {
+let db = new DataBase('data');
+db.open('todo', (error) => {
   db.create({text: 'test', completed: false});
   db.getAll((error, data) => {
     console.log(data);
