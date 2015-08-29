@@ -1,7 +1,7 @@
 import React from 'react';
 import {Component} from 'react';
 import {TODO_CATEGORY} from '../constants/constants';
-import TodoStore from '../stores/TodoStore';
+import TodoStore from '../stores/TodoDataStore';
 import TodoActionCreators from '../actions/TodoActionCreators';
 
 export default class TodoApp extends Component {
