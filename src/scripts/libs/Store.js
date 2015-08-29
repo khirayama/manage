@@ -83,7 +83,7 @@ class DataBase {
     this._db = null;
 
     this._indexedDB = (window.indexedDB || window.mozIndexedDB || window.msIndexedDB || window.webkitIndexedDB);
-    if(!(this._indexedDB)) throw new Error( 'IndexedDB not supported.' );
+    if(!(this._indexedDB)) throw new Error('IndexedDB not supported.');
   }
   open(storeName, callback) {
     let request = this._indexedDB.open(this.DB_NAME, this.DB_VERSION);
@@ -100,9 +100,7 @@ class DataBase {
       this._db = event.target.result;
       if(callback) callback();
     };
-    request.onerror = (event) => {
-      if(callback) callback(event);
-    };
+    request.onerror = event => {if(callback) callback(event)};
   }
   create(todo, callback) {
     if(!(this._db)) return;
@@ -115,9 +113,7 @@ class DataBase {
       todo.id = event.target.result;
       if(callback) callback(null, todo);
     };
-    request.onerror = (event) => {
-      if(callback) callback(event, todo);
-    };
+    request.onerror = event => {if(callback) callback(event, todo)};
   }
   delete(id, callback) {
     if(!(this._db)) return;
@@ -129,9 +125,7 @@ class DataBase {
     request.onsuccess = (event) => {
       if(callback) callback(null, id);
     };
-    request.onerror = (event) => {
-      if(callback) callback(event, id);
-    };
+    request.onerror = event => {if(callback) callback(event, id)};
   }
   getAll(callback) {
     if(!(this._db)) return;
@@ -150,9 +144,7 @@ class DataBase {
         callback(null, _data);
       }
     };
-    request.onerror = (event) => {
-      if(callback) callback(event);
-    };
+    request.onerror = event => {if(callback) callback(event)};
   }
   clear(callback) {
     if(!(this._db)) return;
