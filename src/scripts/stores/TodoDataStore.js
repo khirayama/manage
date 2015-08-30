@@ -24,4 +24,4 @@ class TodoStore extends Store {
     });
   }
 }
-export default new TodoStore('App', 'Todo', 1.0);
+export default new TodoStore('App', 'Todo', 2.1);

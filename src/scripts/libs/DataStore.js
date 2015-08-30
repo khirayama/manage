@@ -16,18 +16,18 @@ export default class DataStore extends Dispatcher {
 
     this.DB_NAME = dbName;
     this.DB_STORE_NAME = storeName;
-    this.DB_VERSION = version || 0.0;
+    this.DB_VERSION = version || 1.0;
     this._db = null;
 
     this._indexedDB = (window.indexedDB || window.mozIndexedDB || window.msIndexedDB || window.webkitIndexedDB);
     if(!(this._indexedDB)) throw new Error('IndexedDB not supported.');
 
     this._data = this.__open(() => {
-      return this.__getAll((data) => {
-        return data || {};
+      this.__getAll((data) => {
+        this._data = data || {};
+        this.dispatchChange();
       });
     });
-    console.log(this._data);
     this.default = {};
   }
 
@@ -38,17 +38,14 @@ export default class DataStore extends Dispatcher {
     request.onupgradeneeded = (event) => {
       this._db = event.target.result;
       this._db.createObjectStore(this.DB_STORE_NAME, {keyPath: 'id', autoIncrement: true});
+      console.log(this.default);
       event.target.transaction.oncomplete = () => {
         if(callback) callback();
       };
     };
     request.onsuccess = (event) => {
       this._db = event.target.result;
-      if(callback) {
-        let res = callback();
-        console.log(res);
-        return res;
-      }
+      if(callback) callback();
     };
     request.onerror = event => {if(callback) callback(event)};
   }
@@ -85,7 +82,6 @@ export default class DataStore extends Dispatcher {
         _data[cursor.value.id] = cursor.value;
         cursor.continue();
       } else if (callback) {
-        console.log(_data);
         return callback(_data);
       }
     };
@@ -106,7 +102,6 @@ export default class DataStore extends Dispatcher {
   _create(entity) {
     let _entity = Object.assign({}, this.default, entity);
 
-    console.log(this._data);
     this.__open(() => {
       this.__createOrUpdate(_entity, (__entity) => {
         this._data[__entity.id] = __entity;
