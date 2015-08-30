@@ -33,9 +33,8 @@
 // drop
 //
 // hasMany: sm, hasOne: ss, belongsTo: ms, hasAndBelongsToMany: mm
-// dependent: destroy
-
-// validate false
+// dependent - bool
+// validate - bool
 
 class User extends MicroRecord {
   constructor() {
@@ -50,8 +49,8 @@ class User extends MicroRecord {
     super(migrate);
 
     this.association = [
-      {type: 'hasMany', name: 'Post', dependent: 'destroy'},
-      {type: 'hasMany', name: 'Comment', dependent: 'destroy'}
+      {type: 'hasMany', name: 'Post', dependent: true},
+      {type: 'hasMany', name: 'Comment', dependent: true}
     ];
   }
 }
@@ -70,7 +69,7 @@ class Post extends MicroRecord {
 
     this.association = {
       {type: 'hasOne', name: 'User'}
-      {type: 'hasMany', name: 'Comment', dependent: 'destroy'}
+      {type: 'hasMany', name: 'Comment', dependent: true}
     };
     this.validates = {
       title: {empty: false, required: true},
@@ -91,7 +90,7 @@ class Comment extends MicroRecord {
     super(migrate);
 
     this.association = {
-      {type: 'belongsTo', name: 'Post', dependent: 'destroy'}
+      {type: 'belongsTo', name: 'Post', dependent: true}
     };
     this.validates = {
       comment: {empty: false, required: true}
