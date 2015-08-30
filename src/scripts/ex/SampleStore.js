@@ -1,5 +1,5 @@
 // store: {
-//  type: string, number, boolean, datetime, date
+//  type: string:'', number:0, boolean:false, datetime:now, date:today
 //  unique: false,
 //  default
 //  }
@@ -50,8 +50,8 @@ class User extends MicroRecord {
     super(migrate);
 
     this.association = [
-      {name: 'Post', type: 'hasMany', dependent: 'destroy'},
-      {name: 'Comment', type: 'hasMany', dependent: 'destroy'}
+      {type: 'hasMany', name: 'Post', dependent: 'destroy'},
+      {type: 'hasMany', name: 'Comment', dependent: 'destroy'}
     ];
   }
 }
@@ -60,33 +60,41 @@ class Post extends MicroRecord {
   constructor() {
     const migrate = {
       version: 1.0,
-      storeName: 'Todo',
+      storeName: 'Post',
       schema: {
-        title: {type: 'string', default: ''},
+        title: {type: 'string'},
         body: {type: 'boolean', default: false}
       }
     };
     super(migrate);
 
     this.association = {
-      hasMany: ['Comment']
+      {type: 'hasOne', name: 'User'}
+      {type: 'hasMany', name: 'Comment', dependent: 'destroy'}
     };
     this.validates = {
-      text: {empty: false, required: true},
-      completed: {empty: false, required: true}
+      title: {empty: false, required: true},
+      body: {empty: false, required: true}
     };
   }
 }
 
 class Comment extends MicroRecord {
   constructor() {
+    const migrate = {
+      version: 1.0,
+      storeName: 'Comment',
+      schema: {
+        comment: {type: 'string'}
+      }
+    };
     super(migrate);
+
     this.association = {
-      belongsTo: ['Post']
+      {type: 'belongsTo', name: 'Post', dependent: 'destroy'}
     };
     this.validates = {
-      text: {empty: false, required: true},
-      completed: {empty: false, required: true}
+      comment: {empty: false, required: true}
     };
   }
 }
