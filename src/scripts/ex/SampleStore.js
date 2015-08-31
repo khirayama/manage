@@ -22,19 +22,22 @@
 // update
 // destroy
 // remove
-// find
 // where
-// first
-// last
 // order ASC/DESC
 // limit
 // connect
 // scope - methodの登録
 // drop
-//
+// valid
+
 // hasMany: sm, hasOne: ss, belongsTo: ms, hasAndBelongsToMany: mm
 // dependent - bool
 // validate - bool
+
+// - except
+// first
+// last
+// find
 
 class User extends MicroRecord {
   constructor() {
