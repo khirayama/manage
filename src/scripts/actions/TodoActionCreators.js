@@ -1,5 +1,5 @@
 import AppDispatcher from '../dispatchers/AppDispatcher';
-import {TODO} from '../constants/constants';
+import { TODO } from '../constants/constants';
 
 // TODO: I want to work actions and stores in worker thread.
 const TodoActionCreators = {

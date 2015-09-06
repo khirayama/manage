@@ -8,7 +8,7 @@
   "scripts": {
     "start": "gulp develop",
     "build": "gulp build",
-    "test:lint": "eslint ./src/**/*.js",
+    "test:lint": "./node_modules/.bin/eslint ./src/**/*.js",
     "test:unit": "mocha --compilers js:espower-babel/guess test/**/*.js",
     "test": "npm run test:lint && npm run test:unit"
   },

@@ -12,7 +12,7 @@ class TodoStore extends Store {
       completed: false,
       categoryId: null,
       order: null
-    }
+    };
     this.association = [
       { type: 'hasOne', store: TodoCategoryStore, key: 'categoryId', value: 'category' }
     ];

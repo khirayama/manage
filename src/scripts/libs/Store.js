@@ -14,7 +14,7 @@ export default class Store extends Dispatcher {
 
   // crud method
   _create(entity) {
-    let id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
+    const id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
 
     this._data[id] = Object.assign({}, { id: id }, this.defaults, entity);
     this.dispatchChange();
@@ -34,7 +34,7 @@ export default class Store extends Dispatcher {
   }
 
   _getAll() {
-    let data = [];
+    const data = [];
     let targetData;
 
     if (this._filtering) {
@@ -44,8 +44,8 @@ export default class Store extends Dispatcher {
       targetData = this._data;
     }
 
-    for (let id in targetData) {
-      let _data = this._resolveAssociation(targetData[id].id);
+    for (const id in targetData) {
+      const _data = this._resolveAssociation(targetData[id].id);
       data.push(_data);
     }
     return data;
@@ -57,26 +57,31 @@ export default class Store extends Dispatcher {
   }
 
   _save() {
-    let key = this.constructor.name;
+    const key = this.constructor.name;
+
     localStorage.setItem(key, JSON.stringify(this._data));
   }
 
   _load() {
-    let key = this.constructor.name;
+    const key = this.constructor.name;
+
     return JSON.parse(localStorage.getItem(key));
   }
 
   // association
   _resolveAssociation(id) {
-    let _data = Object.assign({}, this._data[id]);
+    const _data = Object.assign({}, this._data[id]);
     if (this.association && this.association.length) {
-      for (let index in this.association) {
-        let association = this.association[index];
+      for (const index in this.association) {
+        const association = this.association[index];
         // TODO: support hasMany:sm, hasOne:ss, belongsTo:ms, hasAndBelongsToMany:mm
         switch (association.type) {
-          case 'hasOne':
-            _data[association.value] = association.store.get(_data[association.key]);
-            delete _data[association.key];
+        case 'hasOne':
+          _data[association.value] = association.store.get(_data[association.key]);
+          delete _data[association.key];
+          break;
+        default:
+          break;
         }
       }
     }
@@ -92,18 +97,17 @@ export default class Store extends Dispatcher {
     }
 
     this._tmp.sort((a, b) => {
-      let x = a[key];
-      let y = b[key];
+      const x = a[key];
+      const y = b[key];
 
       if (reverse) {
         if (x > y) return -1;
         if (x < y) return 1;
         return 0;
-      } else {
-        if (x > y) return 1;
-        if (x < y) return -1;
-        return 0;
       }
+      if (x > y) return 1;
+      if (x < y) return -1;
+      return 0;
     });
     return this;
   }
@@ -114,12 +118,12 @@ export default class Store extends Dispatcher {
       this._tmp = this._o2a(this._data);
     }
 
-    let data = [];
-    for (let id in this._tmp) {
-      let _data = this._tmp[id];
+    const data = [];
+    for (const id in this._tmp) {
+      const _data = this._tmp[id];
 
-      for (let key in statement) {
-        let value = statement[key];
+      for (const key in statement) {
+        const value = statement[key];
         if (_data[key] === value) data.push(_data);
       }
     }
@@ -133,7 +137,7 @@ export default class Store extends Dispatcher {
       this._tmp = this._o2a(this._data);
     }
 
-    let data = [];
+    const data = [];
     for (let i = 0; i < num; i++) {
       data.push(this._tmp[i]);
     }
@@ -142,35 +146,36 @@ export default class Store extends Dispatcher {
   }
 
   _o2a(obj) {
-    let arr = [];
+    const arr = [];
 
-    for (let key in obj) {
+    for (const key in obj) {
       arr.push(obj[key]);
     }
     return arr;
   }
 
   _checkType(target) {
-    let _type = toString.call(target);
-    let type;
+    const _type = toString.call(target);
 
-    switch(_type) {
-      case '[object Object]':
-        return 'Object';
-      case '[object Array]':
-        return 'Array';
-      case '[object Boolean]':
-        return 'Boolean';
-      case '[object Function]':
-        return 'Function';
-      case '[object Date]':
-        return 'Date';
-      case '[object JSON]':
-        return 'JSON';
-      case '[object String]':
-        return 'String';
-      case '[object Number]':
-        return 'Number';
+    switch (_type) {
+    case '[object Object]':
+      return 'Object';
+    case '[object Array]':
+      return 'Array';
+    case '[object Boolean]':
+      return 'Boolean';
+    case '[object Function]':
+      return 'Function';
+    case '[object Date]':
+      return 'Date';
+    case '[object JSON]':
+      return 'JSON';
+    case '[object String]':
+      return 'String';
+    case '[object Number]':
+      return 'Number';
+    default:
+      break;
     }
   }
 
@@ -197,8 +202,8 @@ export default class Store extends Dispatcher {
 
   register(dispatcher, actions) {
     // FIXME: I wan't create a function in for-block.
-    for (let key in actions) {
-      let action = actions[key];
+    for (const key in actions) {
+      const action = actions[key];
       dispatcher.on(key, (data) => {
         action(data);
       });
