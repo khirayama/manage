@@ -1,6 +1,6 @@
 import React from 'react';
-import TodoApp from './components/TodoApp';
+import ManageApp from './components/ManageApp';
 
 (() => {
-  React.render(<TodoApp />, document.querySelector('#todo-app'));
+  React.render(<ManageApp />, document.querySelector('#manage-app'));
 })();

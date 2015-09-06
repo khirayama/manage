@@ -1,16 +1,21 @@
 import 'babel/polyfill';
 import Store from '../libs/Store';
 import AppDispatcher from '../dispatchers/AppDispatcher';
-import {TODO, TODO_CATEGORY} from '../constants/constants';
+import TodoCategoryStore from './TodoCategoryStore';
+import { TODO } from '../constants/constants';
 
 class TodoStore extends Store {
   constructor() {
     super();
-    this.default = {
+    this.defaults = {
       text: '',
       completed: false,
-      category: TODO_CATEGORY.TODAY
+      categoryId: null,
+      order: null
     }
+    this.association = [
+      { type: 'hasOne', store: TodoCategoryStore, key: 'categoryId', value: 'category' }
+    ];
     this.register(AppDispatcher, {
       [TODO.CREATE]: (payload) => {
         this._create(payload.entity);

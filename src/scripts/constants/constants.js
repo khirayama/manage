@@ -3,10 +3,3 @@ export const TODO = {
   UPDATE: 'TODO_UPDATE',
   DESTROY: 'TODO_DESTROY'
 };
-
-export const TODO_CATEGORY = {
-  TODAY: 'TODAY',
-  LATER: 'LATER',
-  SCHEDULE: 'SCHEDULE'
-};
-
