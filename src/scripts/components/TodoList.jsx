@@ -11,11 +11,11 @@ export default class TodoList extends Component {
   }
 
   componentDidMount() {
-    TodoStore.addChangeListener(() => { this.onUpdate() });
+    TodoStore.addChangeListener(() => {this.onUpdate()});
   }
 
   componentWillUnmount() {
-    TodoStore.removeChangeListener(() => { this.onUpdate() });
+    TodoStore.removeChangeListener(() => {this.onUpdate()});
   }
 
   onUpdate() {
@@ -36,7 +36,7 @@ export default class TodoList extends Component {
         return (
           <li
             key={todo.id}
-            onClick={() => { this.onClickItem(todo.id, todo.completed) }}
+            onClick={() => {this.onClickItem(todo.id, todo.completed)}}
             className={(todo.completed) ? 'is-completed' : ''}
           >
             {todo.text} / {todo.category.name}

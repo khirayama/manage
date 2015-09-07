@@ -12,11 +12,11 @@ export default class ManageApp extends Component {
   }
 
   componentDidMount() {
-    TodoCategoryStore.addChangeListener(() => { this.onUpdate() });
+    TodoCategoryStore.addChangeListener(() => {this.onUpdate()});
   }
 
   componentWillUnmount() {
-    TodoCategoryStore.removeChangeListener(() => { this.onUpdate() });
+    TodoCategoryStore.removeChangeListener(() => {this.onUpdate()});
   }
 
   onUpdate() {
@@ -39,7 +39,7 @@ export default class ManageApp extends Component {
     return (
       <section>
         <h1>Manage</h1>
-        <div onClick={() => { this.onClick() }}>Add todo</div>
+        <div onClick={() => {this.onClick()}}>Add todo</div>
         {todoListComponents}
       </section>
     );
