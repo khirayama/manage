@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TodoStore from '../stores/TodoStore';
 import TodoActionCreators from '../actions/TodoActionCreators';
 
+// TODO: あれ？本当にReact必要なんだっけ？
 export default class TodoList extends Component {
   constructor(props) {
     super(props);
