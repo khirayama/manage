@@ -22,7 +22,6 @@ export default class TodoList extends Component {
   onUpdate() {
     let _todos = TodoStore.where({ categoryId: this.props.category.id }).order('order').get();
 
-    console.log(_todos);
     this.setState({ todos: _todos });
   }
 
@@ -38,11 +37,31 @@ export default class TodoList extends Component {
     let from = this._state.from;
     let to = this._state.to;
 
-    console.log(`from ${from} to ${to}`);
+    if (from < to) { // top to bottom
+      for (let i = from; i <= to; i++) {
+        let todo = this.state.todos[i];
+
+        if (i === from) {
+          TodoActionCreators.update(todo.id, { order: to });
+        } else if (i <= to) {
+          TodoActionCreators.update(todo.id, { order: todo.order - 1 });
+        }
+      }
+    } else if (from > to) { // bottom to top
+      for (let i = to; i <= from; i++) {
+        let todo = this.state.todos[i];
+
+        if (i === from) {
+          TodoActionCreators.update(todo.id, { order: to });
+        } else if (i <= from) {
+          TodoActionCreators.update(todo.id, { order: todo.order + 1 });
+        }
+      }
+    }
   }
 
   onClickAdd() {
-    TodoActionCreators.create({ text: 'Hello World', categoryId: this.props.category.id, order: this.state.todos.length });
+    TodoActionCreators.create({ text: `Hello World ${this.state.todos.length}`, categoryId: this.props.category.id, order: this.state.todos.length });
   }
 
   onClickDone(id, completed) {
