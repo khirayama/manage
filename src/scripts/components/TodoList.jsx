@@ -25,8 +25,12 @@ export default class TodoList extends Component {
     this.setState({ todos: _todos });
   }
 
-  onClickItem(id, completed) {
+  onClickDone(id, completed) {
     TodoActionCreators.update(id, { completed: !completed });
+  }
+
+  onClickDestroy(id) {
+    TodoActionCreators.destroy(id);
   }
 
   render() {
@@ -37,14 +41,23 @@ export default class TodoList extends Component {
         return (
           <li
             key={todo.id}
-            onClick={() => {this.onClickItem(todo.id, todo.completed)}}
             className={(todo.completed) ? 'is-completed' : ''}
           >
-            {todo.text} / {todo.category.name}
+          <label>{todo.text}</label>
+          <div
+            onClick={() => {this.onClickDone(todo.id, todo.completed)}}
+          >
+            [DONE]
+          </div>
+          <div
+            onClick={() => {this.onClickDestroy(todo.id, todo.completed)}}
+          >
+            [DELETE]
+          </div>
           </li>
         );
       });
     }
-    return <ul>{todoItemComponents}</ul>;
+    return <div><h1>{this.props.category.name}</h1><ul>{todoItemComponents}</ul></div>;
   }
 }
