@@ -2,7 +2,7 @@ import 'babel/polyfill';
 import Store from '../libs/Store';
 import AppDispatcher from '../dispatchers/AppDispatcher';
 import TodoCategoryStore from './TodoCategoryStore';
-import { TODO } from '../constants/constants';
+import { todoEvents } from '../constants/constants';
 
 class TodoStore extends Store {
   constructor() {
@@ -11,20 +11,20 @@ class TodoStore extends Store {
       text: '',
       completed: false,
       categoryId: null,
-      order: null
+      order: 0
     };
     this.association = [
       { type: 'hasOne', store: TodoCategoryStore, key: 'categoryId', value: 'category' }
     ];
     this.register(AppDispatcher, {
-      [TODO.CREATE]: (payload) => {
-        this._create(payload.entity);
+      [todoEvents.CREATE]: (payload) => {
+        this.create(payload.entity);
       },
-      [TODO.UPDATE]: (payload) => {
-        this._update(payload.id, payload.updates);
+      [todoEvents.UPDATE]: (payload) => {
+        this.update(payload.id, payload.updates);
       },
-      [TODO.DESTROY]: (payload) => {
-        this._destroy(payload.id);
+      [todoEvents.DESTROY]: (payload) => {
+        this.destroy(payload.id);
       }
     });
   }

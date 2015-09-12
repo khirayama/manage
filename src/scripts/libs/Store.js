@@ -1,7 +1,7 @@
 import 'babel/polyfill';
 import Dispatcher from './Dispatcher';
 
-const CHANGE_EVENT = 'CHANGE';
+const changeEvent = 'CHANGE';
 
 export default class Store extends Dispatcher {
   constructor() {
@@ -13,7 +13,7 @@ export default class Store extends Dispatcher {
   }
 
   // crud method
-  _create(entity) {
+  create(entity) {
     const id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
 
     this._data[id] = Object.assign({}, { id: id }, this.defaults, entity);
@@ -21,13 +21,13 @@ export default class Store extends Dispatcher {
     this._save();
   }
 
-  _update(id, updates) {
+  update(id, updates) {
     this._data[id] = Object.assign({}, this._data[id], updates);
     this.dispatchChange();
     this._save();
   }
 
-  _destroy(id) {
+  destroy(id) {
     delete this._data[id];
     this.dispatchChange();
     this._save();
@@ -181,7 +181,7 @@ export default class Store extends Dispatcher {
 
   // basic method
   dispatchChange() {
-    this.dispatch(CHANGE_EVENT);
+    this.dispatch(changeEvent);
   }
 
   dispatchCustomEvent(eventType) {
@@ -189,7 +189,7 @@ export default class Store extends Dispatcher {
   }
 
   addChangeListener(callback) {
-    this.on(CHANGE_EVENT, callback);
+    this.on(changeEvent, callback);
   }
 
   addCustomEventListener(eventType, callback) {
@@ -197,7 +197,7 @@ export default class Store extends Dispatcher {
   }
 
   removeChangeListener(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
+    this.removeListener(changeEvent, callback);
   }
 
   register(dispatcher, actions) {

@@ -1,7 +1,7 @@
 import 'babel/polyfill';
 import Store from '../libs/Store';
 
-const TODO_CATEGORY = {
+const todoCategory = {
   TODAY: 'TODAY',
   LATER: 'LATER',
   SCHEDULE: 'SCHEDULE'
@@ -20,9 +20,9 @@ class TodoCategoryStore extends Store {
     const categories = this.get();
 
     if (!categories.length) {
-      this._create({ name: TODO_CATEGORY.TODAY });
-      this._create({ name: TODO_CATEGORY.LATER });
-      this._create({ name: TODO_CATEGORY.SCHEDULE });
+      this.create({ name: todoCategory.TODAY });
+      this.create({ name: todoCategory.LATER });
+      this.create({ name: todoCategory.SCHEDULE });
     }
   }
 }
