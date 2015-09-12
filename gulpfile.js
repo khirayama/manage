@@ -68,14 +68,14 @@ gulp.task('styles:build', function() {
 });
 
 gulp.task('scripts:develop', watchify(function(watchify) {
-  return gulp.src([src + 'scripts/app.jsx'])
+  return gulp.src([src + 'scripts/app.js'])
     .pipe(plumber(options.plumber))
     .pipe(watchify({
       watch: true,
       outfile: 'bundle.js',
       transform: ['babelify'],
       debug: true,
-      extensions: ['.jsx', '.js']
+      extensions: ['.js']
     }))
     .pipe(gulp.dest(dest))
     .pipe(browserSync.reload({stream: true}));
@@ -87,7 +87,7 @@ gulp.task('scripts:build', function() {
       outfile: 'bundle.js',
       transform: ['babelify'],
       debug: false,
-      extensions: ['.jsx', '.js']
+      extensions: ['.js']
     }))
     .pipe(gulp.dest(release));
 });
@@ -131,7 +131,6 @@ gulp.task('server', function() {
 gulp.task('watch', ['scripts:develop'], function() {
   gulp.watch([src + '**/*.jade'], ['markups:develop']);
   gulp.watch([src + '**/*.scss'], ['styles:develop']);
-  // gulp.watch([src + '**/*.js', src + '**/*.jsx'], ['scripts:develop']);
   gulp.watch([src + '**/*.+(png|jpg|gif)'], ['images:develop']);
   gulp.watch([src + '**/*.+(csv|json)'], ['files:develop']);
 });

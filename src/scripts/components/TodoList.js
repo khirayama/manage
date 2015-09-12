@@ -124,5 +124,5 @@ export default class TodoList extends Component {
 }
 
 TodoList.propTypes = {
-  category: React.PropTypes.array,
+  category: React.PropTypes.object,
 };
