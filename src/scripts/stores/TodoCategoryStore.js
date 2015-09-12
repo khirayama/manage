@@ -4,14 +4,14 @@ import Store from '../libs/Store';
 const todoCategory = {
   TODAY: 'TODAY',
   LATER: 'LATER',
-  SCHEDULE: 'SCHEDULE'
+  SCHEDULE: 'SCHEDULE',
 };
 
 class TodoCategoryStore extends Store {
   constructor() {
     super();
     this.defaults = {
-      name: ''
+      name: '',
     };
     this.init();
   }

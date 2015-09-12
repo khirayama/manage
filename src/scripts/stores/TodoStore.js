@@ -11,10 +11,10 @@ class TodoStore extends Store {
       text: '',
       completed: false,
       categoryId: null,
-      order: 0
+      order: 0,
     };
     this.association = [
-      { type: 'hasOne', store: TodoCategoryStore, key: 'categoryId', value: 'category' }
+      { type: 'hasOne', store: TodoCategoryStore, key: 'categoryId', value: 'category' },
     ];
     this.register(AppDispatcher, {
       [todoEvents.CREATE]: (payload) => {
@@ -25,7 +25,7 @@ class TodoStore extends Store {
       },
       [todoEvents.DESTROY]: (payload) => {
         this.destroy(payload.id);
-      }
+      },
     });
   }
 }

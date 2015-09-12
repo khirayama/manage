@@ -5,22 +5,22 @@ import TodoActionCreators from '../actions/TodoActionCreators';
 export default class TodoList extends Component {
   constructor(props) {
     super(props);
-    let _todos = TodoStore.where({ categoryId: this.props.category.id }).order('order').get();
+    const _todos = TodoStore.where({ categoryId: this.props.category.id }).order('order').get();
 
     this.state = { todos: _todos };
     this._state = { from: 0, to: 0 };
   }
 
   componentDidMount() {
-    TodoStore.addChangeListener(() => {this.onUpdate()});
+    TodoStore.addChangeListener(() => { this.onUpdate(); });
   }
 
   componentWillUnmount() {
-    TodoStore.removeChangeListener(() => {this.onUpdate()});
+    TodoStore.removeChangeListener(() => { this.onUpdate(); });
   }
 
   onUpdate() {
-    let _todos = TodoStore.where({ categoryId: this.props.category.id }).order('order').get();
+    const _todos = TodoStore.where({ categoryId: this.props.category.id }).order('order').get();
 
     this.setState({ todos: _todos });
   }
@@ -34,8 +34,8 @@ export default class TodoList extends Component {
   }
 
   onDragEnd() {
-    let from = this._state.from;
-    let to = this._state.to;
+    const from = this._state.from;
+    const to = this._state.to;
 
     this.sortItem(from, to);
   }
@@ -50,7 +50,7 @@ export default class TodoList extends Component {
 
   onClickDestroy(id, order) {
     for (let i = 0; i < this.state.todos.length; i++) {
-      let todo = this.state.todos[i];
+      const todo = this.state.todos[i];
 
       if (i === order) {
         TodoActionCreators.destroy(id);
@@ -63,7 +63,7 @@ export default class TodoList extends Component {
   sortItem(from, to) {
     if (from < to) { // top to bottom
       for (let i = from; i <= to; i++) {
-        let todo = this.state.todos[i];
+        const todo = this.state.todos[i];
 
         if (i === from) {
           TodoActionCreators.update(todo.id, { order: to });
@@ -73,7 +73,7 @@ export default class TodoList extends Component {
       }
     } else if (from > to) { // bottom to top
       for (let i = to; i <= from; i++) {
-        let todo = this.state.todos[i];
+        const todo = this.state.todos[i];
 
         if (i === from) {
           TodoActionCreators.update(todo.id, { order: to });
@@ -94,18 +94,18 @@ export default class TodoList extends Component {
             key={todo.id}
             draggable={true}
             className={(todo.completed) ? 'is-completed' : ''}
-            onDragStart={() => {this.onDragStart(todo.order)}}
-            onDragEnter={() => {this.onDragEnter(todo.order)}}
-            onDragEnd={() => {this.onDragEnd()}}
+            onDragStart={() => { this.onDragStart(todo.order); }}
+            onDragEnter={() => { this.onDragEnter(todo.order); }}
+            onDragEnd={() => { this.onDragEnd(); }}
           >
             <label>{todo.text}</label>
             <span
-              onClick={() => {this.onClickDone(todo.id, todo.completed)}}
+              onClick={() => { this.onClickDone(todo.id, todo.completed); }}
             >
               [DONE]
             </span>
             <span
-              onClick={() => {this.onClickDestroy(todo.id, todo.order)}}
+              onClick={() => { this.onClickDestroy(todo.id, todo.order); }}
             >
               [DELETE]
             </span>
@@ -116,9 +116,13 @@ export default class TodoList extends Component {
     return (
       <section>
         <h2>{this.props.category.name}</h2>
-        <div onClick={() => {this.onClickAdd()}}>[Add]</div>
+        <div onClick={() => { this.onClickAdd(); }}>[Add]</div>
         <ul>{todoItemComponents}</ul>
       </section>
     );
   }
 }
+
+TodoList.propTypes = {
+  category: React.PropTypes.array,
+};

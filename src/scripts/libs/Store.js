@@ -45,7 +45,9 @@ export default class Store extends Dispatcher {
     }
 
     for (const id in targetData) {
+      if (!id) break;
       const _data = this._resolveAssociation(targetData[id].id);
+
       data.push(_data);
     }
     return data;
@@ -73,6 +75,7 @@ export default class Store extends Dispatcher {
     const _data = Object.assign({}, this._data[id]);
     if (this.association && this.association.length) {
       for (const index in this.association) {
+        if (!index) break;
         const association = this.association[index];
         // TODO: support hasMany:sm, hasOne:ss, belongsTo:ms, hasAndBelongsToMany:mm
         switch (association.type) {
@@ -120,9 +123,11 @@ export default class Store extends Dispatcher {
 
     const data = [];
     for (const id in this._tmp) {
+      if (!id) break;
       const _data = this._tmp[id];
 
       for (const key in statement) {
+        if (!key) break;
         const value = statement[key];
         if (_data[key] === value) data.push(_data);
       }
@@ -149,6 +154,7 @@ export default class Store extends Dispatcher {
     const arr = [];
 
     for (const key in obj) {
+      if (!key) break;
       arr.push(obj[key]);
     }
     return arr;
@@ -203,7 +209,9 @@ export default class Store extends Dispatcher {
   register(dispatcher, actions) {
     // FIXME: I wan't create a function in for-block.
     for (const key in actions) {
+      if (!key) break;
       const action = actions[key];
+
       dispatcher.on(key, (data) => {
         action(data);
       });
