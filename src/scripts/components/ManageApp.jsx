@@ -25,10 +25,6 @@ export default class ManageApp extends Component {
     this.setState({ categories: _categories });
   }
 
-  onClick() {
-    TodoActionCreators.create({ text: 'Hello World', categoryId: this.state.categories[0].id });
-  }
-
   render() {
     let todoListComponents = [];
 
@@ -39,7 +35,6 @@ export default class ManageApp extends Component {
     return (
       <section>
         <h1>Manage</h1>
-        <div onClick={() => {this.onClick()}}>Add todo</div>
         {todoListComponents}
       </section>
     );

@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import TodoStore from '../stores/TodoStore';
 import TodoActionCreators from '../actions/TodoActionCreators';
 
-// TODO: あれ？本当にReact必要なんだっけ？
 export default class TodoList extends Component {
   constructor(props) {
     super(props);
-    let _todos = TodoStore.where({ categoryId: this.props.category.id }).get();
+    let _todos = TodoStore.where({ categoryId: this.props.category.id }).order('order').get();
 
     this.state = { todos: _todos };
+    this._state = { from: 0, to: 0 };
   }
 
   componentDidMount() {
@@ -20,17 +20,45 @@ export default class TodoList extends Component {
   }
 
   onUpdate() {
-    let _todos = TodoStore.where({ categoryId: this.props.category.id }).get();
+    let _todos = TodoStore.where({ categoryId: this.props.category.id }).order('order').get();
 
+    console.log(_todos);
     this.setState({ todos: _todos });
+  }
+
+  onDragStart(order) {
+    this._state.from = order;
+  }
+
+  onDragEnter(order) {
+    this._state.to = order;
+  }
+
+  onDragEnd() {
+    let from = this._state.from;
+    let to = this._state.to;
+
+    console.log(`from ${from} to ${to}`);
+  }
+
+  onClickAdd() {
+    TodoActionCreators.create({ text: 'Hello World', categoryId: this.props.category.id, order: this.state.todos.length });
   }
 
   onClickDone(id, completed) {
     TodoActionCreators.update(id, { completed: !completed });
   }
 
-  onClickDestroy(id) {
-    TodoActionCreators.destroy(id);
+  onClickDestroy(id, order) {
+    for (let i = 0; i < this.state.todos.length; i++) {
+      let todo = this.state.todos[i];
+
+      if (i === order) {
+        TodoActionCreators.destroy(id);
+      } else if (i > order) {
+        TodoActionCreators.update(todo.id, {order: todo.order - 1});
+      }
+    }
   }
 
   render() {
@@ -41,23 +69,33 @@ export default class TodoList extends Component {
         return (
           <li
             key={todo.id}
+            draggable={true}
             className={(todo.completed) ? 'is-completed' : ''}
+            onDragStart={() => {this.onDragStart(todo.order)}}
+            onDragEnter={() => {this.onDragEnter(todo.order)}}
+            onDragEnd={() => {this.onDragEnd()}}
           >
-          <label>{todo.text}</label>
-          <div
-            onClick={() => {this.onClickDone(todo.id, todo.completed)}}
-          >
-            [DONE]
-          </div>
-          <div
-            onClick={() => {this.onClickDestroy(todo.id, todo.completed)}}
-          >
-            [DELETE]
-          </div>
+            <label>{todo.text}</label>
+            <span
+              onClick={() => {this.onClickDone(todo.id, todo.completed)}}
+            >
+              [DONE]
+            </span>
+            <span
+              onClick={() => {this.onClickDestroy(todo.id, todo.order)}}
+            >
+              [DELETE]
+            </span>
           </li>
         );
       });
     }
-    return <div><h1>{this.props.category.name}</h1><ul>{todoItemComponents}</ul></div>;
+    return (
+      <section>
+        <h2>{this.props.category.name}</h2>
+        <div onClick={() => {this.onClickAdd()}}>[Add]</div>
+        <ul>{todoItemComponents}</ul>
+      </section>
+    );
   }
 }
