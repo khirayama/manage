@@ -37,6 +37,30 @@ export default class TodoList extends Component {
     let from = this._state.from;
     let to = this._state.to;
 
+    this.sortItem(from, to);
+  }
+
+  onClickAdd() {
+    TodoActionCreators.create({ text: `Hello World ${this.state.todos.length}`, categoryId: this.props.category.id, order: this.state.todos.length });
+  }
+
+  onClickDone(id, completed) {
+    TodoActionCreators.update(id, { completed: !completed });
+  }
+
+  onClickDestroy(id, order) {
+    for (let i = 0; i < this.state.todos.length; i++) {
+      let todo = this.state.todos[i];
+
+      if (i === order) {
+        TodoActionCreators.destroy(id);
+      } else if (i > order) {
+        TodoActionCreators.update(todo.id, {order: todo.order - 1});
+      }
+    }
+  }
+
+  sortItem(from, to) {
     if (from < to) { // top to bottom
       for (let i = from; i <= to; i++) {
         let todo = this.state.todos[i];
@@ -56,26 +80,6 @@ export default class TodoList extends Component {
         } else if (i <= from) {
           TodoActionCreators.update(todo.id, { order: todo.order + 1 });
         }
-      }
-    }
-  }
-
-  onClickAdd() {
-    TodoActionCreators.create({ text: `Hello World ${this.state.todos.length}`, categoryId: this.props.category.id, order: this.state.todos.length });
-  }
-
-  onClickDone(id, completed) {
-    TodoActionCreators.update(id, { completed: !completed });
-  }
-
-  onClickDestroy(id, order) {
-    for (let i = 0; i < this.state.todos.length; i++) {
-      let todo = this.state.todos[i];
-
-      if (i === order) {
-        TodoActionCreators.destroy(id);
-      } else if (i > order) {
-        TodoActionCreators.update(todo.id, {order: todo.order - 1});
       }
     }
   }
