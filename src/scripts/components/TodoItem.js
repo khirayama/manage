@@ -25,7 +25,7 @@ export default class TodoList extends Component {
   }
 
   onKeyUpText(id, event) {
-    let key = event.keyCode;
+    const key = event.keyCode;
 
     if (key === ENTER) this.determineValue(id, this.state.text);
   }
@@ -36,13 +36,13 @@ export default class TodoList extends Component {
   }
 
   render() {
-    let todo = this.props.todo;
+    const todo = this.props.todo;
     let textComponent;
 
     if (this.state.editing) {
-      textComponent = <input value={this.state.text} onChange={() => { this.onChangeText(event) }} onKeyUp={(event) => { this.onKeyUpText(todo.id, event) }} onBlur={() => { this.determineValue(todo.id, this.state.text); }} autoFocus />;
+      textComponent = <input value={this.state.text} onChange={() => { this.onChangeText(event); }} onKeyUp={(event) => { this.onKeyUpText(todo.id, event); }} onBlur={() => { this.determineValue(todo.id, this.state.text); }} autoFocus />;
     } else {
-      textComponent = <label onClick={() => { this.onClickLabel() }} >{ this.state.text }</label>
+      textComponent = <label onClick={() => { this.onClickLabel(); }} >{ this.state.text }</label>;
     }
     return (
       <li
@@ -71,4 +71,8 @@ export default class TodoList extends Component {
 
 TodoList.propTypes = {
   todo: React.PropTypes.object,
+  _onClickDestroy: React.PropTypes.function,
+  _onDragStart: React.PropTypes.function,
+  _onDragEnter: React.PropTypes.function,
+  _onDragEnd: React.PropTypes.function,
 };

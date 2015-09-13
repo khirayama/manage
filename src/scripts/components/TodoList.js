@@ -90,7 +90,7 @@ export default class TodoList extends Component {
           <TodoItem
             key={todo.id}
             todo={todo}
-            _onClickDestroy={() => { this.onClickDestroy(todo.id, todo.order) }}
+            _onClickDestroy={() => { this.onClickDestroy(todo.id, todo.order); }}
             _onDragStart={() => { this.onDragStart(todo.order); }}
             _onDragEnter={() => { this.onDragEnter(todo.order); }}
             _onDragEnd={() => { this.onDragEnd(); }}
