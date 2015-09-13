@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TodoStore from '../stores/TodoStore';
 import TodoActionCreators from '../actions/TodoActionCreators';
+import TodoItem from './TodoItem';
 
 export default class TodoList extends Component {
   constructor(props) {
@@ -42,10 +43,6 @@ export default class TodoList extends Component {
 
   onClickAdd() {
     TodoActionCreators.create({ text: `Hello World ${this.state.todos.length}`, categoryId: this.props.category.id, order: this.state.todos.length });
-  }
-
-  onClickDone(id, completed) {
-    TodoActionCreators.update(id, { completed: !completed });
   }
 
   onClickDestroy(id, order) {
@@ -90,26 +87,14 @@ export default class TodoList extends Component {
     for (let i = 0; i < this.state.todos.length; i++) {
       todoItemComponents = this.state.todos.map((todo) => {
         return (
-          <li
+          <TodoItem
             key={todo.id}
-            draggable
-            className={(todo.completed) ? 'is-completed' : ''}
-            onDragStart={() => { this.onDragStart(todo.order); }}
-            onDragEnter={() => { this.onDragEnter(todo.order); }}
-            onDragEnd={() => { this.onDragEnd(); }}
-          >
-            <label>{todo.text}</label>
-            <span
-              onClick={() => { this.onClickDone(todo.id, todo.completed); }}
-            >
-              [DONE]
-            </span>
-            <span
-              onClick={() => { this.onClickDestroy(todo.id, todo.order); }}
-            >
-              [DELETE]
-            </span>
-          </li>
+            todo={todo}
+            _onClickDestroy={() => { this.onClickDestroy(todo.id, todo.order) }}
+            _onDragStart={() => { this.onDragStart(todo.order); }}
+            _onDragEnter={() => { this.onDragEnter(todo.order); }}
+            _onDragEnd={() => { this.onDragEnd(); }}
+          />
         );
       });
     }

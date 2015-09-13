@@ -2,7 +2,6 @@ import { jsdom } from 'jsdom';
 global.document = jsdom('<html><body></body></html>')
 global.window = document.defaultView;
 global.navigator = window.navigator;
-global.localStorage = window.localStorage;
 
 import assert  from 'power-assert';
 import TodoStore  from '../../src/scripts/stores/TodoStore';
@@ -12,7 +11,7 @@ describe('TodoActionCreators', () => {
   beforeEach(() => {
     // FIXME: remove past state.
     TodoStore._data = {};
-    TodoActionCreators.create({text: 'Hello World', category: 'TODAY'});
+    TodoActionCreators.create({text: 'Hello World'});
   });
   describe('create', () => {
     it('when empty', () => {

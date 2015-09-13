@@ -2,6 +2,7 @@ import 'babel/polyfill';
 import Dispatcher from './Dispatcher';
 
 const changeEvent = 'CHANGE';
+// const localStorage = localStorage || {getItem: () => { return '{}'; }, setItem: () => {}}; // for test
 
 export default class Store extends Dispatcher {
   constructor() {
