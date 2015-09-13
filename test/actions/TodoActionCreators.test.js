@@ -1,13 +1,18 @@
+import { jsdom } from 'jsdom';
+global.document = jsdom('<html><body></body></html>')
+global.window = document.defaultView;
+global.navigator = window.navigator;
+global.localStorage = window.localStorage;
+
 import assert  from 'power-assert';
-import {TODO_CATEGORY} from '../../src/scripts/constants/constants';
 import TodoStore  from '../../src/scripts/stores/TodoStore';
 import TodoActionCreators  from '../../src/scripts/actions/TodoActionCreators';
- 
+
 describe('TodoActionCreators', () => {
   beforeEach(() => {
     // FIXME: remove past state.
     TodoStore._data = {};
-    TodoActionCreators.create({text: 'Hello World', category: TODO_CATEGORY.TODAY});
+    TodoActionCreators.create({text: 'Hello World', category: 'TODAY'});
   });
   describe('create', () => {
     it('when empty', () => {
@@ -48,14 +53,14 @@ describe('TodoActionCreators', () => {
       let todos = TodoStore.get();
       let todo = todos[0];
 
-      TodoActionCreators.update(todo.id, {category: TODO_CATEGORY.LATER});
+      TodoActionCreators.update(todo.id, {category: 'LATER'});
       todos = TodoStore.get();
       todo = todos[0];
 
       assert(todos.length === 1);
       assert(todo.text === 'Hello World');
       assert(todo.completed === false);
-      assert(todo.category === TODO_CATEGORY.LATER);
+      assert(todo.category === 'LATER');
     });
   });
   describe('destroy', () => {

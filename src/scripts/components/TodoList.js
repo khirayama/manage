@@ -92,7 +92,7 @@ export default class TodoList extends Component {
         return (
           <li
             key={todo.id}
-            draggable={true}
+            draggable
             className={(todo.completed) ? 'is-completed' : ''}
             onDragStart={() => { this.onDragStart(todo.order); }}
             onDragEnter={() => { this.onDragEnter(todo.order); }}
