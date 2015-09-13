@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import TodoActionCreators from '../actions/TodoActionCreators';
+import { ENTER } from '../constants/constants';
 
 // TODO: support to update category
 // TODO: snippets ex) this fri ->
-const ENTER = 13;
 
 export default class TodoList extends Component {
   constructor(props) {
@@ -71,8 +71,8 @@ export default class TodoList extends Component {
 
 TodoList.propTypes = {
   todo: React.PropTypes.object,
-  _onClickDestroy: React.PropTypes.function,
-  _onDragStart: React.PropTypes.function,
-  _onDragEnter: React.PropTypes.function,
-  _onDragEnd: React.PropTypes.function,
+  _onClickDestroy: React.PropTypes.func,
+  _onDragStart: React.PropTypes.func,
+  _onDragEnter: React.PropTypes.func,
+  _onDragEnd: React.PropTypes.func,
 };

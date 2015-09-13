@@ -1,3 +1,5 @@
+export const ENTER = 13;
+
 export const todoEvents = {
   CREATE: 'TODO_CREATE',
   UPDATE: 'TODO_UPDATE',
