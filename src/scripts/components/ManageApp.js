@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TodoCategoryStore from '../stores/TodoCategoryStore';
 import TodoList from './TodoList';
+import TodoCategoryList from './TodoCategoryList';
 
 export default class ManageApp extends Component {
   constructor(props) {
@@ -35,6 +36,7 @@ export default class ManageApp extends Component {
       <section>
         <h1>Manage</h1>
         {todoListComponents}
+        <TodoCategoryList categories={this.state.categories} />
       </section>
     );
   }

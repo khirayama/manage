@@ -84,20 +84,18 @@ export default class TodoList extends Component {
   render() {
     let todoItemComponents = [];
 
-    for (let i = 0; i < this.state.todos.length; i++) {
-      todoItemComponents = this.state.todos.map((todo) => {
-        return (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            _onClickDestroy={() => { this.onClickDestroy(todo.id, todo.order); }}
-            _onDragStart={() => { this.onDragStart(todo.order); }}
-            _onDragEnter={() => { this.onDragEnter(todo.order); }}
-            _onDragEnd={() => { this.onDragEnd(); }}
-          />
-        );
-      });
-    }
+    todoItemComponents = this.state.todos.map((todo) => {
+      return (
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          _onClickDestroy={() => { this.onClickDestroy(todo.id, todo.order); }}
+          _onDragStart={() => { this.onDragStart(todo.order); }}
+          _onDragEnter={() => { this.onDragEnter(todo.order); }}
+          _onDragEnd={() => { this.onDragEnd(); }}
+        />
+      );
+    });
     return (
       <section>
         <h2>{this.props.category.name}</h2>
