@@ -204,7 +204,7 @@ export default class Store extends Dispatcher {
   }
 
   removeChangeListener(callback) {
-    this.removeListener(changeEvent, callback);
+    this.off(changeEvent, callback);
   }
 
   register(dispatcher, actions) {

@@ -6,7 +6,7 @@ import TodoItem from './TodoItem';
 export default class TodoList extends Component {
   constructor(props) {
     super(props);
-    const _todos = TodoStore.where({ categoryId: this.props.category.id }).order('order').get();
+    const _todos = TodoStore.where({ categoryId: this.props.todoCategory.id }).order('order').get();
 
     this.state = { todos: _todos };
     this._state = { from: 0, to: 0 };
@@ -21,7 +21,7 @@ export default class TodoList extends Component {
   }
 
   onUpdate() {
-    const _todos = TodoStore.where({ categoryId: this.props.category.id }).order('order').get();
+    const _todos = TodoStore.where({ categoryId: this.props.todoCategory.id }).order('order').get();
 
     this.setState({ todos: _todos });
   }
@@ -42,7 +42,7 @@ export default class TodoList extends Component {
   }
 
   onClickAdd() {
-    TodoActionCreators.create({ text: `Hello World ${this.state.todos.length}`, categoryId: this.props.category.id, order: this.state.todos.length });
+    TodoActionCreators.create({ text: `Hello World ${this.state.todos.length}`, categoryId: this.props.todoCategory.id, order: this.state.todos.length });
   }
 
   onClickDestroy(id, order) {
@@ -98,7 +98,7 @@ export default class TodoList extends Component {
     });
     return (
       <section>
-        <h2>{this.props.category.name}</h2>
+        <h2>{this.props.todoCategory.name}</h2>
         <div onClick={() => { this.onClickAdd(); }}>[Add]</div>
         <ul>{todoItemComponents}</ul>
       </section>
@@ -107,5 +107,5 @@ export default class TodoList extends Component {
 }
 
 TodoList.propTypes = {
-  category: React.PropTypes.object,
+  todoCategory: React.PropTypes.object,
 };

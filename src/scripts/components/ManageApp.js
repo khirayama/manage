@@ -6,9 +6,9 @@ import TodoCategoryList from './TodoCategoryList';
 export default class ManageApp extends Component {
   constructor(props) {
     super(props);
-    const _categories = TodoCategoryStore.get();
+    const _todoCategories = TodoCategoryStore.order('order').get();
 
-    this.state = { categories: _categories };
+    this.state = { todoCategories: _todoCategories };
   }
 
   componentDidMount() {
@@ -20,23 +20,23 @@ export default class ManageApp extends Component {
   }
 
   onUpdate() {
-    const _categories = TodoCategoryStore.get();
+    const _todoCategories = TodoCategoryStore.order('order').get();
 
-    this.setState({ categories: _categories });
+    this.setState({ todoCategories: _todoCategories });
   }
 
   render() {
     const todoListComponents = [];
 
-    for (let i = 0; i < this.state.categories.length; i++) {
-      const category = this.state.categories[i];
-      todoListComponents.push(<TodoList key={category.id} category={category} />);
+    for (let i = 0; i < this.state.todoCategories.length; i++) {
+      const todoCategory = this.state.todoCategories[i];
+      todoListComponents.push(<TodoList key={todoCategory.id} todoCategory={todoCategory} />);
     }
     return (
       <section>
         <h1>Manage</h1>
         {todoListComponents}
-        <TodoCategoryList categories={this.state.categories} />
+        <TodoCategoryList todoCategories={this.state.todoCategories} />
       </section>
     );
   }

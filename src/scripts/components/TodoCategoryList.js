@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import TodoCategoryActionCreators from '../actions/TodoCategoryActionCreators';
+import TodoCategoryItem from './TodoCategoryItem';
 
 export default class TodoCategoryList extends Component {
   constructor(props) {
@@ -7,14 +8,32 @@ export default class TodoCategoryList extends Component {
   }
 
   onClickAdd() {
-    TodoCategoryActionCreators.create({ name: `Term ${this.props.categories.length}`, order: this.props.categories.length });
+    TodoCategoryActionCreators.create({ name: `Term ${this.props.todoCategories.length}`, order: this.props.todoCategories.length });
+  }
+
+  onClickDestroy(id, order) {
+    for (let i = 0; i < this.props.todoCategories.length; i++) {
+      const todoCategory = this.props.todoCategories[i];
+
+      if (i === order) {
+        TodoCategoryActionCreators.destroy(id);
+      } else if (i > order) {
+        TodoCategoryActionCreators.update(todoCategory.id, {order: todoCategory.order - 1});
+      }
+    }
   }
 
   render() {
     let todoCategoryItemComponents = [];
 
-    todoCategoryItemComponents = this.props.categories.map((category) => {
-      return (<li key={category.id}>{category.name}</li>);
+    todoCategoryItemComponents = this.props.todoCategories.map((todoCategory) => {
+      return (
+        <TodoCategoryItem
+          key={todoCategory.id}
+          todoCategory={todoCategory}
+          _onClickDestroy={() => { this.onClickDestroy(todoCategory.id, todoCategory.order) }}
+        />
+      );
     });
     return (
       <section>
@@ -27,5 +46,5 @@ export default class TodoCategoryList extends Component {
 }
 
 TodoCategoryList.propTypes = {
-  categories: React.PropTypes.array,
+  todoCategories: React.PropTypes.array,
 };

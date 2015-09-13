@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import TodoActionCreators from '../actions/TodoActionCreators';
 import { ENTER } from '../constants/constants';
 
-// TODO: support to update category
 // TODO: snippets ex) this fri ->
 
-export default class TodoList extends Component {
+export default class TodoItem extends Component {
   constructor(props) {
     super(props);
 
@@ -40,7 +39,7 @@ export default class TodoList extends Component {
     let textComponent;
 
     if (this.state.editing) {
-      textComponent = <input value={this.state.text} onChange={() => { this.onChangeText(event); }} onKeyUp={(event) => { this.onKeyUpText(todo.id, event); }} onBlur={() => { this.determineValue(todo.id, this.state.text); }} autoFocus />;
+      textComponent = <input value={this.state.text} onChange={(event) => { this.onChangeText(event); }} onKeyUp={(event) => { this.onKeyUpText(todo.id, event); }} onBlur={() => { this.determineValue(todo.id, this.state.text); }} autoFocus />;
     } else {
       textComponent = <label onClick={() => { this.onClickLabel(); }} >{ this.state.text }</label>;
     }
@@ -69,7 +68,7 @@ export default class TodoList extends Component {
   }
 }
 
-TodoList.propTypes = {
+TodoItem.propTypes = {
   todo: React.PropTypes.object,
   _onClickDestroy: React.PropTypes.func,
   _onDragStart: React.PropTypes.func,
