@@ -14,7 +14,7 @@ export default class TodoCategoryItem extends Component {
   }
 
   onChangeName(event) {
-    this.setState({ text: event.target.value });
+    this.setState({ name: event.target.value });
   }
 
   onKeyUpName(id, event) {
@@ -33,7 +33,7 @@ export default class TodoCategoryItem extends Component {
     let nameComponent;
 
     if (this.state.editing) {
-      nameComponent = <input value={this.state.name} onChange={(event) => { this.onChangeName(event); }} onKeyUp={(event) => { this.onKeyUpName(todo.id, event); }} onBlur={() => { this.determineValue(todoCategory.id, this.state.name); }} autoFocus />;
+      nameComponent = <input value={this.state.name} onChange={(event) => { this.onChangeName(event); }} onKeyUp={(event) => { this.onKeyUpName(todoCategory.id, event); }} onBlur={() => { this.determineValue(todoCategory.id, this.state.name); }} autoFocus />;
     } else {
       nameComponent = <label onClick={() => { this.onClickLabel(); }} >{ this.state.name }</label>;
     }
@@ -63,4 +63,3 @@ TodoCategoryItem.propTypes = {
   _onDragEnter: React.PropTypes.func,
   _onDragEnd: React.PropTypes.func,
 };
-

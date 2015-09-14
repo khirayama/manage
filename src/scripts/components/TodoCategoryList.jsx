@@ -5,6 +5,23 @@ import TodoCategoryItem from './TodoCategoryItem';
 export default class TodoCategoryList extends Component {
   constructor(props) {
     super(props);
+
+    this._state = { from: 0, to: 0 };
+  }
+
+  onDragStart(order) {
+    this._state.from = order;
+  }
+
+  onDragEnter(order) {
+    this._state.to = order;
+  }
+
+  onDragEnd() {
+    const from = this._state.from;
+    const to = this._state.to;
+
+    this.sortItem(from, to);
   }
 
   onClickAdd() {
@@ -23,6 +40,30 @@ export default class TodoCategoryList extends Component {
     }
   }
 
+  sortItem(from, to) {
+    if (from < to) { // top to bottom
+      for (let i = from; i <= to; i++) {
+        const todoCategory = this.props.todoCategories[i];
+
+        if (i === from) {
+          TodoCategoryActionCreators.update(todoCategory.id, { order: to });
+        } else if (i <= to) {
+          TodoCategoryActionCreators.update(todoCategory.id, { order: todoCategory.order - 1 });
+        }
+      }
+    } else if (from > to) { // bottom to top
+      for (let i = to; i <= from; i++) {
+        const todoCategory = this.props.todoCategories[i];
+
+        if (i === from) {
+          TodoCategoryActionCreators.update(todoCategory.id, { order: to });
+        } else if (i <= from) {
+          TodoCategoryActionCreators.update(todoCategory.id, { order: todoCategory.order + 1 });
+        }
+      }
+    }
+  }
+
   render() {
     let todoCategoryItemComponents = [];
 
@@ -32,6 +73,9 @@ export default class TodoCategoryList extends Component {
           key={todoCategory.id}
           todoCategory={todoCategory}
           _onClickDestroy={() => { this.onClickDestroy(todoCategory.id, todoCategory.order); }}
+          _onDragStart={() => { this.onDragStart(todoCategory.order); }}
+          _onDragEnter={() => { this.onDragEnter(todoCategory.order); }}
+          _onDragEnd={() => { this.onDragEnd(); }}
         />
       );
     });
