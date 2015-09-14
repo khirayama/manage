@@ -67,26 +67,26 @@ gulp.task('styles:build', () => {
 });
 
 gulp.task('scripts:develop', watchify((_watchify) => {
-  return gulp.src([src + 'scripts/app.js'])
+  return gulp.src([src + 'scripts/app.jsx'])
     .pipe(plumber(options.plumber))
     .pipe(_watchify({
       watch: true,
       outfile: 'bundle.js',
       transform: ['babelify'],
       debug: true,
-      extensions: ['.js'],
+      extensions: ['.js', '.jsx'],
     }))
     .pipe(gulp.dest(dest))
     .pipe(browserSync.reload({stream: true}));
 }));
 
 gulp.task('scripts:build', () => {
-  return gulp.src([src + 'scripts/app.js'])
+  return gulp.src([src + 'scripts/app.jsx'])
     .pipe(browserify({
       outfile: 'bundle.js',
       transform: ['babelify'],
       debug: false,
-      extensions: ['.js'],
+      extensions: ['.js', '.jsx'],
     }))
     .pipe(gulp.dest(release));
 });

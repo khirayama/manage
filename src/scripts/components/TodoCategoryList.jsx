@@ -31,7 +31,7 @@ export default class TodoCategoryList extends Component {
         <TodoCategoryItem
           key={todoCategory.id}
           todoCategory={todoCategory}
-          _onClickDestroy={() => { this.onClickDestroy(todoCategory.id, todoCategory.order) }}
+          _onClickDestroy={() => { this.onClickDestroy(todoCategory.id, todoCategory.order); }}
         />
       );
     });
