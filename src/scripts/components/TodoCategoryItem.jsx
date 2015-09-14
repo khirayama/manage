@@ -7,10 +7,24 @@ export default class TodoCategoryItem extends Component {
     super(props);
 
     this.state = { name: this.props.todoCategory.name, editing: false };
+    this._state = { showInput: false };
+  }
+
+  componentDidMount() {
+    if (!this.props.created) this.startEditing();
+  }
+
+  componentDidUpdate() {
+    if (this._state.showInput) {
+      const input = React.findDOMNode(this).querySelector('input');
+
+      if (input) React.findDOMNode(this).querySelector('input').select();
+      this._state.showInput = false;
+    }
   }
 
   onClickLabel() {
-    this.setState({ editing: true });
+    this.startEditing();
   }
 
   onChangeName(event) {
@@ -26,6 +40,11 @@ export default class TodoCategoryItem extends Component {
   determineValue(id, name) {
     TodoCategoryActionCreators.update(id, { name: name });
     this.setState({ editing: false });
+  }
+
+  startEditing() {
+    this.setState({ editing: true });
+    this._state.showInput = true;
   }
 
   render() {

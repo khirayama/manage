@@ -6,7 +6,11 @@ export default class TodoCategoryList extends Component {
   constructor(props) {
     super(props);
 
-    this._state = { from: 0, to: 0 };
+    this._state = { from: 0, to: 0, created: true };
+  }
+
+  componentDidUpdate() {
+    this._state.created = true;
   }
 
   onDragStart(order) {
@@ -25,7 +29,8 @@ export default class TodoCategoryList extends Component {
   }
 
   onClickAdd() {
-    TodoCategoryActionCreators.create({ name: `Term ${this.props.todoCategories.length}`, order: this.props.todoCategories.length });
+    TodoCategoryActionCreators.create({ name: 'New List', order: this.props.todoCategories.length });
+    this._state.created = false;
   }
 
   onClickDestroy(id, order) {
@@ -72,6 +77,7 @@ export default class TodoCategoryList extends Component {
         <TodoCategoryItem
           key={todoCategory.id}
           todoCategory={todoCategory}
+          created={this._state.created}
           _onClickDestroy={() => { this.onClickDestroy(todoCategory.id, todoCategory.order); }}
           _onDragStart={() => { this.onDragStart(todoCategory.order); }}
           _onDragEnter={() => { this.onDragEnter(todoCategory.order); }}
