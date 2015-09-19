@@ -52,7 +52,7 @@ export default class TodoCategoryItem extends Component {
     let nameComponent;
 
     if (this.state.editing) {
-      nameComponent = <input value={this.state.name} onChange={(event) => { this.onChangeName(event); }} onKeyUp={(event) => { this.onKeyUpName(todoCategory.id, event); }} onBlur={() => { this.determineValue(todoCategory.id, this.state.name); }} autoFocus />;
+      nameComponent = <input value={this.state.name} onChange={(event) => { this.onChangeName(event); }} onKeyUp={(event) => { this.onKeyUpName(todoCategory.id, event); }} onBlur={() => { this.determineValue(todoCategory.id, this.state.name); }} placeholder="New List" autoFocus />;
     } else {
       nameComponent = <label onClick={() => { this.onClickLabel(); }} >{ this.state.name }</label>;
     }
