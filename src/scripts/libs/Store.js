@@ -35,7 +35,7 @@ export default class Store extends Dispatcher {
   }
 
   _getAll() {
-    const data = [];
+    let data = [];
     let targetData;
 
     if (this._filtering) {
@@ -44,18 +44,12 @@ export default class Store extends Dispatcher {
     } else {
       targetData = this._data;
     }
-
-    for (const id in targetData) {
-      if (!id) break;
-      const _data = this._resolveAssociation(targetData[id].id);
-
-      data.push(_data);
-    }
+    data = this._o2a(targetData);
     return data;
   }
 
   get(id) {
-    if (id) return this._resolveAssociation(id);
+    if (id) return this._data[id];
     return this._getAll();
   }
 
@@ -71,30 +65,8 @@ export default class Store extends Dispatcher {
     return JSON.parse(localStorage.getItem(key));
   }
 
-  // association
-  _resolveAssociation(id) {
-    const _data = Object.assign({}, this._data[id]);
-    if (this.association && this.association.length) {
-      for (const index in this.association) {
-        if (!index) break;
-        const association = this.association[index];
-        // TODO: support hasMany:sm, hasOne:ss, belongsTo:ms, hasAndBelongsToMany:mm
-        switch (association.type) {
-        case 'hasOne':
-          _data[association.value] = association.store.get(_data[association.key]);
-          delete _data[association.key];
-          break;
-        default:
-          break;
-        }
-      }
-    }
-    return _data;
-  }
-
   // public methods
   order(key, reverse) {
-    // TODO: support association object key
     if (!this._filtering) {
       this._filtering = true;
       this._tmp = this._o2a(this._data);

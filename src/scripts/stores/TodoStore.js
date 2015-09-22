@@ -13,9 +13,6 @@ class TodoStore extends Store {
       categoryId: null,
       order: 0,
     };
-    this.association = [
-      { type: 'hasOne', store: TodoCategoryStore, key: 'categoryId', value: 'category' },
-    ];
     this.register(AppDispatcher, {
       [todoEvents.CREATE]: (payload) => {
         this.create(payload.entity);
