@@ -2,7 +2,10 @@ import 'babel/polyfill';
 import Dispatcher from './Dispatcher';
 
 const changeEvent = 'CHANGE';
-// const localStorage = localStorage || {getItem: () => { return '{}'; }, setItem: () => {}}; // for test
+// FIXME: for test...
+let localStorage;
+let window;
+if (!window) localStorage = localStorage || {getItem: () => { return '{}'; }, setItem: () => {}};
 
 export default class Store extends Dispatcher {
   constructor() {
@@ -13,17 +16,19 @@ export default class Store extends Dispatcher {
     this.defaults = {};
   }
 
-  // crud method
+  // CRUD method
   create(entity) {
-    const id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
+    const now = new Date();
+    const id = (+now + Math.floor(Math.random() * 999999)).toString(36);
 
-    this._data[id] = Object.assign({}, { id: id }, this.defaults, entity);
+    this._data[id] = Object.assign({}, { id: id, createdAt: now, updatedAt: now }, this.defaults, entity);
     this.dispatchChange();
     this._save();
   }
 
   update(id, updates) {
-    this._data[id] = Object.assign({}, this._data[id], updates);
+    const now = new Date();
+    this._data[id] = Object.assign({ updatedAt: now }, this._data[id], updates);
     this.dispatchChange();
     this._save();
   }

@@ -81,4 +81,5 @@ TodoCategoryItem.propTypes = {
   _onDragStart: React.PropTypes.func,
   _onDragEnter: React.PropTypes.func,
   _onDragEnd: React.PropTypes.func,
+  created: React.PropTypes.bool,
 };

@@ -1,7 +1,6 @@
 import 'babel/polyfill';
 import Store from '../libs/Store';
 import AppDispatcher from '../dispatchers/AppDispatcher';
-import TodoCategoryStore from './TodoCategoryStore';
 import { todoEvents } from '../constants/constants';
 
 class TodoStore extends Store {
