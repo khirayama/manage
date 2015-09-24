@@ -38,12 +38,11 @@ export default class TodoItem extends Component {
     const textToScheduleParser = new TextToScheduleParser();
     const item = textToScheduleParser.parseTextToItem(this.props.todo.text);
     let textComponent;
-    let sheduleLabelComponent;
 
     if (this.state.editing) {
       textComponent = <input value={this.state.text} onChange={(event) => { this.onChangeText(event); }} onKeyUp={(event) => { this.onKeyUpText(todo.id, event); }} onBlur={() => { this.determineValue(todo.id, this.state.text); }} autoFocus />;
     } else {
-      let scheduleLabelComponent = (item.schedule) ? <time>{item.schedule.year}/{item.schedule.month}/{item.schedule.date} {item.schedule.shortDayName}.</time> : false;
+      const scheduleLabelComponent = (item.schedule) ? <time>{item.schedule.year}/{item.schedule.month}/{item.schedule.date} {item.schedule.shortDayName}.</time> : false;
       textComponent = (
         <label onClick={() => { this.onClickLabel(); }} >
           {scheduleLabelComponent}
