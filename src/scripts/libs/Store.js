@@ -3,9 +3,9 @@ import Dispatcher from './Dispatcher';
 
 const changeEvent = 'CHANGE';
 // FIXME: for test...
-let localStorage;
-let window;
-if (!window) localStorage = localStorage || {getItem: () => { return '{}'; }, setItem: () => {}};
+// let localStorage;
+// let window;
+// if (!window) localStorage = localStorage || {getItem: () => { return '{}'; }, setItem: () => {}};
 
 export default class Store extends Dispatcher {
   constructor() {

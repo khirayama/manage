@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import TodoActionCreators from '../actions/TodoActionCreators';
+import { TextToScheduleParser } from '../utils/Utils';
 import { ENTER } from '../constants/constants';
-
-// TODO: snippets ex) this fri ->
 
 export default class TodoItem extends Component {
   constructor(props) {
@@ -36,12 +35,21 @@ export default class TodoItem extends Component {
 
   render() {
     const todo = this.props.todo;
+    const textToScheduleParser = new TextToScheduleParser();
+    const item = textToScheduleParser.parseTextToItem(this.props.todo.text);
     let textComponent;
+    let sheduleLabelComponent;
 
     if (this.state.editing) {
       textComponent = <input value={this.state.text} onChange={(event) => { this.onChangeText(event); }} onKeyUp={(event) => { this.onKeyUpText(todo.id, event); }} onBlur={() => { this.determineValue(todo.id, this.state.text); }} autoFocus />;
     } else {
-      textComponent = <label onClick={() => { this.onClickLabel(); }} >{ this.state.text }</label>;
+      let scheduleLabelComponent = (item.schedule) ? <time>{item.schedule.year}/{item.schedule.month}/{item.schedule.date} {item.schedule.shortDayName}.</time> : false;
+      textComponent = (
+        <label onClick={() => { this.onClickLabel(); }} >
+          {scheduleLabelComponent}
+          <span>{item.text}</span>
+        </label>
+      );
     }
     return (
       <li
