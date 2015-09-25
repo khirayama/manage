@@ -1,3 +1,3 @@
-import Dispatcher from '../libs/Dispatcher';
+import MicoEmitter from '../libs/MicroEmitter';
 
-export default new Dispatcher();
+export default new MicoEmitter();

@@ -1,5 +1,5 @@
 import 'babel/polyfill';
-import Dispatcher from './Dispatcher';
+import MicroEmitter from './MicroEmitter';
 
 const changeEvent = 'CHANGE';
 // FIXME: for test...
@@ -7,7 +7,7 @@ const changeEvent = 'CHANGE';
 // let window;
 // if (!window) localStorage = localStorage || {getItem: () => { return '{}'; }, setItem: () => {}};
 
-export default class Store extends Dispatcher {
+export default class Store extends MicroEmitter {
   constructor() {
     super();
     this._data = this._load() || {};
