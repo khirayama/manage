@@ -4,8 +4,7 @@ export default class Dispatcher {
   }
 
   addListener(event, callback) {
-    this._events[event] = this._events[event] || [];
-    this._events[event].push(callback);
+    this._addListener(event, callback, false);
   }
 
   /* Alias of addListener */
@@ -14,8 +13,10 @@ export default class Dispatcher {
   }
 
   removeListener(event, callback) { // alias
-    if (event in this._events === false) return;
-    this._events[event].splice(this._events[event].indexOf(callback), 1);
+    if (!this._events[event].length) return;
+    for (let i = 0; i < this._events[event].length; i++) {
+      if (this._events[event][i].callback === callback) this._events[event].splice(i, 1);
+    }
   }
 
   /* Alias of removeListener */
@@ -24,9 +25,10 @@ export default class Dispatcher {
   }
 
   emit(event, payload) {
-    if (event in this._events === false) return;
+    if (!this._events[event]) return;
     for (let i = 0; i < this._events[event].length; i++) {
-      this._events[event][i].apply(this, [payload]);
+      this._events[event][i].callback.apply(this, [payload]);
+      if (this._events[event][i].once) this._events[event].splice(i, 1);
     }
   }
 
@@ -36,6 +38,12 @@ export default class Dispatcher {
   }
 
   once(event, callback) {
+    this._addListener(event, callback, true);
+  }
+
+  _addListener(event, callback, once) {
+    this._events[event] = this._events[event] || [];
+    this._events[event].push({ callback: callback, once: once });
   }
 }
 
