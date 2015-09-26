@@ -34,12 +34,12 @@ export default class TodoCategoryList extends Component {
   }
 
   onClickDestroy(id, order) {
-    for (let i = 0; i < this.props.todoCategories.length; i++) {
-      const todoCategory = this.props.todoCategories[i];
+    for (let index = 0; index < this.props.todoCategories.length; index++) {
+      const todoCategory = this.props.todoCategories[index];
 
-      if (i === order) {
+      if (index === order) {
         TodoCategoryActions.destroy(id);
-      } else if (i > order) {
+      } else if (index > order) {
         TodoCategoryActions.update(todoCategory.id, {order: todoCategory.order - 1});
       }
     }
@@ -47,22 +47,22 @@ export default class TodoCategoryList extends Component {
 
   sortItem(from, to) {
     if (from < to) { // top to bottom
-      for (let i = from; i <= to; i++) {
-        const todoCategory = this.props.todoCategories[i];
+      for (let index = from; index <= to; index++) {
+        const todoCategory = this.props.todoCategories[index];
 
-        if (i === from) {
+        if (index === from) {
           TodoCategoryActions.update(todoCategory.id, { order: to });
-        } else if (i <= to) {
+        } else if (index <= to) {
           TodoCategoryActions.update(todoCategory.id, { order: todoCategory.order - 1 });
         }
       }
     } else if (from > to) { // bottom to top
-      for (let i = to; i <= from; i++) {
-        const todoCategory = this.props.todoCategories[i];
+      for (let index = to; index <= from; index++) {
+        const todoCategory = this.props.todoCategories[index];
 
-        if (i === from) {
+        if (index === from) {
           TodoCategoryActions.update(todoCategory.id, { order: to });
-        } else if (i <= from) {
+        } else if (index <= from) {
           TodoCategoryActions.update(todoCategory.id, { order: todoCategory.order + 1 });
         }
       }

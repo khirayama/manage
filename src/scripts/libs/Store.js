@@ -75,17 +75,17 @@ export default class MicroStore extends MicroEmitter {
       this._tmp = this._o2a(this._data);
     }
 
-    this._tmp.sort((a, b) => {
-      const x = a[key];
-      const y = b[key];
+    this._tmp.sort((itemA, itemB) => {
+      const valueX = itemA[key];
+      const valueY = itemB[key];
 
       if (reverse) {
-        if (x > y) return -1;
-        if (x < y) return 1;
+        if (valueX > valueY) return -1;
+        if (valueX < valueY) return 1;
         return 0;
       }
-      if (x > y) return 1;
-      if (x < y) return -1;
+      if (valueX > valueY) return 1;
+      if (valueX < valueY) return -1;
       return 0;
     });
     return this;
@@ -119,8 +119,8 @@ export default class MicroStore extends MicroEmitter {
     }
 
     const data = [];
-    for (let i = 0; i < num; i++) {
-      data.push(this._tmp[i]);
+    for (let index = 0; index < num; index++) {
+      data.push(this._tmp[index]);
     }
     this._tmp = data;
     return this;

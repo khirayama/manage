@@ -47,8 +47,8 @@ export default class MicroEmitter {
    */
   removeListener(type, listener) { // alias
     if (!this._listeners[type].length) return this;
-    for (let i = 0; i < this._listeners[type].length; i++) {
-      if (this._listeners[type][i].listener === listener) this._listeners[type].splice(i, 1);
+    for (let index = 0; index < this._listeners[type].length; index++) {
+      if (this._listeners[type][index].listener === listener) this._listeners[type].splice(index, 1);
     }
     return this;
   }
@@ -66,9 +66,9 @@ export default class MicroEmitter {
    */
   emit(type, payload) {
     if (!this._listeners[type]) return this;
-    for (let i = 0; i < this._listeners[type].length; i++) {
-      this._listeners[type][i].listener.apply(this, [payload]);
-      if (this._listeners[type][i].isOnce) this._listeners[type].splice(i, 1);
+    for (let index = 0; index < this._listeners[type].length; index++) {
+      this._listeners[type][index].listener.apply(this, [payload]);
+      if (this._listeners[type][index].isOnce) this._listeners[type].splice(index, 1);
     }
     return this;
   }

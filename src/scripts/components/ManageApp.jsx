@@ -28,8 +28,8 @@ export default class ManageApp extends Component {
   render() {
     const todoListComponents = [];
 
-    for (let i = 0; i < this.state.todoCategories.length; i++) {
-      const todoCategory = this.state.todoCategories[i];
+    for (let index = 0; index < this.state.todoCategories.length; index++) {
+      const todoCategory = this.state.todoCategories[index];
       todoListComponents.push(<TodoList key={todoCategory.id} todoCategory={todoCategory} />);
     }
     return (

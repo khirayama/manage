@@ -46,12 +46,12 @@ export default class TodoList extends Component {
   }
 
   onClickDestroy(id, order) {
-    for (let i = 0; i < this.state.todos.length; i++) {
-      const todo = this.state.todos[i];
+    for (let index = 0; index < this.state.todos.length; index++) {
+      const todo = this.state.todos[index];
 
-      if (i === order) {
+      if (index === order) {
         TodoActions.destroy(id);
-      } else if (i > order) {
+      } else if (index > order) {
         TodoActions.update(todo.id, {order: todo.order - 1});
       }
     }
@@ -59,22 +59,22 @@ export default class TodoList extends Component {
 
   sortItem(from, to) {
     if (from < to) { // top to bottom
-      for (let i = from; i <= to; i++) {
-        const todo = this.state.todos[i];
+      for (let index = from; index <= to; index++) {
+        const todo = this.state.todos[index];
 
-        if (i === from) {
+        if (index === from) {
           TodoActions.update(todo.id, { order: to });
-        } else if (i <= to) {
+        } else if (index <= to) {
           TodoActions.update(todo.id, { order: todo.order - 1 });
         }
       }
     } else if (from > to) { // bottom to top
-      for (let i = to; i <= from; i++) {
-        const todo = this.state.todos[i];
+      for (let index = to; index <= from; index++) {
+        const todo = this.state.todos[index];
 
-        if (i === from) {
+        if (index === from) {
           TodoActions.update(todo.id, { order: to });
-        } else if (i <= from) {
+        } else if (index <= from) {
           TodoActions.update(todo.id, { order: todo.order + 1 });
         }
       }

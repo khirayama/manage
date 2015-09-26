@@ -92,8 +92,8 @@ export class TextToScheduleParser {
   getDayNum(dateText) {
     const _day = this.getDay(dateText);
 
-    for (let i = 0; i < this.dayList.length; i++) {
-      if (this.dayList[i].toUpperCase().indexOf(_day.toUpperCase()) !== -1) return i;
+    for (let index = 0; index < this.dayList.length; index++) {
+      if (this.dayList[index].toUpperCase().indexOf(_day.toUpperCase()) !== -1) return index;
     }
     return -1;
   }
