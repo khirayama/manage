@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TodoCategoryActionCreators from '../actions/TodoCategoryActionCreators';
+import TodoCategoryActions from '../actions/TodoCategoryActions';
 import TodoCategoryItem from './TodoCategoryItem';
 
 export default class TodoCategoryList extends Component {
@@ -29,7 +29,7 @@ export default class TodoCategoryList extends Component {
   }
 
   onClickAdd() {
-    TodoCategoryActionCreators.create({ name: 'New List', order: this.props.todoCategories.length });
+    TodoCategoryActions.create({ name: 'New List', order: this.props.todoCategories.length });
     this._state.created = false;
   }
 
@@ -38,9 +38,9 @@ export default class TodoCategoryList extends Component {
       const todoCategory = this.props.todoCategories[i];
 
       if (i === order) {
-        TodoCategoryActionCreators.destroy(id);
+        TodoCategoryActions.destroy(id);
       } else if (i > order) {
-        TodoCategoryActionCreators.update(todoCategory.id, {order: todoCategory.order - 1});
+        TodoCategoryActions.update(todoCategory.id, {order: todoCategory.order - 1});
       }
     }
   }
@@ -51,9 +51,9 @@ export default class TodoCategoryList extends Component {
         const todoCategory = this.props.todoCategories[i];
 
         if (i === from) {
-          TodoCategoryActionCreators.update(todoCategory.id, { order: to });
+          TodoCategoryActions.update(todoCategory.id, { order: to });
         } else if (i <= to) {
-          TodoCategoryActionCreators.update(todoCategory.id, { order: todoCategory.order - 1 });
+          TodoCategoryActions.update(todoCategory.id, { order: todoCategory.order - 1 });
         }
       }
     } else if (from > to) { // bottom to top
@@ -61,9 +61,9 @@ export default class TodoCategoryList extends Component {
         const todoCategory = this.props.todoCategories[i];
 
         if (i === from) {
-          TodoCategoryActionCreators.update(todoCategory.id, { order: to });
+          TodoCategoryActions.update(todoCategory.id, { order: to });
         } else if (i <= from) {
-          TodoCategoryActionCreators.update(todoCategory.id, { order: todoCategory.order + 1 });
+          TodoCategoryActions.update(todoCategory.id, { order: todoCategory.order + 1 });
         }
       }
     }

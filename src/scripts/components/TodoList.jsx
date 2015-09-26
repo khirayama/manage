@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TodoStore from '../stores/TodoStore';
-import TodoActionCreators from '../actions/TodoActionCreators';
+import TodoActions from '../actions/TodoActions';
 import TodoItem from './TodoItem';
 
 export default class TodoList extends Component {
@@ -42,7 +42,7 @@ export default class TodoList extends Component {
   }
 
   onClickAdd() {
-    TodoActionCreators.create({ text: `Hello World ${this.state.todos.length}`, categoryId: this.props.todoCategory.id, order: this.state.todos.length });
+    TodoActions.create({ text: `Hello World ${this.state.todos.length}`, categoryId: this.props.todoCategory.id, order: this.state.todos.length });
   }
 
   onClickDestroy(id, order) {
@@ -50,9 +50,9 @@ export default class TodoList extends Component {
       const todo = this.state.todos[i];
 
       if (i === order) {
-        TodoActionCreators.destroy(id);
+        TodoActions.destroy(id);
       } else if (i > order) {
-        TodoActionCreators.update(todo.id, {order: todo.order - 1});
+        TodoActions.update(todo.id, {order: todo.order - 1});
       }
     }
   }
@@ -63,9 +63,9 @@ export default class TodoList extends Component {
         const todo = this.state.todos[i];
 
         if (i === from) {
-          TodoActionCreators.update(todo.id, { order: to });
+          TodoActions.update(todo.id, { order: to });
         } else if (i <= to) {
-          TodoActionCreators.update(todo.id, { order: todo.order - 1 });
+          TodoActions.update(todo.id, { order: todo.order - 1 });
         }
       }
     } else if (from > to) { // bottom to top
@@ -73,9 +73,9 @@ export default class TodoList extends Component {
         const todo = this.state.todos[i];
 
         if (i === from) {
-          TodoActionCreators.update(todo.id, { order: to });
+          TodoActions.update(todo.id, { order: to });
         } else if (i <= from) {
-          TodoActionCreators.update(todo.id, { order: todo.order + 1 });
+          TodoActions.update(todo.id, { order: todo.order + 1 });
         }
       }
     }

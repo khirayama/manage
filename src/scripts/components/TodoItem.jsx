@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TodoActionCreators from '../actions/TodoActionCreators';
+import TodoActions from '../actions/TodoActions';
 import { TextToScheduleParser } from '../utils/Utils';
 import { ENTER } from '../constants/constants';
 
@@ -15,7 +15,7 @@ export default class TodoItem extends Component {
   }
 
   onClickDone(id, completed) {
-    TodoActionCreators.update(id, { completed: !completed });
+    TodoActions.update(id, { completed: !completed });
   }
 
   onChangeText(event) {
@@ -29,7 +29,7 @@ export default class TodoItem extends Component {
   }
 
   determineValue(id, text) {
-    TodoActionCreators.update(id, { text: text });
+    TodoActions.update(id, { text: text });
     this.setState({ editing: false });
   }
 

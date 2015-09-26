@@ -74,11 +74,6 @@ export default class MicroEmitter {
   }
 
   /* Alias of emit */
-  dispatch(type, payload) {
-    return this.emit(type, payload);
-  }
-
-  /* Alias of emit */
   trigger(type, payload) {
     return this.emit(type, payload);
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TodoCategoryActionCreators from '../actions/TodoCategoryActionCreators';
+import TodoCategoryActions from '../actions/TodoCategoryActions';
 import { ENTER } from '../constants/constants';
 
 export default class TodoCategoryItem extends Component {
@@ -38,7 +38,7 @@ export default class TodoCategoryItem extends Component {
   }
 
   determineValue(id, name) {
-    TodoCategoryActionCreators.update(id, { name: name });
+    TodoCategoryActions.update(id, { name: name });
     this.setState({ editing: false });
   }
 
