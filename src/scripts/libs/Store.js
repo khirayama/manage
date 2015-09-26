@@ -1,16 +1,16 @@
 import 'babel/polyfill';
 import MicroEmitter from './MicroEmitter';
 
-const changeEvent = 'CHANGE';
+const EVENT_CHANGE = 'CHANGE_STORE';
 // FIXME: for test...
-// let localStorage;
-// let window;
+// let localStorage, window;
 // if (!window) localStorage = localStorage || {getItem: () => { return '{}'; }, setItem: () => {}};
 
-export default class Store extends MicroEmitter {
-  constructor() {
+export default class MicroStore extends MicroEmitter {
+  constructor(options = { localStorage: true }) {
     super();
-    this._data = this._load() || {};
+    this._localStorage = options.localStorage;
+    this._data = (this._localStorage) ? this._load() || {} : {};
     this._tmp = [];
     this._filtering = false;
     this.defaults = {};
@@ -23,20 +23,25 @@ export default class Store extends MicroEmitter {
 
     this._data[id] = Object.assign({}, { id: id, createdAt: now, updatedAt: now }, this.defaults, entity);
     this.dispatchChange();
-    this._save();
+    if (this._localStorage) this._save();
   }
 
   update(id, updates) {
     const now = new Date();
     this._data[id] = Object.assign({ updatedAt: now }, this._data[id], updates);
     this.dispatchChange();
-    this._save();
+    if (this._localStorage) this._save();
   }
 
   destroy(id) {
     delete this._data[id];
     this.dispatchChange();
-    this._save();
+    if (this._localStorage) this._save();
+  }
+
+  get(id) {
+    if (id) return this._data[id];
+    return this._getAll();
   }
 
   _getAll() {
@@ -53,11 +58,6 @@ export default class Store extends MicroEmitter {
     return data;
   }
 
-  get(id) {
-    if (id) return this._data[id];
-    return this._getAll();
-  }
-
   _save() {
     const key = this.constructor.name;
 
@@ -70,7 +70,6 @@ export default class Store extends MicroEmitter {
     return JSON.parse(localStorage.getItem(key));
   }
 
-  // public methods
   order(key, reverse) {
     if (!this._filtering) {
       this._filtering = true;
@@ -165,32 +164,35 @@ export default class Store extends MicroEmitter {
 
   // basic method
   dispatchChange() {
-    this.dispatch(changeEvent);
+    this.emit(EVENT_CHANGE);
   }
 
-  dispatchCustomEvent(eventType) {
-    this.dispatch(eventType);
+  dispatchCustomEvent(type) {
+    this.emit(type);
   }
 
-  addChangeListener(callback) {
-    this.on(changeEvent, callback);
+  addChangeListener(listener) {
+    this.addListener(EVENT_CHANGE, listener);
   }
 
-  addCustomEventListener(eventType, callback) {
-    this.on(eventType, callback);
+  removeChangeListener(listener) {
+    this.removeListener(EVENT_CHANGE, listener);
   }
 
-  removeChangeListener(callback) {
-    this.off(changeEvent, callback);
+  addCustomEventListener(type, listener) {
+    this.addListener(type, listener);
+  }
+
+  removeCustomEventListener(type, listener) {
+    this.removeListener(type, listener);
   }
 
   register(dispatcher, actions) {
-    // FIXME: I wan't create a function in for-block.
     for (const key in actions) {
       if (!key) break;
       const action = actions[key];
 
-      dispatcher.on(key, (data) => {
+      dispatcher.addListener(key, (data) => {
         action(data);
       });
     }

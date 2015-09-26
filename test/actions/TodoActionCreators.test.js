@@ -11,7 +11,7 @@ describe('TodoActionCreators', () => {
   beforeEach(() => {
     // FIXME: remove past state.
     TodoStore._data = {};
-    TodoActionCreators.create({text: 'Hello World'});
+    TodoActionCreators.create({ text: 'Hello World' });
   });
   describe('create', () => {
     it('when empty', () => {

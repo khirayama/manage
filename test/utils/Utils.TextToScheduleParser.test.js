@@ -26,7 +26,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 9);
       assert(item.schedule.date === 28);
       assert(item.schedule.day === 1);
-      assert(item.schedule.completed === false);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('monday meets my friend', () => {
       item = utils.parseTextToItem('monday meets my friend', createdAt);
@@ -35,7 +36,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 9);
       assert(item.schedule.date === 28);
       assert(item.schedule.day === 1);
-      assert(item.schedule.completed === false);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('fri meets my friend', () => {
       item = utils.parseTextToItem('fri meets my friend', createdAt);
@@ -44,7 +46,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 9);
       assert(item.schedule.date === 25);
       assert(item.schedule.day === 5);
-      assert(item.schedule.completed === false);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('friday meets my friend', () => {
       item = utils.parseTextToItem('friday meets my friend', createdAt);
@@ -53,7 +56,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 9);
       assert(item.schedule.date === 25);
       assert(item.schedule.day === 5);
-      assert(item.schedule.completed === false);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('this mon meets my friend', () => {
       item = utils.parseTextToItem('this mon meets my friend', createdAt);
@@ -62,7 +66,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 9);
       assert(item.schedule.date === 21);
       assert(item.schedule.day === 1);
-      assert(item.schedule.completed === true);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('this monday meets my friend', () => {
       item = utils.parseTextToItem('this monday meets my friend', createdAt);
@@ -71,7 +76,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 9);
       assert(item.schedule.date === 21);
       assert(item.schedule.day === 1);
-      assert(item.schedule.completed === true);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('this fri meets my friend', () => {
       item = utils.parseTextToItem('this fri meets my friend', createdAt);
@@ -80,7 +86,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 9);
       assert(item.schedule.date === 25);
       assert(item.schedule.day === 5);
-      assert(item.schedule.completed === false);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('this friday meets my friend', () => {
       item = utils.parseTextToItem('this friday meets my friend', createdAt);
@@ -89,7 +96,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 9);
       assert(item.schedule.date === 25);
       assert(item.schedule.day === 5);
-      assert(item.schedule.completed === false);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('next mon meets my friend', () => {
       item = utils.parseTextToItem('next mon meets my friend', createdAt);
@@ -98,7 +106,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 9);
       assert(item.schedule.date === 28);
       assert(item.schedule.day === 1);
-      assert(item.schedule.completed === false);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('next monday meets my friend', () => {
       item = utils.parseTextToItem('next monday meets my friend', createdAt);
@@ -107,7 +116,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 9);
       assert(item.schedule.date === 28);
       assert(item.schedule.day === 1);
-      assert(item.schedule.completed === false);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('next fri meets my friend', () => {
       item = utils.parseTextToItem('next fri meets my friend', createdAt);
@@ -116,7 +126,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 10);
       assert(item.schedule.date === 2);
       assert(item.schedule.day === 5);
-      assert(item.schedule.completed === false);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('next friday meets my friend', () => {
       item = utils.parseTextToItem('next friday meets my friend', createdAt);
@@ -125,7 +136,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 10);
       assert(item.schedule.date === 2);
       assert(item.schedule.day === 5);
-      assert(item.schedule.completed === false);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('9/22 meets my friend', () => {
       item = utils.parseTextToItem('9/22 meets my friend', createdAt);
@@ -134,7 +146,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 9);
       assert(item.schedule.date === 22);
       assert(item.schedule.day === 4);
-      assert(item.schedule.completed === false);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('10/8 meets my friend', () => {
       item = utils.parseTextToItem('10/8 meets my friend', createdAt);
@@ -143,7 +156,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 10);
       assert(item.schedule.date === 8);
       assert(item.schedule.day === 4);
-      assert(item.schedule.completed === false);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('10/22 meets my friend', () => {
       item = utils.parseTextToItem('10/22 meets my friend', createdAt);
@@ -152,7 +166,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 10);
       assert(item.schedule.date === 22);
       assert(item.schedule.day === 4);
-      assert(item.schedule.completed === false);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('02/06 meets my friend', () => {
       item = utils.parseTextToItem('02/06 meets my friend', createdAt);
@@ -161,7 +176,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 2);
       assert(item.schedule.date === 6);
       assert(item.schedule.day === 6);
-      assert(item.schedule.completed === false);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('2015/10/22 meets my friend', () => {
       item = utils.parseTextToItem('2015/10/22 meets my friend', createdAt);
@@ -170,7 +186,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 10);
       assert(item.schedule.date === 22);
       assert(item.schedule.day === 4);
-      assert(item.schedule.completed === false);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
     it('2016/10/22 meets my friend', () => {
       item = utils.parseTextToItem('2016/10/22 meets my friend', createdAt);
@@ -179,7 +196,8 @@ describe('TextToScheduleParser', () => {
       assert(item.schedule.month === 10);
       assert(item.schedule.date === 22);
       assert(item.schedule.day === 6);
-      assert(item.schedule.completed === false);
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+      assert(item.schedule.completed === moment(schedule).isBefore());
     })
   });
 });

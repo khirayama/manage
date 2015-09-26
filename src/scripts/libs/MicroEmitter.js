@@ -46,7 +46,7 @@ export default class MicroEmitter {
    * @return {Object} Current instance of MicroEmitter for chaining.
    */
   removeListener(type, listener) { // alias
-    if (!this._listeners[type].length) return;
+    if (!this._listeners[type].length) return this;
     for (let i = 0; i < this._listeners[type].length; i++) {
       if (this._listeners[type][i].listener === listener) this._listeners[type].splice(i, 1);
     }
@@ -65,7 +65,7 @@ export default class MicroEmitter {
    * @return {Object} Current instance of MicroEmitter for chaining.
    */
   emit(type, payload) {
-    if (!this._listeners[type]) return;
+    if (!this._listeners[type]) return this;
     for (let i = 0; i < this._listeners[type].length; i++) {
       this._listeners[type][i].listener.apply(this, [payload]);
       if (this._listeners[type][i].isOnce) this._listeners[type].splice(i, 1);

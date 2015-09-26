@@ -74,7 +74,7 @@ export class TextToScheduleParser {
       } else {
         _dayNum = this.getDayNum(dateText);
         if (_dayNum !== -1) date = moment(referenceDate).day(_dayNum);
-        if (date && date.isBefore()) date = date.add(7, 'days');
+        if (date && date.isBefore(referenceDate)) date = date.add(7, 'days');
       }
       if (date) schedule = this.getScheduleItem(date);
     } else {
@@ -100,16 +100,16 @@ export class TextToScheduleParser {
 
   getScheduleItem(date) {
     const _year = date.year();
-    const _month = date.month() + 1;
+    const _month = date.month();
     const _date = date.date();
     const _hour = date.hour();
     const _day = date.day();
     const _isBefore = date.isBefore();
     const schedule = {
       year: _year,
-      month: _month,
-      monthName: this.monthList[_month - 1],
-      shortMonthName: this.monthShortList[_month - 1],
+      month: _month + 1,
+      monthName: this.monthList[_month],
+      shortMonthName: this.monthShortList[_month],
       date: _date,
       hour: _hour,
       day: _day,
