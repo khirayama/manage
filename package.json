@@ -38,7 +38,7 @@
     "gulp-watchify": "^0.5.0",
     "jsdom": "^6.5.1",
     "micro-emitter": "^1.0.1",
-    "micro-store": "^0.1.8",
+    "micro-store": "^0.1.10",
     "mocha": "^2.3.3",
     "moment": "^2.10.6",
     "node-sass": "^3.3.3",

@@ -7,11 +7,11 @@ import assert  from 'power-assert';
 import { TodoStore } from '../../src/scripts/stores/TodoStore';
 import TodoActions  from '../../src/scripts/actions/TodoActions';
 
-let todoStore = new TodoStore({ localStorage: false });
+let todoStore;
 
 describe('TodoActions', () => {
   beforeEach(() => {
-    todoStore._data = {};
+    todoStore = new TodoStore({ localStorage: false });
     TodoActions.create({ text: 'Hello World' });
   });
   describe('create', () => {
