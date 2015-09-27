@@ -1,11 +1,10 @@
-import 'babel/polyfill';
-import Store from '../libs/Store';
+import MicroStore from 'micro-store';
 import AppDispatcher from '../dispatchers/AppDispatcher';
 import { todoEvents } from '../constants/constants';
 
-class TodoStore extends Store {
-  constructor() {
-    super();
+export class TodoStore extends MicroStore {
+  constructor(options) {
+    super(options);
     this.defaults = {
       text: '',
       completed: false,

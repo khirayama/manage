@@ -1,5 +1,4 @@
-import 'babel/polyfill';
-import Store from '../libs/Store';
+import MicroStore from 'micro-store';
 import AppDispatcher from '../dispatchers/AppDispatcher';
 import { todoCategoryEvents } from '../constants/constants';
 
@@ -9,7 +8,7 @@ const todoCategory = {
   SCHEDULE: 'SCHEDULE',
 };
 
-class TodoCategoryStore extends Store {
+export class TodoCategoryStore extends MicroStore {
   constructor() {
     super();
     this.defaults = {
