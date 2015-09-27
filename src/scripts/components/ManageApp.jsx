@@ -9,14 +9,15 @@ export default class ManageApp extends Component {
     const _todoCategories = TodoCategoryStore.order('order').get();
 
     this.state = { todoCategories: _todoCategories };
+    this._onUpdate = this.onUpdate.bind(this);
   }
 
   componentDidMount() {
-    TodoCategoryStore.addChangeListener(() => { this.onUpdate(); });
+    TodoCategoryStore.addChangeListener(this._onUpdate);
   }
 
   componentWillUnmount() {
-    TodoCategoryStore.removeChangeListener(() => { this.onUpdate(); });
+    TodoCategoryStore.removeChangeListener(this._onUpdate);
   }
 
   onUpdate() {

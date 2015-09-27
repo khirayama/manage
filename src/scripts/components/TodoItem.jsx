@@ -8,10 +8,24 @@ export default class TodoItem extends Component {
     super(props);
 
     this.state = { text: this.props.todo.text, editing: false };
+    this._state = { isInputShowing: false };
+  }
+
+  componentDidMount() {
+    if (!this.props.created) this.startEditing();
+  }
+
+  componentDidUpdate() {
+    if (this._state.isInputShowing) {
+      const input = React.findDOMNode(this).querySelector('input');
+
+      if (input) React.findDOMNode(this).querySelector('input').select();
+      this._state.isInputShowing = false;
+    }
   }
 
   onClickLabel() {
-    this.setState({ editing: true });
+    this.startEditing();
   }
 
   onClickDone(id, completed) {
@@ -33,6 +47,11 @@ export default class TodoItem extends Component {
     this.setState({ editing: false });
   }
 
+  startEditing() {
+    this.setState({ editing: true });
+    this._state.isInputShowing = true;
+  }
+
   render() {
     const todo = this.props.todo;
     const textToScheduleParser = new TextToScheduleParser();
@@ -40,7 +59,16 @@ export default class TodoItem extends Component {
     let textComponent;
 
     if (this.state.editing) {
-      textComponent = <input value={this.state.text} onChange={(event) => { this.onChangeText(event); }} onKeyUp={(event) => { this.onKeyUpText(todo.id, event); }} onBlur={() => { this.determineValue(todo.id, this.state.text); }} autoFocus />;
+      textComponent = (
+        <input
+          autoFocus
+          placeholder="New Item"
+          value={this.state.text}
+          onChange={(event) => { this.onChangeText(event); }}
+          onKeyUp={(event) => { this.onKeyUpText(todo.id, event); }}
+          onBlur={() => { this.determineValue(todo.id, this.state.text); }}
+        />
+      );
     } else {
       const scheduleLabelComponent = (item.schedule) ? <time>{item.schedule.year}/{item.schedule.month}/{item.schedule.date} {item.schedule.shortDayName}.</time> : false;
       textComponent = (
@@ -81,4 +109,5 @@ TodoItem.propTypes = {
   _onDragStart: React.PropTypes.func,
   _onDragEnter: React.PropTypes.func,
   _onDragEnd: React.PropTypes.func,
+  created: React.PropTypes.bool,
 };

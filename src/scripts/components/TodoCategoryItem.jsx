@@ -7,7 +7,7 @@ export default class TodoCategoryItem extends Component {
     super(props);
 
     this.state = { name: this.props.todoCategory.name, editing: false };
-    this._state = { showInput: false };
+    this._state = { isInputShowing: false };
   }
 
   componentDidMount() {
@@ -15,11 +15,11 @@ export default class TodoCategoryItem extends Component {
   }
 
   componentDidUpdate() {
-    if (this._state.showInput) {
+    if (this._state.isInputShowing) {
       const input = React.findDOMNode(this).querySelector('input');
 
       if (input) React.findDOMNode(this).querySelector('input').select();
-      this._state.showInput = false;
+      this._state.isInputShowing = false;
     }
   }
 
@@ -44,7 +44,7 @@ export default class TodoCategoryItem extends Component {
 
   startEditing() {
     this.setState({ editing: true });
-    this._state.showInput = true;
+    this._state.isInputShowing = true;
   }
 
   render() {
@@ -52,7 +52,16 @@ export default class TodoCategoryItem extends Component {
     let nameComponent;
 
     if (this.state.editing) {
-      nameComponent = <input value={this.state.name} onChange={(event) => { this.onChangeName(event); }} onKeyUp={(event) => { this.onKeyUpName(todoCategory.id, event); }} onBlur={() => { this.determineValue(todoCategory.id, this.state.name); }} placeholder="New List" autoFocus />;
+      nameComponent = (
+        <input
+          autoFocus
+          placeholder="New List"
+          value={this.state.name}
+          onChange={(event) => { this.onChangeName(event); }}
+          onKeyUp={(event) => { this.onKeyUpName(todoCategory.id, event); }}
+          onBlur={() => { this.determineValue(todoCategory.id, this.state.name); }}
+        />
+      );
     } else {
       nameComponent = <label onClick={() => { this.onClickLabel(); }} >{ this.state.name }</label>;
     }

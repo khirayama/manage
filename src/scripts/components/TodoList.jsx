@@ -9,15 +9,20 @@ export default class TodoList extends Component {
     const _todos = TodoStore.where({ categoryId: this.props.todoCategory.id }).order('order').get();
 
     this.state = { todos: _todos };
-    this._state = { from: 0, to: 0 };
+    this._state = { from: 0, to: 0, created: true };
+    this._onUpdate = this.onUpdate.bind(this);
   }
 
   componentDidMount() {
-    TodoStore.addChangeListener(() => { this.onUpdate(); });
+    TodoStore.addChangeListener(this._onUpdate);
+  }
+
+  componentDidUpdate() {
+    this._state.created = true;
   }
 
   componentWillUnmount() {
-    TodoStore.removeChangeListener(() => { this.onUpdate(); });
+    TodoStore.removeChangeListener(this._onUpdate);
   }
 
   onUpdate() {
@@ -43,6 +48,7 @@ export default class TodoList extends Component {
 
   onClickAdd() {
     TodoActions.create({ text: `Hello World ${this.state.todos.length}`, categoryId: this.props.todoCategory.id, order: this.state.todos.length });
+    this._state.created = false;
   }
 
   onClickDestroy(id, order) {
@@ -89,6 +95,7 @@ export default class TodoList extends Component {
         <TodoItem
           key={todo.id}
           todo={todo}
+          created={this._state.created}
           _onClickDestroy={() => { this.onClickDestroy(todo.id, todo.order); }}
           _onDragStart={() => { this.onDragStart(todo.order); }}
           _onDragEnter={() => { this.onDragEnter(todo.order); }}
