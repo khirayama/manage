@@ -6,30 +6,11 @@ export default class SortableList extends Component {
     this._state = { from: 0, to: 0, created: true };
   }
 
-  componentDidUpdate() {
-    this._state.created = true;
+  setPrivateState(key, value) {
+    this._state[key] = value;
   }
 
-  onDragStart(order) {
-    this._state.from = order;
-  }
-
-  onDragEnter(order) {
-    this._state.to = order;
-  }
-
-  onDragEnd(actions, data) {
-    const from = this._state.from;
-    const to = this._state.to;
-
-    this.sortItem(actions, data, from, to);
-  }
-
-  onClickAdd() {
-    this._state.created = false;
-  }
-
-  onClickDestroy(actions, data, id, order) {
+  destroyItem(actions, data, id, order) {
     for (let index = 0; index < data.length; index++) {
       const todo = data[index];
 
@@ -41,7 +22,14 @@ export default class SortableList extends Component {
     }
   }
 
-  sortItem(actions, data, from, to) {
+  sortItems(actions, data) {
+    const from = this._state.from;
+    const to = this._state.to;
+
+    this._sortItems(actions, data, from, to);
+  }
+
+  _sortItems(actions, data, from, to) {
     if (from < to) { // top to bottom
       for (let index = from; index <= to; index++) {
         const todo = data[index];

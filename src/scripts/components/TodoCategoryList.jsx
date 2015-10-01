@@ -8,9 +8,29 @@ export default class TodoCategoryList extends SortableList {
     super(props);
   }
 
+  componentDidUpdate() {
+    this.setPrivateStateCreated('created', true);
+  }
+
   onClickAdd() {
     TodoCategoryActions.create({ name: '', order: this.props.todoCategories.length });
-    super.onClickAdd();
+    this.setPrivateStateCreated('created', false);
+  }
+
+  onClickDestroy(id, order) {
+    this.destroyItem(TodoCategoryActions, this.props.todoCategories, id, order);
+  }
+
+  onDragStart(order) {
+    this.setPrivateState('from', order);
+  }
+
+  onDragEnter(order) {
+    this.setPrivateState('to', order);
+  }
+
+  onDragEnd() {
+    this.sortItems(TodoCategoryActions. this.props.todoCategories);
   }
 
   render() {
@@ -22,10 +42,10 @@ export default class TodoCategoryList extends SortableList {
           key={todoCategory.id}
           todoCategory={todoCategory}
           created={this._state.created}
-          _onClickDestroy={() => { this.onClickDestroy(TodoCategoryActions, this.props.todoCategories, todoCategory.id, todoCategory.order); }}
+          _onClickDestroy={() => { this.onClickDestroy(todoCategory.id, todoCategory.order); }}
           _onDragStart={() => { this.onDragStart(todoCategory.order); }}
           _onDragEnter={() => { this.onDragEnter(todoCategory.order); }}
-          _onDragEnd={() => { this.onDragEnd(TodoCategoryActions, this.props.todoCategories); }}
+          _onDragEnd={() => { this.onDragEnd(); }}
         />
       );
     });

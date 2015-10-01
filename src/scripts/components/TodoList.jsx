@@ -17,6 +17,10 @@ export default class TodoList extends SortableList {
     TodoStore.addChangeListener(this._onUpdate);
   }
 
+  componentDidUpdate() {
+    this.setPrivateState('created', true);
+  }
+
   componentWillUnmount() {
     TodoStore.removeChangeListener(this._onUpdate);
   }
@@ -29,7 +33,23 @@ export default class TodoList extends SortableList {
 
   onClickAdd() {
     TodoActions.create({ text: '', categoryId: this.props.todoCategory.id, order: this.state.todos.length });
-    super.onClickAdd();
+    this.setPrivateState('created', false);
+  }
+
+  onClickDestroy(id, order) {
+    this.destroyItem(TodoActions, this.state.todos, id, order);
+  }
+
+  onDragStart(order) {
+    this.setPrivateState('from', order);
+  }
+
+  onDragEnter(order) {
+    this.setPrivateState('to', order);
+  }
+
+  onDragEnd() {
+    this.sortItems(TodoActions. this.state.todos);
   }
 
   render() {
@@ -41,10 +61,10 @@ export default class TodoList extends SortableList {
           key={todo.id}
           todo={todo}
           created={this._state.created}
-          _onClickDestroy={() => { this.onClickDestroy(TodoActions, this.state.todos, todo.id, todo.order); }}
+          _onClickDestroy={() => { this.onClickDestroy(todo.id, todo.order); }}
           _onDragStart={() => { this.onDragStart(todo.order); }}
           _onDragEnter={() => { this.onDragEnter(todo.order); }}
-          _onDragEnd={() => { this.onDragEnd(TodoActions, this.state.todos); }}
+          _onDragEnd={() => { this.onDragEnd(); }}
         />
       );
     });
