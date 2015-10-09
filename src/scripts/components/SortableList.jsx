@@ -32,22 +32,22 @@ export default class SortableList extends Component {
   _sortItems(actions, data, from, to) {
     if (from < to) { // top to bottom
       for (let index = from; index <= to; index++) {
-        const todo = data[index];
+        const item = data[index];
 
         if (index === from) {
-          actions.update(todo.id, { order: to });
+          actions.update(item.id, { order: to });
         } else if (index <= to) {
-          actions.update(todo.id, { order: todo.order - 1 });
+          actions.update(item.id, { order: item.order - 1 });
         }
       }
     } else if (from > to) { // bottom to top
       for (let index = to; index <= from; index++) {
-        const todo = data[index];
+        const item = data[index];
 
         if (index === from) {
-          actions.update(todo.id, { order: to });
+          actions.update(item.id, { order: to });
         } else if (index <= from) {
-          actions.update(todo.id, { order: todo.order + 1 });
+          actions.update(item.id, { order: item.order + 1 });
         }
       }
     }

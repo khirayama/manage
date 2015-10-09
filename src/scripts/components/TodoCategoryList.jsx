@@ -9,12 +9,12 @@ export default class TodoCategoryList extends SortableList {
   }
 
   componentDidUpdate() {
-    this.setPrivateStateCreated('created', true);
+    this.setPrivateState('created', true);
   }
 
   onClickAdd() {
     TodoCategoryActions.create({ name: '', order: this.props.todoCategories.length });
-    this.setPrivateStateCreated('created', false);
+    this.setPrivateState('created', false);
   }
 
   onClickDestroy(id, order) {
@@ -30,7 +30,7 @@ export default class TodoCategoryList extends SortableList {
   }
 
   onDragEnd() {
-    this.sortItems(TodoCategoryActions. this.props.todoCategories);
+    this.sortItems(TodoCategoryActions, this.props.todoCategories);
   }
 
   render() {

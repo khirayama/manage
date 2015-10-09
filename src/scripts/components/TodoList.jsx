@@ -49,7 +49,7 @@ export default class TodoList extends SortableList {
   }
 
   onDragEnd() {
-    this.sortItems(TodoActions. this.state.todos);
+    this.sortItems(TodoActions, this.state.todos);
   }
 
   render() {

@@ -1,6 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ManageApp from './components/ManageApp';
 
 (() => {
-  React.render(<ManageApp />, document.querySelector('#manage-app'));
+  ReactDOM.render(<ManageApp />, document.querySelector('#manage-app'));
 })();

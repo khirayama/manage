@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import TodoActions from '../actions/TodoActions';
 import { TextToScheduleParser } from '../utils/Utils';
 import { ENTER } from '../constants/constants';
@@ -17,9 +18,9 @@ export default class TodoItem extends Component {
 
   componentDidUpdate() {
     if (this._state.isInputShowing) {
-      const input = React.findDOMNode(this).querySelector('input');
+      const input = ReactDOM.findDOMNode(this).querySelector('input');
 
-      if (input) React.findDOMNode(this).querySelector('input').select();
+      if (input) ReactDOM.findDOMNode(this).querySelector('input').select();
       this._state.isInputShowing = false;
     }
   }
