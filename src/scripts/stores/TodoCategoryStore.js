@@ -30,7 +30,7 @@ export class TodoCategoryStore extends MicroStore {
   }
 
   init() {
-    const categories = this.get();
+    const categories = this.all();
 
     if (!categories.length) {
       this.create({ name: todoCategory.TODAY, order: 0 });
