@@ -36,7 +36,7 @@
     "gulp-plumber": "^1.0.1",
     "gulp-sass": "^2.0.4",
     "gulp-watchify": "^0.5.0",
-    "jsdom": "^7.0.1",
+    "jsdom": "^7.0.2",
     "micro-emitter": "^1.0.7",
     "micro-store": "^0.3.1",
     "mocha": "^2.3.3",
