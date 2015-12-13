@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import TodoActions from '../actions/TodoActions';
-import { TextToScheduleParser } from '../utils/Utils';
+import { parseTextToItem } from '../utils/Utils';
 import { ENTER } from '../constants/constants';
 
 export default class TodoItem extends Component {
@@ -55,8 +55,7 @@ export default class TodoItem extends Component {
 
   render() {
     const todo = this.props.todo;
-    const textToScheduleParser = new TextToScheduleParser();
-    const item = textToScheduleParser.parseTextToItem(this.props.todo.text);
+    const item = parseTextToItem(this.props.todo.text);
     let textComponent;
 
     if (this.state.editing) {

@@ -1,5 +1,9 @@
-import App from './app';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import ManageApp from './components/ManageApp';
+
 
 window.addEventListener('load', () => {
-  new App();
+  ReactDOM.render(<ManageApp />, document.querySelector('#manage-app'));
 });

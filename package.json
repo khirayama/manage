@@ -15,7 +15,7 @@
     "server": "browser-sync start --server \"dist\" --files \"src/**/*.js\", \"src/**/*.sass\", \"src/**/*.jade\" --port 3000 --reload-delay 300 --no-notify",
     "lint": "eslint src --ext=js --ext=jsx",
     "develop": "npm run watch & npm run server",
-    "start": "npm run watch",
+    "start": "npm run develop",
     "test": "mocha --require=babel-core/register"
   },
   "author": "",
