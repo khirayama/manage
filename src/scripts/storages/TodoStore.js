@@ -1,8 +1,8 @@
-import MicroStore from 'micro-store';
+import MicroStorage from './MicroStorage';
 import AppDispatcher from '../dispatchers/AppDispatcher';
 import { todoEvents } from '../constants/constants';
 
-export class TodoStore extends MicroStore {
+export class TodoStorage extends MicroStorage {
   constructor(options) {
     super(options);
     this.defaults = {
@@ -24,4 +24,4 @@ export class TodoStore extends MicroStore {
     });
   }
 }
-export default new TodoStore();
+export default new TodoStorage();

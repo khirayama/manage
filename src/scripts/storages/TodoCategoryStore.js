@@ -1,4 +1,4 @@
-import MicroStore from 'micro-store';
+import MicroStorage from './MicroStorage';
 import AppDispatcher from '../dispatchers/AppDispatcher';
 import { todoCategoryEvents } from '../constants/constants';
 
@@ -8,7 +8,7 @@ const todoCategory = {
   SCHEDULE: 'SCHEDULE',
 };
 
-export class TodoCategoryStore extends MicroStore {
+export class TodoCategoryStorage extends MicroStorage {
   constructor() {
     super();
     this.defaults = {
@@ -39,4 +39,4 @@ export class TodoCategoryStore extends MicroStore {
     }
   }
 }
-export default new TodoCategoryStore();
+export default new TodoCategoryStorage();

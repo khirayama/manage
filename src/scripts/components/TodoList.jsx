@@ -1,5 +1,5 @@
 import React from 'react';
-import TodoStore from '../stores/TodoStore';
+import TodoStore from '../storages/TodoStore';
 import TodoActions from '../actions/TodoActions';
 import TodoItem from './TodoItem';
 import SortableList from './SortableList';

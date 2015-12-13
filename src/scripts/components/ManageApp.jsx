@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TodoCategoryStore from '../stores/TodoCategoryStore';
+import TodoCategoryStore from '../storages/TodoCategoryStore';
 import TodoList from './TodoList';
 import TodoCategoryList from './TodoCategoryList';
 
