@@ -16,7 +16,7 @@
     "lint": "eslint src --ext=js --ext=jsx",
     "develop": "npm run watch & npm run server",
     "start": "npm run develop",
-    "test": "mocha --require=babel-core/register"
+    "test": "mocha --require=babel-core/register test/**/*.js"
   },
   "author": "",
   "license": "ISC",

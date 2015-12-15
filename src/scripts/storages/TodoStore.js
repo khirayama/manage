@@ -11,17 +11,6 @@ export class TodoStorage extends MicroStorage {
       categoryId: null,
       order: 0,
     };
-    this.register(AppDispatcher, {
-      [todoEvents.CREATE]: (payload) => {
-        this.create(payload.entity);
-      },
-      [todoEvents.UPDATE]: (payload) => {
-        this.update(payload.id, payload.updates);
-      },
-      [todoEvents.DESTROY]: (payload) => {
-        this.destroy(payload.id);
-      },
-    });
   }
 }
 export default new TodoStorage();

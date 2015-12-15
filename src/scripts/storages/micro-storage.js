@@ -1,47 +1,14 @@
-import MicroEmitter from 'micro-emitter';
-
 const EVENT_CHANGE = 'CHANGE_STORE';
 
 if (global) global.localStorage = global.localStorage || { getItem: () => { return '{}'; }, setItem: () => {} };
 
-export default class MicroStore extends MicroEmitter {
+export default class MicroStorage {
   constructor(options = { localStorage: true }) {
-    super();
     this._localStorage = options.localStorage;
     this._data = (this._localStorage) ? this._load() || {} : {};
     this._filteredData = [];
     this._filtering = false;
     this.defaults = {};
-  }
-
-  setData(key, value) {
-    if (
-      key === 'data' ||
-      key === 'localStorage' ||
-      key === 'filteredData' ||
-      key === 'filtering' ||
-      key === 'defaults'
-    ) {
-      console.warn('Cant set value with this key. This key is reserved word in MicroStore.');
-      return;
-    }
-    this[`_${key}`] = value;
-    this.dispatchChange();
-    if (this._localStorage) this._save();
-  }
-
-  getData(key) {
-    if (
-      key === 'data' ||
-      key === 'localStorage' ||
-      key === 'filteredData' ||
-      key === 'filtering' ||
-      key === 'defaults'
-    ) {
-      console.warn('Cant get data by this key. This key is reserved word in MicroStore');
-      return;
-    }
-    return this._loadValue(key) || this[`_${key}`];
   }
 
   // CRUD method
@@ -50,20 +17,24 @@ export default class MicroStore extends MicroEmitter {
     const id = (+now + Math.floor(Math.random() * 999999)).toString(36);
 
     this._data[id] = Object.assign({}, { id: id, createdAt: now, updatedAt: now }, this.defaults, entity);
-    this.dispatchChange();
     if (this._localStorage) this._save();
   }
 
   update(id, updates) {
     const now = new Date();
     this._data[id] = Object.assign({ updatedAt: now }, this._data[id], updates);
-    this.dispatchChange();
     if (this._localStorage) this._save();
   }
 
   destroy(id) {
     delete this._data[id];
-    this.dispatchChange();
+    if (this._localStorage) this._save();
+  }
+
+  drop() {
+    this._data = {};
+    this._filteredData = [];
+    this._filtering = false;
     if (this._localStorage) this._save();
   }
 
@@ -83,18 +54,10 @@ export default class MicroStore extends MicroEmitter {
     localStorage.setItem(key, JSON.stringify(this._data));
   }
 
-  _saveValue(key) {
-    localStorage.setItem(`${this.constructor.name}_${key}`, JSON.stringify(this._data));
-  }
-
   _load() {
     const key = this.constructor.name;
 
     return JSON.parse(localStorage.getItem(key));
-  }
-
-  _loadValue(key) {
-    localStorage.getItem(`${this.constructor.name}_${key}`);
   }
 
   order(key, reverse) {
@@ -162,66 +125,5 @@ export default class MicroStore extends MicroEmitter {
       arr.push(obj[key]);
     }
     return arr;
-  }
-
-  _checkType(target) {
-    const _type = toString.call(target);
-
-    switch (_type) {
-    case '[object Object]':
-      return 'Object';
-    case '[object Array]':
-      return 'Array';
-    case '[object Boolean]':
-      return 'Boolean';
-    case '[object Function]':
-      return 'Function';
-    case '[object Date]':
-      return 'Date';
-    case '[object JSON]':
-      return 'JSON';
-    case '[object String]':
-      return 'String';
-    case '[object Number]':
-      return 'Number';
-    default:
-      break;
-    }
-  }
-
-  // basic method
-  dispatchChange() {
-    this.emit(EVENT_CHANGE);
-  }
-
-  dispatchCustomEvent(type) {
-    this.emit(type);
-  }
-
-  addChangeListener(listener) {
-    this.addListener(EVENT_CHANGE, listener);
-  }
-
-  removeChangeListener(listener) {
-    this.removeListener(EVENT_CHANGE, listener);
-  }
-
-  addCustomEventListener(type, listener) {
-    this.addListener(type, listener);
-  }
-
-  removeCustomEventListener(type, listener) {
-    this.removeListener(type, listener);
-  }
-
-  register(dispatcher, actions) {
-    for (const key in actions) {
-      if (!key) break;
-      const action = actions[key];
-
-      dispatcher.addListener(key, (data) => {
-        action(data);
-      });
-    }
   }
 }
