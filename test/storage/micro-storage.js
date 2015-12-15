@@ -21,51 +21,68 @@ describe('MicroStorage', () => {
 
   describe('create', () => {
     it('an item', () => {
-      const todo = {
+      todoStorage.create({
         text: 'Hello World',
         completed: false,
-      };
-
-      todoStorage.create(todo);
+      });
 
       const todos = todoStorage.all();
-      const todo_ = todos[0];
+      const todo = todos[0];
 
       assert(1 === todos.length);
-      assert('Hello World' === todo_.text);
-      assert(false === todo_.completed);
-      assert(undefined !== todo_.id);
+      assert('Hello World' === todo.text);
+      assert(false === todo.completed);
+      assert(undefined !== todo.id);
     });
     it('an item with text', () => {
-      const todo = {
+      todoStorage.create({
         text: 'Hello World',
-      };
-
-      todoStorage.create(todo);
+      });
 
       const todos = todoStorage.all();
-      const todo_ = todos[0];
+      const todo = todos[0];
 
       assert(1 === todos.length);
-      assert('Hello World' === todo_.text);
-      assert(false === todo_.completed);
-      assert(undefined !== todo_.id);
+      assert('Hello World' === todo.text);
+      assert(false === todo.completed);
+      assert(undefined !== todo.id);
     });
     it('an item with completed', () => {
-      const todo = {
+      todoStorage.create({
         text: 'Hello World',
         completed: true,
-      };
-
-      todoStorage.create(todo);
+      });
 
       const todos = todoStorage.all();
-      const todo_ = todos[0];
+      const todo = todos[0];
 
       assert(1 === todos.length);
-      assert('Hello World' === todo_.text);
-      assert(true === todo_.completed);
-      assert(undefined !== todo_.id);
+      assert('Hello World' === todo.text);
+      assert(true === todo.completed);
+      assert(undefined !== todo.id);
+    });
+  });
+
+  describe('update', () => {
+    let todos;
+    let todo;
+
+    beforeEach(() => {
+      todoStorage.create({
+        text: 'Hello World',
+        completed: true,
+      });
+
+      todos = todoStorage.all();
+      todo = todos[0];
+    });
+
+    it('text', () => {
+      todo = todoStorage.update(todo.id, {
+        text: 'Hello New World',
+      });
+
+      assert('Hello New World' === todo.text);
     });
   });
 });

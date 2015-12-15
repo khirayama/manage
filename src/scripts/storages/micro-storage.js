@@ -18,12 +18,14 @@ export default class MicroStorage {
 
     this._data[id] = Object.assign({}, { id: id, createdAt: now, updatedAt: now }, this.defaults, entity);
     if (this._localStorage) this._save();
+    return this._data[id];
   }
 
   update(id, updates) {
     const now = new Date();
     this._data[id] = Object.assign({ updatedAt: now }, this._data[id], updates);
     if (this._localStorage) this._save();
+    return this._data[id];
   }
 
   destroy(id) {
