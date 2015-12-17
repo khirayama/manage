@@ -62,28 +62,6 @@ export default class MicroStorage {
     return JSON.parse(localStorage.getItem(key));
   }
 
-  order(key, reverse) {
-    if (!this._filtering) {
-      this._filtering = true;
-      this._filteredData = this._o2a(this._data);
-    }
-
-    this._filteredData.sort((itemA, itemB) => {
-      const valueX = itemA[key];
-      const valueY = itemB[key];
-
-      if (reverse) {
-        if (valueX > valueY) return -1;
-        if (valueX < valueY) return 1;
-        return 0;
-      }
-      if (valueX > valueY) return 1;
-      if (valueX < valueY) return -1;
-      return 0;
-    });
-    return this;
-  }
-
   where(statement) {
     if (!this._filtering) {
       this._filtering = true;
@@ -102,6 +80,28 @@ export default class MicroStorage {
       }
     }
     this._filteredData = data;
+    return this;
+  }
+
+  order(key, reverse = false) {
+    if (!this._filtering) {
+      this._filtering = true;
+      this._filteredData = this._o2a(this._data);
+    }
+
+    this._filteredData.sort((itemA, itemB) => {
+      const valueX = itemA[key];
+      const valueY = itemB[key];
+
+      if (reverse) {
+        if (valueX > valueY) return -1;
+        if (valueX < valueY) return 1;
+        return 0;
+      }
+      if (valueX > valueY) return 1;
+      if (valueX < valueY) return -1;
+      return 0;
+    });
     return this;
   }
 
