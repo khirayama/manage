@@ -264,4 +264,32 @@ describe('MicroStorage', () => {
       });
     });
   });
+
+  describe('limit', () => {
+    let todos;
+    let todo;
+
+    beforeEach(() => {
+      todoStorage.create({
+        text: 'Hello World',
+        completed: true,
+      });
+      todoStorage.create({
+        text: 'Hello World 2',
+        completed: true,
+      });
+      todoStorage.create({
+        text: 'Hello World 3',
+        completed: false,
+      });
+    });
+
+    it('top 2', () => {
+      todos = todoStorage.limit(2).get();
+
+      assert(todos.length === 2);
+      assert(todos[0].text === 'Hello World');
+      assert(todos[1].text === 'Hello World 2');
+    });
+  });
 });

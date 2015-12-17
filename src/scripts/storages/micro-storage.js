@@ -1,6 +1,6 @@
 const EVENT_CHANGE = 'CHANGE_STORE';
 
-if (global) global.localStorage = global.localStorage || { getItem: () => { return '{}'; }, setItem: () => {} };
+// if (global) global.localStorage = global.localStorage || { getItem: () => { return '{}'; }, setItem: () => {} };
 
 export default class MicroStorage {
   constructor(options = { localStorage: true }) {
@@ -43,11 +43,11 @@ export default class MicroStorage {
   get(id) {
     if (id) return this._data[id];
     this._filtering = false;
-    return this._o2a(this._filteredData);
+    return _o2a(this._filteredData);
   }
 
   all() {
-    return this._o2a(this._data);
+    return _o2a(this._data);
   }
 
   _save() {
@@ -65,7 +65,7 @@ export default class MicroStorage {
   where(statement) {
     if (!this._filtering) {
       this._filtering = true;
-      this._filteredData = this._o2a(this._data);
+      this._filteredData = _o2a(this._data);
     }
 
     const data = [];
@@ -86,7 +86,7 @@ export default class MicroStorage {
   order(key, reverse = false) {
     if (!this._filtering) {
       this._filtering = true;
-      this._filteredData = this._o2a(this._data);
+      this._filteredData = _o2a(this._data);
     }
 
     this._filteredData.sort((itemA, itemB) => {
@@ -108,7 +108,7 @@ export default class MicroStorage {
   limit(num) {
     if (!this._filtering) {
       this._filtering = true;
-      this._filteredData = this._o2a(this._data);
+      this._filteredData = _o2a(this._data);
     }
 
     const data = [];
@@ -118,14 +118,14 @@ export default class MicroStorage {
     this._filteredData = data;
     return this;
   }
+}
 
-  _o2a(obj) {
-    const arr = [];
+function _o2a(obj) {
+  const arr = [];
 
-    for (const key in obj) {
-      if (!key) break;
-      arr.push(obj[key]);
-    }
-    return arr;
+  for (const key in obj) {
+    if (!key) break;
+    arr.push(obj[key]);
   }
+  return arr;
 }
