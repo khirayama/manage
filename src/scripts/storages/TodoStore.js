@@ -9,7 +9,7 @@ export class TodoStorage extends MicroStorage {
       text: '',
       completed: false,
       categoryId: null,
-      order: 0,
+      order: null,
     };
   }
 }

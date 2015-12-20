@@ -2,7 +2,7 @@ import MicroStorage from './MicroStorage';
 import AppDispatcher from '../dispatchers/AppDispatcher';
 import { todoCategoryEvents } from '../constants/constants';
 
-const todoCategory = {
+const INITIAL_TODO_CATEGORIES = {
   TODAY: 'TODAY',
   LATER: 'LATER',
   SCHEDULE: 'SCHEDULE',
@@ -13,29 +13,18 @@ export class TodoCategoryStorage extends MicroStorage {
     super();
     this.defaults = {
       name: '',
-      order: 0,
+      order: null,
     };
-    this.register(AppDispatcher, {
-      [todoCategoryEvents.CREATE]: (payload) => {
-        this.create(payload.entity);
-      },
-      [todoCategoryEvents.UPDATE]: (payload) => {
-        this.update(payload.id, payload.updates);
-      },
-      [todoCategoryEvents.DESTROY]: (payload) => {
-        this.destroy(payload.id);
-      },
-    });
     this.init();
   }
 
   init() {
-    const categories = this.all();
+    const todoCategories = this.all();
 
-    if (!categories.length) {
-      this.create({ name: todoCategory.TODAY, order: 0 });
-      this.create({ name: todoCategory.LATER, order: 1 });
-      this.create({ name: todoCategory.SCHEDULE, order: 2 });
+    if (!todoCategories.length) {
+      this.create({ name: INITIAL_TODO_CATEGORIES.TODAY, order: 0 });
+      this.create({ name: INITIAL_TODO_CATEGORIES.LATER, order: 1 });
+      this.create({ name: INITIAL_TODO_CATEGORIES.SCHEDULE, order: 2 });
     }
   }
 }
