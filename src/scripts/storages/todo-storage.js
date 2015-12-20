@@ -1,4 +1,4 @@
-import MicroStorage from './MicroStorage';
+import MicroStorage from './micro-storage';
 import AppDispatcher from '../dispatchers/AppDispatcher';
 import { todoEvents } from '../constants/constants';
 
