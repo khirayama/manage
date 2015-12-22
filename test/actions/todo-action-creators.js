@@ -22,6 +22,7 @@ describe('TodoActionCreators', () => {
       appDispatcher.on(types.CREATE_TODO, (todo) => {
         assert(todo.id !== undefined);
         assert(todo.text === 'Hello World');
+        assert(todo.completed === false);
         done();
       });
       createTodo('Hello World');
@@ -33,14 +34,47 @@ describe('TodoActionCreators', () => {
       appDispatcher.on(types.EDIT_TODO, (todo) => {
         assert(todo.id !== undefined);
         assert(todo.text === 'Hello New World');
+        assert(todo.completed === false);
         done();
       });
       createTodo('Hello World');
 
-      let todos = todoStorage.all();
-      let todo_ = todos[0];
+      const todos = todoStorage.all();
+      const todo_ = todos[0];
 
       editTodo(todo_.id, 'Hello New World');
+    });
+  });
+
+  describe('completeTodo', () => {
+    it('an item', (done) => {
+      appDispatcher.on(types.COMPLETE_TODO, (todo) => {
+        assert(todo.id !== undefined);
+        assert(todo.text === 'Hello World');
+        assert(todo.completed === true);
+        done();
+      });
+      createTodo('Hello World');
+
+      const todos = todoStorage.all();
+      const todo_ = todos[0];
+
+      completeTodo(todo_.id);
+    });
+  });
+
+  describe('deleteTodo', () => {
+    it('an item', (done) => {
+      appDispatcher.on(types.DELETE_TODO, (id) => {
+        assert(id !== undefined);
+        done();
+      });
+      createTodo('Hello World');
+
+      const todos = todoStorage.all();
+      const todo_ = todos[0];
+
+      deleteTodo(todo_.id);
     });
   });
 });
