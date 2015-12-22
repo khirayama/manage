@@ -1,6 +1,5 @@
-import MicroStorage from './MicroStorage';
-import AppDispatcher from '../dispatchers/AppDispatcher';
-import { todoCategoryEvents } from '../constants/constants';
+import MicroStorage from './micro-storage';
+import AppDispatcher from '../dispatchers/app-dispatcher';
 
 const INITIAL_TODO_CATEGORIES = {
   TODAY: 'TODAY',

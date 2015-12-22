@@ -1,17 +1,25 @@
-import AppDispatcher from '../dispatchers/AppDispatcher';
-import { todoCategoryEvents } from '../constants/constants';
+import appDispatcher from '../dispatchers/app-dispatcher';
+import todoCategoryStorage from '../storages/todo-category-storage';
+import { actionTypes as types } from '../constants/constants';
 
-class TodoCategoryActions {
-  create(entity) {
-    AppDispatcher.emit(todoCategoryEvents.CREATE, { entity: entity });
-  }
 
-  update(id, updates) {
-    AppDispatcher.emit(todoCategoryEvents.UPDATE, { id: id, updates: updates });
-  }
+export function createTodoCategory(name) {
+  const order = todoCategoryStorage.all().length;
+  const entity = todoCategoryStorage.create({
+    name,
+    order,
+  });
 
-  destroy(id) {
-    AppDispatcher.emit(todoCategoryEvents.DESTROY, { id: id });
-  }
+  appDispatcher.emit(types.CREATE_TODO_CATEGORY, entity);
 }
-export default new TodoCategoryActions();
+
+export function editTodoCategory(id, name) {
+  const entity = todoCategoryStorage.update(id, { name });
+
+  appDispatcher.emit(types.EDIT_TODO_CATEGORY, entity);
+}
+
+export function deleteTodoCategory(id) {
+  todoCategoryStorage.destroy(id);
+  appDispatcher.emit(types.DELETE_TODO_CATEGORY, { id });
+}
