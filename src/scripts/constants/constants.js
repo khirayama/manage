@@ -1,13 +1,8 @@
 export const ENTER = 13;
 
-export const todoEvents = {
-  CREATE: 'TODO_CREATE',
-  UPDATE: 'TODO_UPDATE',
-  DESTROY: 'TODO_DESTROY',
-};
-
-export const todoCategoryEvents = {
-  CREATE: 'TODO_CATEGORY_CREATE',
-  UPDATE: 'TODO_CATEGORY_UPDATE',
-  DESTROY: 'TODO_CATEGORY_DESTROY',
+export const actionTypes = {
+  CREATE_TODO: 'CREATE_TODO',
+  COMPLETE_TODO: 'COMPLETE_TODO',
+  EDIT_TODO: 'EDIT_TODO',
+  DELETE_TODO: 'DELETE_TODO',
 };

@@ -1,7 +1,5 @@
 import assert from 'power-assert';
 
-console.log(assert);
-
 import MicroStorage from '../../src/scripts/storages/micro-storage';
 
 

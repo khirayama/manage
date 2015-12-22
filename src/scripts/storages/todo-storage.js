@@ -1,5 +1,5 @@
 import MicroStorage from './micro-storage';
-import AppDispatcher from '../dispatchers/AppDispatcher';
+import AppDispatcher from '../dispatchers/app-dispatcher';
 import { todoEvents } from '../constants/constants';
 
 export class TodoStorage extends MicroStorage {

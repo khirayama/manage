@@ -1,6 +1,6 @@
 const EVENT_CHANGE = 'CHANGE_STORE';
 
-// if (global) global.localStorage = global.localStorage || { getItem: () => { return '{}'; }, setItem: () => {} };
+if (global) global.localStorage = global.localStorage || { getItem: () => { return '{}'; }, setItem: () => {} };
 
 export default class MicroStorage {
   constructor(options = { localStorage: true }) {

@@ -1,9 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+// import React from 'react';
+// import ReactDOM from 'react-dom';
+//
+// import ManageApp from './components/ManageApp';
+//
+//
+// window.addEventListener('load', () => {
+//   ReactDOM.render(<ManageApp />, document.querySelector('#manage-app'));
+// });
+//
 
-import ManageApp from './components/ManageApp';
-
+import todoAction from './actions/todo-action-creators';
 
 window.addEventListener('load', () => {
-  ReactDOM.render(<ManageApp />, document.querySelector('#manage-app'));
+  console.log('start app');
 });
