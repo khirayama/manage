@@ -11,3 +11,9 @@ export const actionTypes = {
   EDIT_TODO_CATEGORY: 'EDIT_TODO_CATEGORY',
   DELETE_TODO_CATEGORY: 'DELETE_TODO_CATEGORY',
 };
+
+export const initialTodoCategoryNames = {
+  TODAY: 'TODAY',
+  LATER: 'LATER',
+  SCHEDULE: 'SCHEDULE',
+};
