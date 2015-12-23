@@ -3,14 +3,6 @@ import todoStorage from '../storages/todo-storage';
 import todoCategoryStorage from '../storages/todo-category-storage';
 import { actionTypes as types } from '../constants/constants';
 
-export function createTodo(text, categoryId) {
-  const entity = todoStorage.create({
-    text,
-    categoryId,
-  });
-
-  appDispatcher.emit(types.CREATE_TODO, entity);
-}
 
 export function getTodos() {
   const todos = [];
@@ -26,6 +18,15 @@ export function getTodos() {
   });
 
   appDispatcher.emit(types.GET_ALL_TODOS, todos);
+}
+
+export function createTodo(text, categoryId) {
+  const entity = todoStorage.create({
+    text,
+    categoryId,
+  });
+
+  appDispatcher.emit(types.CREATE_TODO, entity);
 }
 
 export function completeTodo(id) {
