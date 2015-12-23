@@ -1,58 +1,6 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import TodoActions from '../actions/TodoActions';
-import { parseTextToItem } from '../utils/Utils';
-import { ENTER } from '../constants/constants';
 
 export default class TodoItem extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { text: this.props.todo.text, editing: false };
-    this._state = { isInputShowing: false };
-  }
-
-  componentDidMount() {
-    if (!this.props.created) this.startEditing();
-  }
-
-  componentDidUpdate() {
-    if (this._state.isInputShowing) {
-      const input = ReactDOM.findDOMNode(this).querySelector('input');
-
-      if (input) ReactDOM.findDOMNode(this).querySelector('input').select();
-      this._state.isInputShowing = false;
-    }
-  }
-
-  onClickLabel() {
-    this.startEditing();
-  }
-
-  onClickDone(id, completed) {
-    TodoActions.update(id, { completed: !completed });
-  }
-
-  onChangeText(event) {
-    this.setState({ text: event.target.value });
-  }
-
-  onKeyUpText(id, event) {
-    const key = event.keyCode;
-
-    if (key === ENTER) this.determineValue(id, this.state.text);
-  }
-
-  determineValue(id, text) {
-    TodoActions.update(id, { text });
-    this.setState({ editing: false });
-  }
-
-  startEditing() {
-    this.setState({ editing: true });
-    this._state.isInputShowing = true;
-  }
-
   render() {
     const todo = this.props.todo;
     const item = parseTextToItem(this.props.todo.text);
@@ -64,9 +12,6 @@ export default class TodoItem extends Component {
           autoFocus
           placeholder="New Item"
           value={this.state.text}
-          onChange={(event) => { this.onChangeText(event); }}
-          onKeyUp={(event) => { this.onKeyUpText(todo.id, event); }}
-          onBlur={() => { this.determineValue(todo.id, this.state.text); }}
         />
       );
     } else {
@@ -79,25 +24,10 @@ export default class TodoItem extends Component {
       );
     }
     return (
-      <li
-        key={todo.id}
-        draggable
-        className={(todo.completed) ? 'is-completed' : ''}
-        onDragStart={this.props._onDragStart}
-        onDragEnter={this.props._onDragEnter}
-        onDragEnd={this.props._onDragEnd}
-      >
+      <li key={todo.id} >
         {textComponent}
-        <span
-          onClick={() => { this.onClickDone(todo.id, todo.completed); }}
-        >
-          [DONE]
-        </span>
-        <span
-          onClick={this.props._onClickDestroy}
-        >
-          [DELETE]
-        </span>
+        <span>[DONE]</span>
+        <span>[DELETE]</span>
       </li>
     );
   }
