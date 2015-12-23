@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import {
-  deleteTodoCategory,
-} from '../actions/todo-category-action-creators';
+// import {
+//   deleteTodoCategory,
+// } from '../actions/todo-category-action-creators';
 import TodoCategoryListItem from './todo-category-list-item';
 
 

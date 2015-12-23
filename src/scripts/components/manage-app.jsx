@@ -46,3 +46,7 @@ export default class ManageApp extends Component {
     );
   }
 }
+
+ManageApp.propTypes = {
+  appStore: React.PropTypes.object.isRequired,
+};

@@ -1,5 +1,4 @@
 import MicroStorage from './micro-storage';
-import AppDispatcher from '../dispatchers/app-dispatcher';
 import { initialTodoCategoryNames } from '../constants/constants';
 
 

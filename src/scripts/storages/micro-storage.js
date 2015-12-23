@@ -1,6 +1,14 @@
-const EVENT_CHANGE = 'CHANGE_STORE';
-
 if (global) global.localStorage = global.localStorage || { getItem: () => { return '{}'; }, setItem: () => {} };
+
+function _o2a(obj) {
+  const arr = [];
+
+  for (const key in obj) {
+    if (!key) break;
+    arr.push(obj[key]);
+  }
+  return arr;
+}
 
 export default class MicroStorage {
   constructor(options = { localStorage: true }) {
@@ -16,7 +24,7 @@ export default class MicroStorage {
     const now = new Date();
     const id = (+now + Math.floor(Math.random() * 999999)).toString(36);
 
-    this._data[id] = Object.assign({}, { id: id, createdAt: now, updatedAt: now }, this.defaults, entity);
+    this._data[id] = Object.assign({}, { id, createdAt: now, updatedAt: now }, this.defaults, entity);
     if (this._localStorage) this._save();
     return this._data[id];
   }
@@ -118,14 +126,4 @@ export default class MicroStorage {
     this._filteredData = data;
     return this;
   }
-}
-
-function _o2a(obj) {
-  const arr = [];
-
-  for (const key in obj) {
-    if (!key) break;
-    arr.push(obj[key]);
-  }
-  return arr;
 }

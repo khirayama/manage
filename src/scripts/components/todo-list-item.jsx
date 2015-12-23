@@ -44,7 +44,7 @@ export default class TodoItem extends Component {
   }
 
   determineValue(id, text) {
-    TodoActions.update(id, { text: text });
+    TodoActions.update(id, { text });
     this.setState({ editing: false });
   }
 
