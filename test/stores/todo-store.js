@@ -22,6 +22,11 @@ describe('TodoStore', () => {
         text: 'Hello World A 2',
         completed: false,
         order: 1,
+      }, {
+        id: 'id-AAA-2',
+        text: 'fri Hello World A 3',
+        completed: false,
+        order: 2,
       }],
     }, {
       categoryName: 'BBB',
@@ -35,6 +40,15 @@ describe('TodoStore', () => {
     }]);
   });
 
+  describe('setTodos', () => {
+    it('initial', () => {
+      todos = todoStore._todos;
+
+      assert(todos[0].todos[2].schedule !== undefined);
+      assert(todos[0].todos[2].schedule.dayName === 'Friday');
+    });
+  });
+
   describe('create', () => {
     it('an item', () => {
       todoStore.create({
@@ -46,6 +60,8 @@ describe('TodoStore', () => {
       });
 
       todos = todoStore._todos;
+
+      console.log(todos[1].todos[1].schedule);
 
       assert(todos[1].todos.length === 2);
       assert(todos[1].todos[1].text === 'Hello World B 2');
@@ -75,7 +91,7 @@ describe('TodoStore', () => {
 
       todos = todoStore._todos;
 
-      assert(todos[0].todos.length === 1);
+      assert(todos[0].todos.length === 2);
     });
   });
 

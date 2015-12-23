@@ -36,17 +36,22 @@ export default class TodoStore extends MicroStore {
   }
 
   setTodos(todos) {
-    this._todos = todos;
+    const newTodos = todos.splice(0);
+
+    newTodos.forEach(todoCategory => {
+      todoCategory.todos.forEach((todo, index) => {
+        const newTodo = TodoStore._addSchedule(todo);
+        todoCategory.todos.splice(index, 1, newTodo);
+      });
+    });
+
+    this._todos = newTodos;
   }
 
   create(todo) {
-    const todoWithSchedule = parseTextToItem(todo.text);
-    const newTodo = Object.assign({}, todo, {
-      text: todoWithSchedule.text,
-      schedule: todoWithSchedule.schedule,
-    });
+    const newTodo = TodoStore._addSchedule(todo);
 
-    this._todos.forEach((todoCategory) => {
+    this._todos.forEach(todoCategory => {
       if (todoCategory.categoryId === todo.categoryId) {
         todoCategory.todos.push(newTodo);
       }
@@ -54,11 +59,7 @@ export default class TodoStore extends MicroStore {
   }
 
   update(todo) {
-    const todoWithSchedule = parseTextToItem(todo.text);
-    const newTodo = Object.assign({}, todo, {
-      text: todoWithSchedule.text,
-      schedule: todoWithSchedule.schedule,
-    });
+    const newTodo = TodoStore._addSchedule(todo);
 
     this._todos.forEach((todoCategory) => {
       if (todoCategory.categoryId === todo.categoryId) {
@@ -85,5 +86,15 @@ export default class TodoStore extends MicroStore {
         }
       }
     }
+  }
+
+  static _addSchedule(todo) {
+    const todoWithSchedule = parseTextToItem(todo.text);
+    const newTodo = Object.assign({}, todo, {
+      text: todoWithSchedule.text,
+      schedule: todoWithSchedule.schedule,
+    });
+
+    return newTodo;
   }
 }
