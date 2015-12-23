@@ -47,8 +47,8 @@ describe('TodoCategoryActionCreators', () => {
 
   describe('deleteTodoCategory', () => {
     it('an item', (done) => {
-      appDispatcher.on(types.DELETE_TODO_CATEGORY, (todoCategory) => {
-        assert(todoCategory.id !== undefined);
+      appDispatcher.on(types.DELETE_TODO_CATEGORY, (todoCategoryId) => {
+        assert(todoCategoryId !== undefined);
         done();
       });
       createTodoCategory('Hello World');
