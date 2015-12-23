@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import logger from './utils/logger';
 import AppStore from './stores/app-store';
-import ManageApp from './components/ManageApp';
+import ManageApp from './components/manage-app';
 
 
 window.addEventListener('load', () => {

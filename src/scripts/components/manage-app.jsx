@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+
 // import TodoList from './TodoList';
-// import TodoCategoryList from './TodoCategoryList';
+import TodoCategoryList from './todo-category-list';
 
 export default class ManageApp extends Component {
   constructor(props) {
@@ -30,18 +31,16 @@ export default class ManageApp extends Component {
   }
 
   render() {
-    return <div>Start App</div>;
-
-    const todoListComponents = [];
-
-    for (let index = 0; index < this.state.todoCategories.length; index++) {
-      const todoCategory = this.state.todoCategories[index];
-      todoListComponents.push(<TodoList key={todoCategory.id} todoCategory={todoCategory} />);
-    }
+    // const todoListComponents = [];
+    //
+    // for (let index = 0; index < this.state.todoCategories.length; index++) {
+    //   const todoCategory = this.state.todoCategories[index];
+    //   todoListComponents.push(<TodoList key={todoCategory.id} todoCategory={todoCategory} />);
+    // }
     return (
       <section>
         <h1>Manage</h1>
-        {todoListComponents}
+        {/* {todoListComponents} */}
         <TodoCategoryList todoCategories={this.state.todoCategories} />
       </section>
     );
