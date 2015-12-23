@@ -1,32 +1,37 @@
 import React, { Component } from 'react';
-import TodoCategoryStore from '../storages/TodoCategoryStore';
-import TodoList from './TodoList';
-import TodoCategoryList from './TodoCategoryList';
+// import TodoList from './TodoList';
+// import TodoCategoryList from './TodoCategoryList';
 
 export default class ManageApp extends Component {
   constructor(props) {
     super(props);
-    const _todoCategories = TodoCategoryStore.order('order').get();
 
-    this.state = { todoCategories: _todoCategories };
-    this._onUpdate = this.onUpdate.bind(this);
+    this.state = {
+      todos: this.props.appStore.todoStore.getTodos(),
+      todoCategories: this.props.appStore.todoCategoryStore.getTodoCategories(),
+    };
+
+    this.updateState = this._updateState.bind(this);
   }
 
   componentDidMount() {
-    TodoCategoryStore.addChangeListener(this._onUpdate);
+    this.props.appStore.addChangeListener(this.updateState);
   }
 
   componentWillUnmount() {
-    TodoCategoryStore.removeChangeListener(this._onUpdate);
+    this.props.appStore.removeChangeListener(this.updateState);
   }
 
-  onUpdate() {
-    const _todoCategories = TodoCategoryStore.order('order').get();
-
-    this.setState({ todoCategories: _todoCategories });
+  _updateState() {
+    this.setState({
+      todos: this.props.appStore.todoStore.getTodos(),
+      todoCategories: this.props.appStore.todoCategoryStore.getTodoCategories(),
+    });
   }
 
   render() {
+    return <div>Start App</div>;
+
     const todoListComponents = [];
 
     for (let index = 0; index < this.state.todoCategories.length; index++) {

@@ -1,16 +1,15 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-//
-// import ManageApp from './components/ManageApp';
-//
-//
-// window.addEventListener('load', () => {
-//   ReactDOM.render(<ManageApp />, document.querySelector('#manage-app'));
-// });
-//
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import todoAction from './actions/todo-action-creators';
+import logger from './utils/logger';
+import AppStore from './stores/app-store';
+import ManageApp from './components/ManageApp';
+
 
 window.addEventListener('load', () => {
-  console.log('start app');
+  logger.info(`Start manege app at ${new Date()}`);
+
+  const appStore = new AppStore();
+
+  ReactDOM.render(<ManageApp appStore={appStore} />, document.querySelector('#manage-app'));
 });

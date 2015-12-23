@@ -1,23 +1,33 @@
 import MicroStore from 'micro-store';
 import AppDispatcher from '../dispatchers/app-dispatcher';
-import TodoStore from '../todo-store';
-import TodoCategoryStore from '../todo-category-store';
+import { getTodos } from '../actions/todo-action-creators';
+import { getTodoCategories } from '../actions/todo-category-action-creators';
+import TodoStore from './todo-store';
+import TodoCategoryStore from './todo-category-store';
 
 
 export default class AppStore extends MicroStore {
   constructor() {
+    super();
+
     this.todoStore = new TodoStore();
     this.todoCategoryStore = new TodoCategoryStore();
-    // this.register(AppDispatcher, {
-    //   [todoCategoryEvents.CREATE]: (payload) => {
-    //     this.create(payload.entity);
-    //   },
-    //   [todoCategoryEvents.UPDATE]: (payload) => {
-    //     this.update(payload.id, payload.updates);
-    //   },
-    //   [todoCategoryEvents.DESTROY]: (payload) => {
-    //     this.destroy(payload.id);
-    //   },
-    // });
+
+    this.initialize();
+    this.setChangeEventHandlers();
+  }
+
+  initialize() {
+    getTodos();
+    getTodoCategories();
+  }
+
+  setChangeEventHandlers() {
+    this.todoStore.addChangeListener(() => {
+      this.dispatchChange();
+    });
+    this.todoCategoryStore.addChangeListener(() => {
+      this.dispatchChange();
+    });
   }
 }

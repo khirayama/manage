@@ -3,6 +3,12 @@ import todoCategoryStorage from '../storages/todo-category-storage';
 import { actionTypes as types } from '../constants/constants';
 
 
+export function getTodoCategories() {
+  const allTodoCategories = todoCategoryStorage.order('order').get();
+
+  appDispatcher.emit(types.GET_ALL_TODO_CATEGORIES, allTodoCategories);
+}
+
 export function createTodoCategory(name) {
   const order = todoCategoryStorage.all().length;
   const entity = todoCategoryStorage.create({
