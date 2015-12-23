@@ -1,5 +1,6 @@
 import appDispatcher from '../dispatchers/app-dispatcher';
 import todoStorage from '../storages/todo-storage';
+import todoCategoryStorage from '../storages/todo-category-storage';
 import { actionTypes as types } from '../constants/constants';
 
 export function createTodo(text, categoryId) {
@@ -9,6 +10,22 @@ export function createTodo(text, categoryId) {
   });
 
   appDispatcher.emit(types.CREATE_TODO, entity);
+}
+
+export function getTodos() {
+  const todos = [];
+
+  const allTodoCategories = todoCategoryStorage.order('order').get();
+
+  allTodoCategories.forEach((todoCategory) => {
+    todos.push({
+      categoryName: todoCategory.name,
+      categoryId: todoCategory.id,
+      todos: todoStorage.where({ categoryId: todoCategory.id }).order('order').get(),
+    });
+  });
+
+  appDispatcher.emit(types.GET_ALL_TODOS, todos);
 }
 
 export function completeTodo(id) {

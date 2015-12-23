@@ -1,7 +1,10 @@
 export const ENTER = 13;
 
+export const EVENT_CHANGE = 'CHANGE_STORE'
+
 export const actionTypes = {
   // FOR_TODO
+  GET_ALL_TODOS: 'GET_ALL_TODOS',
   CREATE_TODO: 'CREATE_TODO',
   COMPLETE_TODO: 'COMPLETE_TODO',
   EDIT_TODO: 'EDIT_TODO',
