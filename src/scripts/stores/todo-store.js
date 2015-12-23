@@ -2,6 +2,7 @@ import MicroStore from './micro-store';
 
 import AppDispatcher from '../dispatchers/app-dispatcher';
 import { actionTypes as types } from '../constants/constants';
+import { parseTextToItem } from '../utils/text-to-schedule-parser.js';
 
 
 export default class TodoStore extends MicroStore {
@@ -39,19 +40,31 @@ export default class TodoStore extends MicroStore {
   }
 
   create(todo) {
+    const todoWithSchedule = parseTextToItem(todo.text);
+    const newTodo = Object.assign({}, todo, {
+      text: todoWithSchedule.text,
+      schedule: todoWithSchedule.schedule,
+    });
+
     this._todos.forEach((todoCategory) => {
       if (todoCategory.categoryId === todo.categoryId) {
-        todoCategory.todos.push(todo);
+        todoCategory.todos.push(newTodo);
       }
     });
   }
 
   update(todo) {
+    const todoWithSchedule = parseTextToItem(todo.text);
+    const newTodo = Object.assign({}, todo, {
+      text: todoWithSchedule.text,
+      schedule: todoWithSchedule.schedule,
+    });
+
     this._todos.forEach((todoCategory) => {
       if (todoCategory.categoryId === todo.categoryId) {
         todoCategory.todos.forEach((todo_, index) => {
           if (todo_.id === todo.id) {
-            todoCategory.todos.splice(index, 1, todo);
+            todoCategory.todos.splice(index, 1, newTodo);
           }
         });
       }

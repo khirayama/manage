@@ -49,6 +49,7 @@ describe('TodoStore', () => {
 
       assert(todos[1].todos.length === 2);
       assert(todos[1].todos[1].text === 'Hello World B 2');
+      assert(todos[1].todos[1].schedule === undefined);
     });
   });
 
@@ -64,6 +65,7 @@ describe('TodoStore', () => {
 
       assert(todos[1].todos.length === 1);
       assert(todos[1].todos[0].text === 'Hello New World B');
+      assert(todos[1].todos[0].schedule === undefined);
     });
   });
 
@@ -76,4 +78,23 @@ describe('TodoStore', () => {
       assert(todos[0].todos.length === 1);
     });
   });
+
+  describe('apply parseTextToItem', () => {
+    it('fri meets my friends', () => {
+      todoStore.create({
+        categoryId: 'id-BBB',
+        id: 'id-BBB-1',
+        text: 'fri meets my friends',
+        completed: false,
+        order: 1,
+      });
+
+      todos = todoStore._todos;
+
+      assert(todos[1].todos.length === 2);
+      assert(todos[1].todos[1].text === 'meets my friends');
+      assert(todos[1].todos[1].schedule.year !== undefined);
+    });
+  });
+
 });
