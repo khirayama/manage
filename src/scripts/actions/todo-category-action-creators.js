@@ -27,5 +27,5 @@ export function editTodoCategory(id, name) {
 
 export function deleteTodoCategory(id) {
   todoCategoryStorage.destroy(id);
-  appDispatcher.emit(types.DELETE_TODO_CATEGORY, { id });
+  appDispatcher.emit(types.DELETE_TODO_CATEGORY, id);
 }
