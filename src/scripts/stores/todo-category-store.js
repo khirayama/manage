@@ -15,15 +15,15 @@ export default class TodoCategoryStore extends MicroStore {
         this.setTodoCategories(allTodoCategories);
         this.dispatchChange();
       },
-      [types.CREATE_TODO_CATEGORY]: ({ entity }) => {
+      [types.CREATE_TODO_CATEGORY]: (entity) => {
         this.create(entity);
         this.dispatchChange();
       },
-      [types.EDIT_TODO_CATEGORY]: ({ entity }) => {
+      [types.EDIT_TODO_CATEGORY]: (entity) => {
         this.update(entity);
         this.dispatchChange();
       },
-      [types.DELETE_TODO_CATEGORY]: ({ id }) => {
+      [types.DELETE_TODO_CATEGORY]: (id) => {
         this.delete(id);
         this.dispatchChange();
       },

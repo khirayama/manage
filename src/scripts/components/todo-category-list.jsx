@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 
 import {
-  deleteTodoCategory,
+  createTodoCategory,
 } from '../actions/todo-category-action-creators';
 import TodoCategoryListItem from './todo-category-list-item';
 
 
 export default class TodoCategoryList extends Component {
+  onClickAddBtn() {
+    createTodoCategory('aaa');
+  }
+
   _createTodoCategoryListItemElement(todoCategory) {
     return (
       <TodoCategoryListItem
@@ -24,7 +28,7 @@ export default class TodoCategoryList extends Component {
     return (
       <section>
         <h2>CATEGORIES</h2>
-        <div>[Add]</div>
+        <div onClick={ this.onClickAddBtn }>[Add]</div>
         <ul>{todoCategoryListItemElements}</ul>
       </section>
     );
