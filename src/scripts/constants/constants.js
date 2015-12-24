@@ -1,6 +1,6 @@
 export const ENTER = 13;
 
-export const EVENT_CHANGE = 'CHANGE_STORE'
+export const EVENT_CHANGE = 'CHANGE_STORE';
 
 export const actionTypes = {
   // FOR_TODO

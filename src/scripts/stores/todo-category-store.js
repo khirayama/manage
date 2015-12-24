@@ -11,8 +11,8 @@ export default class TodoCategoryStore extends MicroStore {
     this._todoCategories = [];
 
     this.register(AppDispatcher, {
-      [types.GET_ALL_TODO_CATEGORIES]: (allTodoCategories) => {
-        this.setTodoCategories(allTodoCategories);
+      [types.GET_ALL_TODO_CATEGORIES]: (todoCategories) => {
+        this.setTodoCategories(todoCategories);
         this.dispatchChange();
       },
       [types.CREATE_TODO_CATEGORY]: (entity) => {

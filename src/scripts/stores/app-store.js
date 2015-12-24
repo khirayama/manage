@@ -1,5 +1,4 @@
 import MicroStore from 'micro-store';
-import AppDispatcher from '../dispatchers/app-dispatcher';
 import { getTodos } from '../actions/todo-action-creators';
 import { getTodoCategories } from '../actions/todo-category-action-creators';
 import TodoStore from './todo-store';

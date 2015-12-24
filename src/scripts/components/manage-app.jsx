@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-// import TodoList from './TodoList';
+import TodoList from './todo-list';
 import TodoCategoryList from './todo-category-list';
 
 export default class ManageApp extends Component {
@@ -31,18 +31,20 @@ export default class ManageApp extends Component {
   }
 
   render() {
-    // const todoListComponents = [];
-    //
-    // for (let index = 0; index < this.state.todoCategories.length; index++) {
-    //   const todoCategory = this.state.todoCategories[index];
-    //   todoListComponents.push(<TodoList key={todoCategory.id} todoCategory={todoCategory} />);
-    // }
+    const todoListElements = this.state.todos.map((todoCategory) => {
+      return <TodoList key={todoCategory.categoryId} todoCategory={todoCategory} />;
+    });
+
     return (
       <section>
         <h1>Manage</h1>
-        {/* {todoListComponents} */}
+        { todoListElements }
         <TodoCategoryList todoCategories={this.state.todoCategories} />
       </section>
     );
   }
 }
+
+ManageApp.propTypes = {
+  appStore: React.PropTypes.object.isRequired,
+};
