@@ -8,7 +8,7 @@ export default class TodoItem extends Component {
     return (
       <li key={todo.id} >
         {todo.text}
-        <span>[DONE]</span>
+        <span className="done-button">[DONE]</span>
         <span>[DELETE]</span>
       </li>
     );

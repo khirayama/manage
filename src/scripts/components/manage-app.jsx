@@ -28,6 +28,7 @@ export default class ManageApp extends Component {
       todos: this.props.appStore.todoStore.getTodos(),
       todoCategories: this.props.appStore.todoCategoryStore.getTodoCategories(),
     });
+    console.log(this.state);
   }
 
   render() {

@@ -1,6 +1,9 @@
 import appDispatcher from '../dispatchers/app-dispatcher';
 import todoCategoryStorage from '../storages/todo-category-storage';
 import { actionTypes as types } from '../constants/constants';
+import {
+  getTodos,
+} from './todo-action-creators';
 
 
 export function getTodoCategories() {
@@ -16,16 +19,19 @@ export function createTodoCategory(name) {
     order,
   });
 
+  getTodos();
   appDispatcher.emit(types.CREATE_TODO_CATEGORY, entity);
 }
 
 export function editTodoCategory(id, name) {
   const entity = todoCategoryStorage.update(id, { name });
 
+  getTodos();
   appDispatcher.emit(types.EDIT_TODO_CATEGORY, entity);
 }
 
 export function deleteTodoCategory(id) {
   todoCategoryStorage.destroy(id);
+  getTodos();
   appDispatcher.emit(types.DELETE_TODO_CATEGORY, id);
 }

@@ -8,7 +8,7 @@ import TodoCategoryListItem from './todo-category-list-item';
 
 export default class TodoCategoryList extends Component {
   onClickAddBtn() {
-    createTodoCategory('aaa');
+    createTodoCategory('');
   }
 
   _createTodoCategoryListItemElement(todoCategory) {
