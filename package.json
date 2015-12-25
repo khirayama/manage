@@ -29,7 +29,7 @@
       "es2015",
       "react"
     ],
-   "plugins": [
+    "plugins": [
       "babel-plugin-espower"
     ]
   },
@@ -46,10 +46,12 @@
     "eslint-config-airbnb": "^2.1.1",
     "eslint-plugin-react": "^3.11.3",
     "jade": "^1.11.0",
+    "jsdom": "^7.2.1",
     "mocha": "^2.3.4",
     "node-sass": "^3.4.2",
     "power-assert": "^1.2.0",
     "react": "^0.14.3",
+    "react-addons-test-utils": "^0.14.3",
     "react-dom": "^0.14.3",
     "watchify": "^3.6.1"
   },
