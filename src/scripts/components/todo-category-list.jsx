@@ -7,7 +7,7 @@ import TodoCategoryListItem from './todo-category-list-item';
 
 
 export default class TodoCategoryList extends Component {
-  onClickAddBtn() {
+  onClickAddButton() {
     createTodoCategory('');
   }
 
@@ -28,7 +28,7 @@ export default class TodoCategoryList extends Component {
     return (
       <section>
         <h2>CATEGORIES</h2>
-        <div onClick={ this.onClickAddBtn }>[Add]</div>
+        <div onClick={ this.onClickAddButton.bind(this) }>[Add]</div>
         <ul>{todoCategoryListItemElements}</ul>
       </section>
     );
