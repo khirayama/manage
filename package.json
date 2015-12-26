@@ -1,8 +1,8 @@
 {
-  "name": "boilplate",
-  "version": "1.0.0",
+  "name": "manage",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "src/scripts/index.js",
   "scripts": {
     "build:html": "jade src --out dist",
     "build:css": "sass src/styles/index.sass:dist/index.css --style compressed --sourcemap=none",
