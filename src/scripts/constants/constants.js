@@ -1,5 +1,5 @@
 export const keyCodes = {
-  ENTER: 13
+  ENTER: 13,
 };
 
 export const EVENT_CHANGE = 'CHANGE_STORE';

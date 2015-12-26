@@ -39,7 +39,7 @@ export default class TodoCategoryListItem extends Component {
     editTodoCategory(this.props.todoCategory.id);
   }
 
-  save(event) {
+  save() {
     const todoCategory = this.props.todoCategory;
 
     updateTodoCategory(todoCategory.id, this.state.value);
