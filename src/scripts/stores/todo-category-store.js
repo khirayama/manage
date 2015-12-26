@@ -19,7 +19,11 @@ export default class TodoCategoryStore extends MicroStore {
         this.create(entity);
         this.dispatchChange();
       },
-      [types.EDIT_TODO_CATEGORY]: (entity) => {
+      [types.EDIT_TODO_CATEGORY]: (id) => {
+        this.edit(id);
+        this.dispatchChange();
+      },
+      [types.UPDATE_TODO_CATEGORY]: (entity) => {
         this.update(entity);
         this.dispatchChange();
       },
@@ -40,6 +44,14 @@ export default class TodoCategoryStore extends MicroStore {
 
   create(todoCategory) {
     this._todoCategories.push(todoCategory);
+  }
+
+  edit(id) {
+    this._todoCategories.forEach((todoCategory_, index) => {
+      if (todoCategory_.id === id) {
+        this._todoCategories[index].isEditing = true;
+      }
+    });
   }
 
   update(todoCategory) {

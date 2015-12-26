@@ -28,7 +28,6 @@ export default class ManageApp extends Component {
       todos: this.props.appStore.todoStore.getTodos(),
       todoCategories: this.props.appStore.todoCategoryStore.getTodoCategories(),
     });
-    console.log(this.state);
   }
 
   render() {
@@ -39,8 +38,8 @@ export default class ManageApp extends Component {
     return (
       <section>
         <h1>Manage</h1>
-        { todoListElements }
         <TodoCategoryList todoCategories={this.state.todoCategories} />
+        { todoListElements }
       </section>
     );
   }

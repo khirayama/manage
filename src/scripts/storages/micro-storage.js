@@ -5,7 +5,7 @@ function _o2a(obj) {
 
   for (const key in obj) {
     if (!key) break;
-    arr.push(obj[key]);
+    arr.push(Object.assign(obj[key]));
   }
   return arr;
 }
@@ -26,14 +26,16 @@ export default class MicroStorage {
 
     this._data[id] = Object.assign({}, { id, createdAt: now, updatedAt: now }, this.defaults, entity);
     if (this._localStorage) this._save();
-    return this._data[id];
+
+    return Object.assign({}, this._data[id]);
   }
 
   update(id, updates) {
     const now = new Date();
     this._data[id] = Object.assign({ updatedAt: now }, this._data[id], updates);
     if (this._localStorage) this._save();
-    return this._data[id];
+
+    return Object.assign({}, this._data[id]);
   }
 
   destroy(id) {
@@ -51,6 +53,7 @@ export default class MicroStorage {
   get(id) {
     if (id) return this._data[id];
     this._filtering = false;
+
     return _o2a(this._filteredData);
   }
 
@@ -88,6 +91,7 @@ export default class MicroStorage {
       }
     }
     this._filteredData = data;
+
     return this;
   }
 
@@ -110,6 +114,7 @@ export default class MicroStorage {
       if (valueX < valueY) return -1;
       return 0;
     });
+
     return this;
   }
 
@@ -124,6 +129,7 @@ export default class MicroStorage {
       data.push(this._filteredData[index]);
     }
     this._filteredData = data;
+
     return this;
   }
 }

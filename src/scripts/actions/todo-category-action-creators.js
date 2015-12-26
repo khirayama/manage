@@ -19,15 +19,23 @@ export function createTodoCategory(name) {
     order,
   });
 
+  entity.isEditing = true;
+
   getTodos();
   appDispatcher.emit(types.CREATE_TODO_CATEGORY, entity);
 }
 
-export function editTodoCategory(id, name) {
+export function editTodoCategory(id) {
+  appDispatcher.emit(types.EDIT_TODO_CATEGORY, id);
+}
+
+export function updateTodoCategory(id, name) {
   const entity = todoCategoryStorage.update(id, { name });
 
+  entity.isEditing = false;
+
   getTodos();
-  appDispatcher.emit(types.EDIT_TODO_CATEGORY, entity);
+  appDispatcher.emit(types.UPDATE_TODO_CATEGORY, entity);
 }
 
 export function deleteTodoCategory(id) {
