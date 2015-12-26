@@ -19,8 +19,16 @@
     "test": "mocha --require=babel-core/register test/**/*.js",
     "test:watch": "npm test -- --watch"
   },
-  "author": "",
+  "author": "khirayama",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khirayama/manage"
+  },
   "license": "ISC",
+  "engines": {
+    "node": ">=4.1.1",
+    "npm": ">=2.14.4"
+  },
   "eslintConfig": {
     "extends": "airbnb"
   },
