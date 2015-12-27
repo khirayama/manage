@@ -26,7 +26,12 @@ export function createTodoCategory(name) {
 }
 
 export function editTodoCategory(id) {
-  appDispatcher.emit(types.EDIT_TODO_CATEGORY, id);
+  const todoCategory = todoCategoryStorage.get(id);
+  const entity = Object.assign({}, todoCategory, {
+    isEditing: true,
+  });
+
+  appDispatcher.emit(types.EDIT_TODO_CATEGORY, entity);
 }
 
 export function updateTodoCategory(id, name) {
