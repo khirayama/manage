@@ -2,6 +2,8 @@ import appDispatcher from '../dispatchers/app-dispatcher';
 import todoStorage from '../storages/todo-storage';
 import todoCategoryStorage from '../storages/todo-category-storage';
 import { actionTypes as types } from '../constants/constants';
+import { validateByJSONSchema } from '../json-schemas/json-schema.js';
+import todoStorageSchema from '../json-schemas/todo-storage.json';
 
 
 export function getTodos() {
@@ -26,6 +28,8 @@ export function createTodo(text, categoryId) {
     categoryId,
   });
 
+  validateByJSONSchema(entity, todoStorageSchema);
+
   entity.isEditing = true;
 
   appDispatcher.emit(types.CREATE_TODO, entity);
@@ -37,6 +41,8 @@ export function completeTodo(id) {
     completed: !todo.completed,
   });
 
+  validateByJSONSchema(entity, todoStorageSchema);
+
   appDispatcher.emit(types.COMPLETE_TODO, entity);
 }
 
@@ -46,11 +52,15 @@ export function editTodo(id) {
     isEditing: true,
   });
 
+  validateByJSONSchema(entity, todoStorageSchema);
+
   appDispatcher.emit(types.EDIT_TODO, entity);
 }
 
 export function updateTodo(id, text) {
   const entity = todoStorage.update(id, { text });
+
+  validateByJSONSchema(entity, todoStorageSchema);
 
   entity.isEditing = false;
 
