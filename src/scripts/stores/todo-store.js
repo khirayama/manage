@@ -99,7 +99,7 @@ export default class TodoStore extends MicroStore {
   static _addSchedule(todo) {
     const todoWithSchedule = parseTextToItem(todo.text);
     const newTodo = Object.assign({}, todo, {
-      title: todoWithSchedule.text,
+      scheduleText: todoWithSchedule.text,
       schedule: todoWithSchedule.schedule,
     });
 
