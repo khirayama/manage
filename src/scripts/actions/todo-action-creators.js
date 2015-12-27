@@ -47,5 +47,5 @@ export function editTodo(id, text) {
 
 export function deleteTodo(id) {
   todoStorage.destroy(id);
-  appDispatcher.emit(types.DELETE_TODO, { id });
+  appDispatcher.emit(types.DELETE_TODO, id);
 }

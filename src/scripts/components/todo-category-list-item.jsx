@@ -17,7 +17,7 @@ export default class TodoCategoryListItem extends Component {
     };
   }
 
-  onClickDeleteBtn() {
+  onClickDeleteButton() {
     deleteTodoCategory(this.props.todoCategory.id);
   }
 
@@ -72,7 +72,7 @@ export default class TodoCategoryListItem extends Component {
     return (
       <li key={ todoCategory.id }>
         { itemContent }
-        <span onClick={ this.onClickDeleteBtn.bind(this) }>[DELETE]</span>
+        <span onClick={ this.onClickDeleteButton.bind(this) }>[DELETE]</span>
       </li>
     );
   }
