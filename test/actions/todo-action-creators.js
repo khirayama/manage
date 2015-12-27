@@ -5,6 +5,7 @@ import {
   createTodo,
   completeTodo,
   editTodo,
+  updateTodo,
   deleteTodo,
 } from '../../src/scripts/actions/todo-action-creators';
 import todoStorage from '../../src/scripts/storages/todo-storage';
@@ -47,6 +48,21 @@ describe('TodoActionCreators', () => {
 
   describe('editTodo', () => {
     it('an item', (done) => {
+      appDispatcher.on(types.EDIT_TODO, (id) => {
+        assert(id !== undefined);
+        done();
+      });
+      createTodo('Hello World');
+
+      const todos = todoStorage.all();
+      const todo_ = todos[0];
+
+      editTodo(todo_.id);
+    });
+  });
+
+  describe('updateTodo', () => {
+    it('an item', (done) => {
       appDispatcher.on(types.EDIT_TODO, (todo) => {
         assert(todo.id !== undefined);
         assert(todo.text === 'Hello New World');
@@ -58,7 +74,7 @@ describe('TodoActionCreators', () => {
       const todos = todoStorage.all();
       const todo_ = todos[0];
 
-      editTodo(todo_.id, 'Hello New World');
+      updateTodo(todo_.id, 'Hello New World');
     });
   });
 
