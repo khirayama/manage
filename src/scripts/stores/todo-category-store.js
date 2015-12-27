@@ -46,14 +46,6 @@ export default class TodoCategoryStore extends MicroStore {
     this._todoCategories.push(todoCategory);
   }
 
-  edit(id) {
-    this._todoCategories.forEach((todoCategory_, index) => {
-      if (todoCategory_.id === id) {
-        this._todoCategories[index].isEditing = true;
-      }
-    });
-  }
-
   update(todoCategory) {
     this._todoCategories.forEach((todoCategory_, index) => {
       if (todoCategory_.id === todoCategory.id) {
