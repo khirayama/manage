@@ -26,6 +26,8 @@ export function createTodo(text, categoryId) {
     categoryId,
   });
 
+  entity.isEditing = true;
+
   appDispatcher.emit(types.CREATE_TODO, entity);
 }
 
@@ -38,9 +40,14 @@ export function completeTodo(id) {
   appDispatcher.emit(types.COMPLETE_TODO, entity);
 }
 
-export function editTodo(id, text) {
-  const todo = todoStorage.get(id);
-  const entity = todoStorage.update(todo.id, { text });
+export function editTodo(id) {
+  appDispatcher.emit(types.EDIT_TODO, id);
+}
+
+export function updateTodo(id, text) {
+  const entity = todoStorage.update(id, { text });
+
+  entity.isEditing = false;
 
   appDispatcher.emit(types.EDIT_TODO, entity);
 }
