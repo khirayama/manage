@@ -60,13 +60,25 @@ export default class TodoItem extends Component {
         />
       );
     } else {
-      itemContent = (
-        <label
-          onClick={ this.onClickLabel.bind(this) }
-        >
-          { todo.text }
-        </label>
-      );
+      if (todo.schedule) {
+        const schedule = todo.schedule;
+        itemContent = (
+          <label
+            onClick={ this.onClickLabel.bind(this) }
+          >
+            <span>{schedule.year}/{schedule.month}/{schedule.date}({schedule.shortDayName}.)</span>
+            { todo.text }
+          </label>
+        );
+      } else {
+        itemContent = (
+          <label
+            onClick={ this.onClickLabel.bind(this) }
+          >
+            { todo.text }
+          </label>
+        );
+      }
     }
 
     return (
