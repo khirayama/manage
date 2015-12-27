@@ -106,7 +106,8 @@ describe('TodoStore', () => {
       todos = todoStore._todos;
 
       assert(todos[1].todos.length === 2);
-      assert(todos[1].todos[1].text === 'meets my friends');
+      assert(todos[1].todos[1].text === 'fri meets my friends');
+      assert(todos[1].todos[1].title === 'meets my friends');
       assert(todos[1].todos[1].schedule.year !== undefined);
     });
   });
