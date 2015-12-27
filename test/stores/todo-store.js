@@ -61,8 +61,6 @@ describe('TodoStore', () => {
 
       todos = todoStore._todos;
 
-      console.log(todos[1].todos[1].schedule);
-
       assert(todos[1].todos.length === 2);
       assert(todos[1].todos[1].text === 'Hello World B 2');
       assert(todos[1].todos[1].schedule === undefined);

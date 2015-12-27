@@ -28,6 +28,10 @@ export default class TodoStore extends MicroStore {
         this.update(todo);
         this.dispatchChange();
       },
+      [types.UPDATE_TODO]: (todo) => {
+        this.update(todo);
+        this.dispatchChange();
+      },
       [types.DELETE_TODO]: (id) => {
         this.delete(id);
         this.dispatchChange();

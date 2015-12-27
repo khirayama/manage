@@ -41,7 +41,12 @@ export function completeTodo(id) {
 }
 
 export function editTodo(id) {
-  appDispatcher.emit(types.EDIT_TODO, id);
+  const todo = todoStorage.get(id);
+  const entity = Object.assign({}, todo, {
+    isEditing: true,
+  });
+
+  appDispatcher.emit(types.EDIT_TODO, entity);
 }
 
 export function updateTodo(id, text) {
