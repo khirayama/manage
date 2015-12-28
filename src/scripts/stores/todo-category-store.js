@@ -2,6 +2,8 @@ import MicroStore from './micro-store';
 
 import AppDispatcher from '../dispatchers/app-dispatcher';
 import { actionTypes as types } from '../constants/constants';
+import { validateByJSONSchema } from '../json-schemas/json-schema.js';
+import todoCategoryStoreSchema from '../json-schemas/todo-category-store.json';
 
 
 export default class TodoCategoryStore extends MicroStore {
@@ -12,19 +14,29 @@ export default class TodoCategoryStore extends MicroStore {
 
     this.register(AppDispatcher, {
       [types.GET_ALL_TODO_CATEGORIES]: (todoCategories) => {
+        todoCategories.forEach(todoCategory => {
+          validateByJSONSchema(todoCategory, todoCategoryStoreSchema);
+        });
+
         this.setTodoCategories(todoCategories);
         this.dispatchChange();
       },
-      [types.CREATE_TODO_CATEGORY]: (entity) => {
-        this.create(entity);
+      [types.CREATE_TODO_CATEGORY]: (todoCategory) => {
+        validateByJSONSchema(todoCategory, todoCategoryStoreSchema);
+
+        this.create(todoCategory);
         this.dispatchChange();
       },
-      [types.EDIT_TODO_CATEGORY]: (entity) => {
-        this.update(entity);
+      [types.EDIT_TODO_CATEGORY]: (todoCategory) => {
+        validateByJSONSchema(todoCategory, todoCategoryStoreSchema);
+
+        this.update(todoCategory);
         this.dispatchChange();
       },
-      [types.UPDATE_TODO_CATEGORY]: (entity) => {
-        this.update(entity);
+      [types.UPDATE_TODO_CATEGORY]: (todoCategory) => {
+        validateByJSONSchema(todoCategory, todoCategoryStoreSchema);
+
+        this.update(todoCategory);
         this.dispatchChange();
       },
       [types.DELETE_TODO_CATEGORY]: (id) => {

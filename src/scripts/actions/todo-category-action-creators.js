@@ -11,6 +11,12 @@ import {
 export function getTodoCategories() {
   const allTodoCategories = todoCategoryStorage.order('order').get();
 
+  allTodoCategories.forEach(todoCategory => {
+    validateByJSONSchema(todoCategory, todoCategoryStorageSchema);
+
+    todoCategory.isEditing = false;
+  });
+
   appDispatcher.emit(types.GET_ALL_TODO_CATEGORIES, allTodoCategories);
 }
 
