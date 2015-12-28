@@ -11,11 +11,18 @@ export function getTodos() {
 
   const allTodoCategories = todoCategoryStorage.order('order').get();
 
-  allTodoCategories.forEach((todoCategory) => {
+  allTodoCategories.forEach(todoCategory => {
     todos.push({
       categoryName: todoCategory.name,
       categoryId: todoCategory.id,
       todos: todoStorage.where({ categoryId: todoCategory.id }).order('order').get(),
+    });
+  });
+
+  todos.forEach(todoCategory => {
+    todoCategory.todos.forEach(todo => {
+      validateByJSONSchema(todo, todoStorageSchema);
+      todo.isEditing = false;
     });
   });
 

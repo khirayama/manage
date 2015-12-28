@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "required": ["text", "completed", "categoryId", "order", "isEditing"],
+  "properties": {
+    "text": {
+      "type": "string"
+    },
+    "completed": {
+      "type": "boolean"
+    },
+    "categoryId": {
+      "type": "string"
+    },
+    "order": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "isEditing": {
+      "type": "boolean"
+    }
+  }
+}

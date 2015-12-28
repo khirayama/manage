@@ -3,6 +3,8 @@ import MicroStore from './micro-store';
 import AppDispatcher from '../dispatchers/app-dispatcher';
 import { actionTypes as types } from '../constants/constants';
 import { parseTextToItem } from '../utils/text-to-schedule-parser.js';
+import { validateByJSONSchema } from '../json-schemas/json-schema.js';
+import todoStoreSchema from '../json-schemas/todo-store.json';
 
 
 export default class TodoStore extends MicroStore {
@@ -13,22 +15,36 @@ export default class TodoStore extends MicroStore {
 
     this.register(AppDispatcher, {
       [types.GET_ALL_TODOS]: (todos) => {
+        todos.forEach(todoCategory => {
+          todoCategory.todos.forEach((todo) => {
+            validateByJSONSchema(todo, todoStoreSchema);
+          });
+        });
+
         this.setTodos(todos);
         this.dispatchChange();
       },
       [types.CREATE_TODO]: (todo) => {
+        validateByJSONSchema(todo, todoStoreSchema);
+
         this.create(todo);
         this.dispatchChange();
       },
       [types.COMPLETE_TODO]: (todo) => {
+        validateByJSONSchema(todo, todoStoreSchema);
+
         this.update(todo);
         this.dispatchChange();
       },
       [types.EDIT_TODO]: (todo) => {
+        validateByJSONSchema(todo, todoStoreSchema);
+
         this.update(todo);
         this.dispatchChange();
       },
       [types.UPDATE_TODO]: (todo) => {
+        validateByJSONSchema(todo, todoStoreSchema);
+
         this.update(todo);
         this.dispatchChange();
       },
