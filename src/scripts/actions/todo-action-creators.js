@@ -22,6 +22,7 @@ export function getTodos() {
   todos.forEach(todoCategory => {
     todoCategory.todos.forEach(todo => {
       validateByJSONSchema(todo, todoStorageSchema);
+
       todo.isEditing = false;
     });
   });

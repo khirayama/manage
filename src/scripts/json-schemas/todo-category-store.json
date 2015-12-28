@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "required": ["name", "order", "isEditing"],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "order": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "isEditing": {
+      "type": "boolean"
+    }
+  }
+}
