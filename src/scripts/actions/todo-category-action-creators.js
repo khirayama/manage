@@ -37,6 +37,7 @@ export function createTodoCategory(name) {
 
 export function editTodoCategory(id) {
   const entity = todoCategoryStorage.get(id);
+
   entity.isEditing = true;
 
   validateByJSONSchema(entity, todoCategoryStorageSchema);
@@ -46,6 +47,7 @@ export function editTodoCategory(id) {
 
 export function editNextTodoCategory(order) {
   let entity = todoCategoryStorage.where({ order: order + 1 }).get()[0];
+
   if (!entity) {
     entity = todoCategoryStorage.where({ order: 0 }).get()[0];
   }
