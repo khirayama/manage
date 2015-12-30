@@ -17,6 +17,12 @@ export default class TodoCategoryListItem extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.todoCategory.isEditing && this.props.todoCategory.isEditing) {
+      this.selectInputValue();
+    }
+  }
+
   onClickDeleteButton() {
     deleteTodoCategory(this.props.todoCategory.id);
   }
@@ -50,6 +56,10 @@ export default class TodoCategoryListItem extends Component {
     }
   }
 
+  selectInputValue() {
+    this.refs.input.select();
+  }
+
   render() {
     const todoCategory = this.props.todoCategory;
     let itemContent;
@@ -58,6 +68,7 @@ export default class TodoCategoryListItem extends Component {
       itemContent = (
         <input
           autoFocus
+          ref="input"
           value={ this.state.value }
           onChange={ this.onChangeInput.bind(this) }
           onKeyDown={ this.onKeyDownInput.bind(this) }
