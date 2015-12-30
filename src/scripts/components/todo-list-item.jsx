@@ -74,7 +74,11 @@ export default class TodoItem extends Component {
       } else {
         itemContent = (
           <label
+            draggable
             onClick={ this.onClickLabel.bind(this) }
+            onDrag={ this.props._onDragStart }
+            onDragEnter={ this.props._onDragEnter }
+            onDragEnd={ this.props._onDragEnd }
           >
             { todo.text }
           </label>
@@ -94,4 +98,7 @@ export default class TodoItem extends Component {
 
 TodoItem.propTypes = {
   todo: React.PropTypes.object,
+  _onDragStart: React.PropTypes.func.isRequired,
+  _onDragEnter: React.PropTypes.func.isRequired,
+  _onDragEnd: React.PropTypes.func.isRequired,
 };
