@@ -61,7 +61,7 @@ describe('TodoActionCreators', () => {
       const todos = todoStorage.all();
       const todo_ = todos[0];
 
-      editTodo(todo_.id);
+      editTodo(todo_.categoryId, todo_.order);
     });
   });
 
