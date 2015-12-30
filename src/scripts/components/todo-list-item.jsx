@@ -41,8 +41,13 @@ export default class TodoListItem extends Component {
 
   save() {
     const todo = this.props.todo;
+    const text = this.state.value.trim();
 
-    updateTodo(todo.id, this.state.value);
+    if (text !== '') {
+      updateTodo(todo.id, text);
+    } else {
+      deleteTodo(todo.id);
+    }
   }
 
   render() {
