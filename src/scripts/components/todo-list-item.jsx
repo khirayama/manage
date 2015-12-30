@@ -8,7 +8,7 @@ import {
 import { keyCodes } from '../constants/constants';
 
 
-export default class TodoItem extends Component {
+export default class TodoListItem extends Component {
   constructor(props) {
     super(props);
 
@@ -96,9 +96,9 @@ export default class TodoItem extends Component {
   }
 }
 
-TodoItem.propTypes = {
-  todo: React.PropTypes.object,
-  _onDragStart: React.PropTypes.func.isRequired,
-  _onDragEnter: React.PropTypes.func.isRequired,
-  _onDragEnd: React.PropTypes.func.isRequired,
+TodoListItem.propTypes = {
+  todo: React.PropTypes.object.isRequired,
+  _onDragStart: React.PropTypes.func,
+  _onDragEnter: React.PropTypes.func,
+  _onDragEnd: React.PropTypes.func,
 };
