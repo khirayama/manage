@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import {
   createTodoCategory,
-  sortTodoCategory,
+  sortTodoCategories,
 } from '../actions/todo-category-action-creators';
 import TodoCategoryListItem from './todo-category-list-item';
 
@@ -28,7 +28,7 @@ export default class TodoCategoryList extends Component {
 
   onDragEnd() {
     if (this._order.from !== null && this._order.to !== null) {
-      sortTodoCategory(this._order.from, this._order.to);
+      sortTodoCategories(this._order.from, this._order.to);
       this._initializeOrder();
     }
   }
@@ -47,7 +47,7 @@ export default class TodoCategoryList extends Component {
         todoCategory={ todoCategory }
         _onDragStart={ this.onDragStart.bind(this, todoCategory.order) }
         _onDragEnter={ this.onDragEnter.bind(this, todoCategory.order) }
-        _onDragEnd={ this.onDragEnd.bind(this, todoCategory.order) }
+        _onDragEnd={ this.onDragEnd.bind(this) }
       />
     );
   }

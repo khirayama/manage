@@ -63,7 +63,7 @@ export function deleteTodoCategory(id) {
   appDispatcher.emit(types.DELETE_TODO_CATEGORY, id);
 }
 
-export function sortTodoCategory(from, to) {
+export function sortTodoCategories(from, to) {
   const allTodoCategories = todoCategoryStorage.order('order').get();
 
   if (from < to) {
