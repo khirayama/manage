@@ -5,7 +5,7 @@ function _o2a(obj) {
 
   for (const key in obj) {
     if (!key) break;
-    arr.push(Object.assign(obj[key]));
+    arr.push(Object.assign({}, obj[key]));
   }
   return arr;
 }
