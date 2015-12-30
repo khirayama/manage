@@ -42,7 +42,7 @@ describe('TodoCategoryActionCreators', () => {
       const todoCategories = todoCategoryStorage.all();
       const todoCategory = todoCategories[0];
 
-      editTodoCategory(todoCategory.id);
+      editTodoCategory(todoCategory.order);
     });
   });
 

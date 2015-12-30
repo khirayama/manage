@@ -4,7 +4,6 @@ import {
   editTodoCategory,
   updateTodoCategory,
   deleteTodoCategory,
-  editNextTodoCategory,
 } from '../actions/todo-category-action-creators';
 import { keyCodes } from '../constants/constants';
 
@@ -36,14 +35,20 @@ export default class TodoCategoryListItem extends Component {
 
   onKeyDownInput(event) {
     const keyCode = event.keyCode;
+    const shift = event.shiftKey;
+    const ctrl = event.ctrlKey || event.metaKey;
 
     switch (true) {
-      case (keyCode === keyCodes.ENTER):
+      case (keyCode === keyCodes.ENTER && !shift && !ctrl):
         this.save();
         break;
-      case (keyCode === keyCodes.TAB):
+      case (keyCode === keyCodes.TAB && !shift && !ctrl):
         event.preventDefault();
-        editNextTodoCategory(this.props.todoCategory.order);
+        editTodoCategory(this.props.todoCategory.order + 1);
+        break;
+      case (keyCode === keyCodes.TAB && shift && !ctrl):
+        event.preventDefault();
+        editTodoCategory(this.props.todoCategory.order - 1);
         break;
       default:
         break;
@@ -51,7 +56,7 @@ export default class TodoCategoryListItem extends Component {
   }
 
   onClickLabel() {
-    editTodoCategory(this.props.todoCategory.id);
+    editTodoCategory(this.props.todoCategory.order);
   }
 
   save() {

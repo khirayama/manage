@@ -35,22 +35,19 @@ export function createTodoCategory(name) {
   appDispatcher.emit(types.CREATE_TODO_CATEGORY, entity);
 }
 
-export function editTodoCategory(id) {
-  const entity = todoCategoryStorage.get(id);
+export function editTodoCategory(order) {
+  const todoCategories = todoCategoryStorage.all();
+  const len = todoCategories.length;
+  let entity;
 
-  entity.isEditing = true;
-
-  validateByJSONSchema(entity, todoCategoryStorageSchema);
-
-  appDispatcher.emit(types.EDIT_TODO_CATEGORY, entity);
-}
-
-export function editNextTodoCategory(order) {
-  let entity = todoCategoryStorage.where({ order: order + 1 }).get()[0];
-
-  if (!entity) {
+  if (len - 1 < order) {
     entity = todoCategoryStorage.where({ order: 0 }).get()[0];
+  } else if (order < 0) {
+    entity = todoCategoryStorage.where({ order: len - 1 }).get()[0];
+  } else {
+    entity = todoCategoryStorage.where({ order }).get()[0];
   }
+
   entity.isEditing = true;
 
   validateByJSONSchema(entity, todoCategoryStorageSchema);
