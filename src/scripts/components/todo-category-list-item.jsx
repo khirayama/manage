@@ -38,13 +38,15 @@ export default class TodoCategoryListItem extends Component {
     const keyCode = event.keyCode;
 
     switch (true) {
-    case (keyCode === keyCodes.ENTER):
-      this.save();
-      break;
-    case (keyCode === keyCodes.TAB):
-      event.preventDefault();
-      editNextTodoCategory(this.props.todoCategory.order);
-      break;
+      case (keyCode === keyCodes.ENTER):
+        this.save();
+        break;
+      case (keyCode === keyCodes.TAB):
+        event.preventDefault();
+        editNextTodoCategory(this.props.todoCategory.order);
+        break;
+      default:
+        break;
     }
   }
 
