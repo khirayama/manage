@@ -4,7 +4,6 @@ import {
   editTodo,
   updateTodo,
   deleteTodo,
-  editNextTodo,
 } from '../actions/todo-action-creators';
 import { keyCodes } from '../constants/constants';
 
@@ -36,14 +35,20 @@ export default class TodoListItem extends Component {
 
   onKeyDownInput(event) {
     const keyCode = event.keyCode;
+    const shift = event.shiftKey;
+    const ctrl = event.ctrlKey || event.metaKey;
 
     switch (true) {
-      case (keyCode === keyCodes.ENTER):
+      case (keyCode === keyCodes.ENTER && !shift && !ctrl):
         this.save();
         break;
-      case (keyCode === keyCodes.TAB):
+      case (keyCode === keyCodes.TAB && !shift && !ctrl):
         event.preventDefault();
-        editNextTodo(this.props.todo.categoryId, this.props.todo.order);
+        editTodo(this.props.todo.categoryId, this.props.todo.order + 1);
+        break;
+      case (keyCode === keyCodes.TAB && shift && !ctrl):
+        event.preventDefault();
+        editTodo(this.props.todo.categoryId, this.props.todo.order - 1);
         break;
       default:
         break;
@@ -51,7 +56,7 @@ export default class TodoListItem extends Component {
   }
 
   onClickLabel() {
-    editTodo(this.props.todo.id);
+    editTodo(this.props.todo.categoryId, this.props.todo.order);
   }
 
   save() {
