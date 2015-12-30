@@ -40,7 +40,7 @@ export default class TodoList extends Component {
     };
   }
 
-  _createTodoListItem(todo) {
+  _createTodoListItemElement(todo) {
     return (
       <TodoListItem
         key={todo.id}
@@ -54,7 +54,7 @@ export default class TodoList extends Component {
 
   render() {
     const todoListItemElements = this.props.todoCategory.todos.map((todo) => {
-      return this._createTodoListItem(todo);
+      return this._createTodoListItemElement(todo);
     });
 
     return (
