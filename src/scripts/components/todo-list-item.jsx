@@ -17,6 +17,12 @@ export default class TodoListItem extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.todo.isEditing && this.props.todo.isEditing) {
+      this.selectInputValue();
+    }
+  }
+
   onClickDeleteButton() {
     deleteTodo(this.props.todo.id);
   }
@@ -50,6 +56,10 @@ export default class TodoListItem extends Component {
     }
   }
 
+  selectInputValue() {
+    this.refs.input.select();
+  }
+
   render() {
     const todo = this.props.todo;
     let itemContent;
@@ -58,6 +68,7 @@ export default class TodoListItem extends Component {
       itemContent = (
         <input
           autoFocus
+          ref="input"
           value={ this.state.value }
           onChange={ this.onChangeInput.bind(this) }
           onKeyDown={ this.onKeyDownInput.bind(this) }
