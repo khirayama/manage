@@ -12,10 +12,7 @@
       "type": "string"
     },
     "order": {
-      "type": [
-        "integer",
-        "null"
-      ],
+      "type": "integer",
       "minimum": 0
     }
   }
