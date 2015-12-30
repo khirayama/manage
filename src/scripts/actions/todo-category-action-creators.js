@@ -62,3 +62,33 @@ export function deleteTodoCategory(id) {
   getTodos();
   appDispatcher.emit(types.DELETE_TODO_CATEGORY, id);
 }
+
+export function sortTodoCategory(from, to) {
+  const allTodoCategories = todoCategoryStorage.order('order').get();
+
+  if (from < to) {
+    // To move to down.
+    for (let index = from; index <= to; index++) {
+      const todoCategory = allTodoCategories[index];
+
+      if (index === from) {
+        todoCategoryStorage.update(todoCategory.id, { order: to });
+      } else if (index <= to) {
+        todoCategoryStorage.update(todoCategory.id, { order: todoCategory.order - 1 });
+      }
+    }
+  } else if (to < from) {
+    // To move to up.
+    for (let index = to; index <= from; index++) {
+      const todoCategory = allTodoCategories[index];
+
+      if (index === from) {
+        todoCategoryStorage.update(todoCategory.id, { order: to });
+      } else if (index <= from) {
+        todoCategoryStorage.update(todoCategory.id, { order: todoCategory.order + 1 });
+      }
+    }
+  }
+
+  getTodoCategories();
+}

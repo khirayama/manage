@@ -62,7 +62,11 @@ export default class TodoCategoryListItem extends Component {
     } else {
       itemContent = (
         <label
+          draggable
           onClick={ this.onClickLabel.bind(this) }
+          onDrag={ this.props._onDragStart }
+          onDragEnter={ this.props._onDragEnter }
+          onDragEnd={ this.props._onDragEnd }
         >
           { todoCategory.name }
         </label>
@@ -80,4 +84,7 @@ export default class TodoCategoryListItem extends Component {
 
 TodoCategoryListItem.propTypes = {
   todoCategory: React.PropTypes.object.isRequired,
+  _onDragStart: React.PropTypes.func.isRequired,
+  _onDragEnter: React.PropTypes.func.isRequired,
+  _onDragEnd: React.PropTypes.func.isRequired,
 };

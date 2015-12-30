@@ -5,6 +5,7 @@ import {
   editTodoCategory,
   updateTodoCategory,
   deleteTodoCategory,
+  sortTodoCategory,
 } from '../../src/scripts/actions/todo-category-action-creators';
 import todoCategoryStorage from '../../src/scripts/storages/todo-category-storage';
 import appDispatcher from '../../src/scripts/dispatchers/app-dispatcher';
@@ -75,6 +76,33 @@ describe('TodoCategoryActionCreators', () => {
       const todoCategory = todoCategories[0];
 
       deleteTodoCategory(todoCategory.id);
+    });
+  });
+
+  describe('sortTodoCategory', () => {
+    it('from < to', (done) => {
+      appDispatcher.on(types.GET_ALL_TODO_CATEGORIES, (todoCategories) => {
+        assert(todoCategories.length === 3);
+        assert(todoCategories[0].name === 'Hello World 1');
+        assert(todoCategories[1].name === 'Hello World 0');
+        done();
+      });
+      createTodoCategory('Hello World 0');
+      createTodoCategory('Hello World 1');
+      createTodoCategory('Hello World 2');
+      sortTodoCategory(0, 1);
+    });
+    it('to < from', (done) => {
+      appDispatcher.on(types.GET_ALL_TODO_CATEGORIES, (todoCategories) => {
+        assert(todoCategories.length === 3);
+        assert(todoCategories[0].name === 'Hello World 1');
+        assert(todoCategories[1].name === 'Hello World 0');
+        done();
+      });
+      createTodoCategory('Hello World 0');
+      createTodoCategory('Hello World 1');
+      createTodoCategory('Hello World 2');
+      sortTodoCategory(1, 0);
     });
   });
 });
