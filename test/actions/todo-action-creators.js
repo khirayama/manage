@@ -7,6 +7,7 @@ import {
   editTodo,
   updateTodo,
   deleteTodo,
+  sortTodos,
 } from '../../src/scripts/actions/todo-action-creators';
 import todoStorage from '../../src/scripts/storages/todo-storage';
 import todoCategoryStorage from '../../src/scripts/storages/todo-category-storage';
@@ -15,10 +16,13 @@ import { actionTypes as types, initialTodoCategoryNames } from '../../src/script
 
 
 describe('TodoActionCreators', () => {
+  let todoCategoryId;
+
   beforeEach(() => {
     todoStorage.drop();
     todoCategoryStorage.drop();
     todoCategoryStorage.init();
+    todoCategoryId = todoCategoryStorage.all()[0].id;
     appDispatcher._listeners = {};
   });
 
@@ -42,7 +46,7 @@ describe('TodoActionCreators', () => {
         assert(todo.completed === false);
         done();
       });
-      createTodo('Hello World');
+      createTodo('Hello World', todoCategoryId);
     });
   });
 
@@ -52,7 +56,7 @@ describe('TodoActionCreators', () => {
         assert(id !== undefined);
         done();
       });
-      createTodo('Hello World');
+      createTodo('Hello World', todoCategoryId);
 
       const todos = todoStorage.all();
       const todo_ = todos[0];
@@ -69,7 +73,7 @@ describe('TodoActionCreators', () => {
         assert(todo.completed === false);
         done();
       });
-      createTodo('Hello World');
+      createTodo('Hello World', todoCategoryId);
 
       const todos = todoStorage.all();
       const todo_ = todos[0];
@@ -86,7 +90,7 @@ describe('TodoActionCreators', () => {
         assert(todo.completed === true);
         done();
       });
-      createTodo('Hello World');
+      createTodo('Hello World', todoCategoryId);
 
       const todos = todoStorage.all();
       const todo_ = todos[0];
@@ -101,12 +105,39 @@ describe('TodoActionCreators', () => {
         assert(id !== undefined);
         done();
       });
-      createTodo('Hello World');
+      createTodo('Hello World', todoCategoryId);
 
       const todos = todoStorage.all();
       const todo_ = todos[0];
 
       deleteTodo(todo_.id);
+    });
+  });
+
+  describe('sortTodos', () => {
+    it('from < to', (done) => {
+      appDispatcher.on(types.GET_ALL_TODOS, (todos) => {
+        assert(todos[0].todos.length === 3);
+        assert(todos[0].todos[0].text === 'Hello World 1');
+        assert(todos[0].todos[1].text === 'Hello World 0');
+        done();
+      });
+      createTodo('Hello World 0', todoCategoryId);
+      createTodo('Hello World 1', todoCategoryId);
+      createTodo('Hello World 2', todoCategoryId);
+      sortTodos(todoCategoryId, 0, 1);
+    });
+    it('to < from', (done) => {
+      appDispatcher.on(types.GET_ALL_TODOS, (todos) => {
+        assert(todos[0].todos.length === 3);
+        assert(todos[0].todos[0].text === 'Hello World 1');
+        assert(todos[0].todos[1].text === 'Hello World 0');
+        done();
+      });
+      createTodo('Hello World 0', todoCategoryId);
+      createTodo('Hello World 1', todoCategoryId);
+      createTodo('Hello World 2', todoCategoryId);
+      sortTodos(todoCategoryId, 1, 0);
     });
   });
 });

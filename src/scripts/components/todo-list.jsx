@@ -3,12 +3,41 @@ import TodoListItem from './todo-list-item';
 
 import {
   createTodo,
+  sortTodos,
 } from '../actions/todo-action-creators';
 
 
 export default class TodoList extends Component {
+  constructor(props) {
+    super(props);
+
+    this._initializeOrder();
+  }
+
   onClickAddButton() {
     createTodo('', this.props.todoCategory.categoryId);
+  }
+
+  onDragStart(from) {
+    this._order.from = from;
+  }
+
+  onDragEnter(to) {
+    this._order.to = to;
+  }
+
+  onDragEnd(todoCategoryId) {
+    if (this._order.from !== null && this._order.to !== null) {
+      sortTodos(todoCategoryId, this._order.from, this._order.to);
+      this._initializeOrder();
+    }
+  }
+
+  _initializeOrder() {
+    this._order = {
+      from: null,
+      to: null,
+    };
   }
 
   _createTodoListItem(todo) {
@@ -16,6 +45,9 @@ export default class TodoList extends Component {
       <TodoListItem
         key={todo.id}
         todo={todo}
+        _onDragStart={ this.onDragStart.bind(this, todo.order) }
+        _onDragEnter={ this.onDragEnter.bind(this, todo.order) }
+        _onDragEnd={ this.onDragEnd.bind(this, todo.categoryId) }
       />
     );
   }

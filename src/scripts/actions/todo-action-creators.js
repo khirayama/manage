@@ -31,9 +31,12 @@ export function getTodos() {
 }
 
 export function createTodo(text, categoryId) {
+  const todos = todoStorage.where({ categoryId }).get();
+
   const entity = todoStorage.create({
     text,
     categoryId,
+    order: todos.length,
   });
 
   validateByJSONSchema(entity, todoStorageSchema);
@@ -78,4 +81,34 @@ export function updateTodo(id, text) {
 export function deleteTodo(id) {
   todoStorage.destroy(id);
   appDispatcher.emit(types.DELETE_TODO, id);
+}
+
+export function sortTodos(categoryId, from, to) {
+  const todos = todoStorage.where({ categoryId }).order('order').get();
+
+  if (from < to) {
+    // To move to down.
+    for (let index = from; index <= to; index++) {
+      const todo = todos[index];
+
+      if (index === from) {
+        todoStorage.update(todo.id, { order: to });
+      } else if (index <= to) {
+        todoStorage.update(todo.id, { order: todo.order - 1 });
+      }
+    }
+  } else if (to < from) {
+    // To move to up.
+    for (let index = to; index <= from; index++) {
+      const todo = todos[index];
+
+      if (index === from) {
+        todoStorage.update(todo.id, { order: to });
+      } else if (index <= from) {
+        todoStorage.update(todo.id, { order: todo.order + 1 });
+      }
+    }
+  }
+
+  getTodos();
 }
