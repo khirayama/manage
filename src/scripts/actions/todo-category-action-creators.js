@@ -36,10 +36,22 @@ export function createTodoCategory(name) {
 }
 
 export function editTodoCategory(id) {
-  const todoCategory = todoCategoryStorage.get(id);
-  const entity = Object.assign({}, todoCategory, {
-    isEditing: true,
-  });
+  const entity = todoCategoryStorage.get(id);
+
+  entity.isEditing = true;
+
+  validateByJSONSchema(entity, todoCategoryStorageSchema);
+
+  appDispatcher.emit(types.EDIT_TODO_CATEGORY, entity);
+}
+
+export function editNextTodoCategory(order) {
+  let entity = todoCategoryStorage.where({ order: order + 1 }).get()[0];
+
+  if (!entity) {
+    entity = todoCategoryStorage.where({ order: 0 }).get()[0];
+  }
+  entity.isEditing = true;
 
   validateByJSONSchema(entity, todoCategoryStorageSchema);
 

@@ -1,4 +1,5 @@
 export const keyCodes = {
+  TAB: 9,
   ENTER: 13,
 };
 

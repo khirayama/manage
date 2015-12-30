@@ -4,6 +4,7 @@ import {
   editTodo,
   updateTodo,
   deleteTodo,
+  editNextTodo,
 } from '../actions/todo-action-creators';
 import { keyCodes } from '../constants/constants';
 
@@ -36,8 +37,16 @@ export default class TodoListItem extends Component {
   onKeyDownInput(event) {
     const keyCode = event.keyCode;
 
-    if (keyCode === keyCodes.ENTER) {
-      this.save();
+    switch (true) {
+      case (keyCode === keyCodes.ENTER):
+        this.save();
+        break;
+      case (keyCode === keyCodes.TAB):
+        event.preventDefault();
+        editNextTodo(this.props.todo.categoryId, this.props.todo.order);
+        break;
+      default:
+        break;
     }
   }
 

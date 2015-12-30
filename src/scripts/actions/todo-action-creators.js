@@ -58,10 +58,22 @@ export function completeTodo(id) {
 }
 
 export function editTodo(id) {
-  const todo = todoStorage.get(id);
-  const entity = Object.assign({}, todo, {
-    isEditing: true,
-  });
+  const entity = todoStorage.get(id);
+
+  entity.isEditing = true;
+
+  validateByJSONSchema(entity, todoStorageSchema);
+
+  appDispatcher.emit(types.EDIT_TODO, entity);
+}
+
+export function editNextTodo(categoryId, order) {
+  let entity = todoStorage.where({ categoryId }).where({ order: order + 1 }).get()[0];
+
+  if (!entity) {
+    entity = todoStorage.where({ categoryId }).where({ order: 0 }).get()[0];
+  }
+  entity.isEditing = true;
 
   validateByJSONSchema(entity, todoStorageSchema);
 
