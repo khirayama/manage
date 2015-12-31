@@ -88,9 +88,21 @@ export function updateTodo(id, text) {
   appDispatcher.emit(types.EDIT_TODO, entity);
 }
 
-export function deleteTodo(id) {
-  todoStorage.destroy(id);
-  appDispatcher.emit(types.DELETE_TODO, id);
+export function deleteTodo(categoryId, todoId) {
+  const todo = todoStorage.get(todoId);
+  const categoryTodos = todoStorage.where({ categoryId }).order('order').get();
+
+  categoryTodos.forEach(categoryTodo => {
+    if (todo.order < categoryTodo.order) {
+      todoStorage.update(categoryTodo.id, {
+        order: categoryTodo.order - 1,
+      });
+    }
+  });
+
+  todoStorage.destroy(todoId);
+
+  appDispatcher.emit(types.DELETE_TODO, todoId);
 }
 
 export function sortTodos(categoryId, from, to) {
