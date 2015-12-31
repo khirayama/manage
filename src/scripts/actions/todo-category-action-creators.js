@@ -1,5 +1,6 @@
 import appDispatcher from '../dispatchers/app-dispatcher';
 import todoCategoryStorage from '../storages/todo-category-storage';
+import todoStorage from '../storages/todo-storage';
 import { actionTypes as types } from '../constants/constants';
 import { validateByJSONSchema } from '../json-schemas/json-schema.js';
 import todoCategoryStorageSchema from '../json-schemas/todo-category-storage.json';
@@ -69,13 +70,20 @@ export function updateTodoCategory(id, name) {
 export function deleteTodoCategory(id) {
   const todoCategory = todoCategoryStorage.get(id);
   const todoCategories = todoCategoryStorage.all();
+  const categoryTodos = todoStorage.where({ categoryId: id }).get();
 
+  // update other todo category id
   todoCategories.forEach(todoCategory_ => {
     if (todoCategory.order < todoCategory_.order) {
       todoCategoryStorage.update(todoCategory_.id, {
         order: todoCategory_.order - 1,
       });
     }
+  });
+
+  // remove todo belonged this category
+  categoryTodos.forEach(categoryTodo => {
+    todoStorage.destroy(categoryTodo.id);
   });
 
   todoCategoryStorage.destroy(id);
