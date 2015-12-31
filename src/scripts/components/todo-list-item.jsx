@@ -26,7 +26,7 @@ export default class TodoListItem extends Component {
   }
 
   onClickDeleteButton() {
-    deleteTodo(this.props.todo.id);
+    deleteTodo(this.props.todo.categoryId, this.props.todo.id);
   }
 
   onClickMoveButton() {

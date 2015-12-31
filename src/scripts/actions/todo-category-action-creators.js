@@ -67,6 +67,17 @@ export function updateTodoCategory(id, name) {
 }
 
 export function deleteTodoCategory(id) {
+  const todoCategory = todoCategoryStorage.get(id);
+  const todoCategories = todoCategoryStorage.all();
+
+  todoCategories.forEach(todoCategory_ => {
+    if (todoCategory.order < todoCategory_.order) {
+      todoCategoryStorage.update(todoCategory_.id, {
+        order: todoCategory_.order - 1,
+      });
+    }
+  });
+
   todoCategoryStorage.destroy(id);
   getTodos();
   appDispatcher.emit(types.DELETE_TODO_CATEGORY, id);

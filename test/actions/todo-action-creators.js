@@ -110,7 +110,7 @@ describe('TodoActionCreators', () => {
       const todos = todoStorage.all();
       const todo_ = todos[0];
 
-      deleteTodo(todo_.id);
+      deleteTodo(todo_.categoryId, todo_.id);
     });
   });
 
