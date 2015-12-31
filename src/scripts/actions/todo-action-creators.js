@@ -15,6 +15,7 @@ export function getTodos() {
     todos.push({
       categoryName: todoCategory.name,
       categoryId: todoCategory.id,
+      otherCategories: todoCategoryStorage.where({ id: todoCategory.id }, true).get(),
       todos: todoStorage.where({ categoryId: todoCategory.id }).order('order').get(),
     });
   });
@@ -118,6 +119,27 @@ export function sortTodos(categoryId, from, to) {
       }
     }
   }
+
+  getTodos();
+}
+
+export function moveTodoToOtherCategory(currentCategoryId, newCategoryId, todoId) {
+  const todo = todoStorage.get(todoId);
+  const currentCategoryTodos = todoStorage.where({ categoryId: currentCategoryId }).order('order').get();
+  const newCategoryTodos = todoStorage.where({ categoryId: newCategoryId }).order('order').get();
+
+  currentCategoryTodos.forEach(currentCategoryTodo => {
+    if (todo.order < currentCategoryTodo.order) {
+      todoStorage.update(currentCategoryTodo.id, {
+        order: currentCategoryTodo.order - 1,
+      });
+    }
+  });
+
+  todoStorage.update(todoId, {
+    categoryId: newCategoryId,
+    order: newCategoryTodos.length,
+  });
 
   getTodos();
 }

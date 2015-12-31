@@ -1,6 +1,6 @@
 import MicroStore from './micro-store';
 
-import AppDispatcher from '../dispatchers/app-dispatcher';
+import appDispatcher from '../dispatchers/app-dispatcher';
 import { actionTypes as types } from '../constants/constants';
 import { parseTextToItem } from '../utils/text-to-schedule-parser.js';
 import { validateByJSONSchema } from '../json-schemas/json-schema.js';
@@ -13,7 +13,7 @@ export default class TodoStore extends MicroStore {
 
     this._todos = [];
 
-    this.register(AppDispatcher, {
+    this.register(appDispatcher, {
       [types.GET_ALL_TODOS]: (todos) => {
         todos.forEach(todoCategory => {
           todoCategory.todos.forEach((todo) => {

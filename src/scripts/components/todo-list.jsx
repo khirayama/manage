@@ -45,6 +45,7 @@ export default class TodoList extends Component {
       <TodoListItem
         key={todo.id}
         todo={todo}
+        otherCategories={this.props.todoCategory.otherCategories}
         _onDragStart={ this.onDragStart.bind(this, todo.order) }
         _onDragEnter={ this.onDragEnter.bind(this, todo.order) }
         _onDragEnd={ this.onDragEnd.bind(this, todo.categoryId) }
