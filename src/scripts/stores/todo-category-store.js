@@ -1,6 +1,7 @@
 import MicroStore from './micro-store';
 
-import AppDispatcher from '../dispatchers/app-dispatcher';
+import logger from '../utils/logger';
+import appDispatcher from '../dispatchers/app-dispatcher';
 import { actionTypes as types } from '../constants/constants';
 import { validateByJSONSchema } from '../json-schemas/json-schema.js';
 import todoCategoryStoreSchema from '../json-schemas/todo-category-store.json';
@@ -12,9 +13,12 @@ export default class TodoCategoryStore extends MicroStore {
 
     this._todoCategories = [];
 
-    this.register(AppDispatcher, {
+    this.register(appDispatcher, {
       [types.GET_ALL_TODO_CATEGORIES]: (todoCategories) => {
-        todoCategories.forEach(todoCategory => {
+        todoCategories.forEach((todoCategory, todoCategoryIndex) => {
+          if (todoCategory.order !== todoCategoryIndex) {
+            logger.error({ error: 'Wrong order.', item: todoCategory });
+          }
           validateByJSONSchema(todoCategory, todoCategoryStoreSchema);
         });
 
