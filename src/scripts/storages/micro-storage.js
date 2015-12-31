@@ -73,7 +73,7 @@ export default class MicroStorage {
     return JSON.parse(localStorage.getItem(key));
   }
 
-  where(statement) {
+  where(statement, except) {
     if (!this._filtering) {
       this._filtering = true;
       this._filteredData = _o2a(this._data);
@@ -87,7 +87,11 @@ export default class MicroStorage {
       for (const key in statement) {
         if (!key) break;
         const value = statement[key];
-        if (_data[key] === value) data.push(_data);
+        if (except) {
+          if (_data[key] !== value) data.push(_data);
+        } else {
+          if (_data[key] === value) data.push(_data);
+        }
       }
     }
     this._filteredData = data;
