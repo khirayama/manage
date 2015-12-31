@@ -4,6 +4,7 @@ import {
   editTodo,
   updateTodo,
   deleteTodo,
+  moveTodoToOtherCategory,
 } from '../actions/todo-action-creators';
 import { keyCodes } from '../constants/constants';
 
@@ -14,6 +15,7 @@ export default class TodoListItem extends Component {
 
     this.state = {
       value: this.props.todo.text,
+      isCategoryListShowing: false,
     };
   }
 
@@ -25,6 +27,16 @@ export default class TodoListItem extends Component {
 
   onClickDeleteButton() {
     deleteTodo(this.props.todo.id);
+  }
+
+  onClickMoveButton() {
+    this.setState({
+      isCategoryListShowing: !this.state.isCategoryListShowing,
+    });
+  }
+
+  onClickOtherCategory(currentCategoryId, newCategoryId, todoId) {
+    moveTodoToOtherCategory(currentCategoryId, newCategoryId, todoId);
   }
 
   onChangeInput(event) {
@@ -77,6 +89,8 @@ export default class TodoListItem extends Component {
   render() {
     const todo = this.props.todo;
     let itemContent;
+    let moveButton;
+    let categoryList;
 
     if (todo.isEditing) {
       itemContent = (
@@ -116,11 +130,33 @@ export default class TodoListItem extends Component {
       }
     }
 
+    if (this.props.otherCategories.length !== 0) {
+      moveButton = <span onClick={ this.onClickMoveButton.bind(this) }>[MOVE]</span>;
+    }
+
+    if (this.state.isCategoryListShowing && this.props.otherCategories.length !== 0) {
+      const otherCategoryListItemElements = this.props.otherCategories.map(otherCategory => {
+        return (
+          <li
+            key={`${todo.id}-${otherCategory.id}`}
+            onClick={this.onClickOtherCategory.bind(this, todo.categoryId, otherCategory.id, todo.id)}
+          >
+            {otherCategory.name}
+          </li>
+        );
+      });
+      categoryList = <ul>{ otherCategoryListItemElements }</ul>;
+    }
+
     return (
       <li key={todo.id} >
-        { itemContent }
-        <span className="done-button">[DONE]</span>
-        <span onClick={ this.onClickDeleteButton.bind(this) }>[DELETE]</span>
+        <div>
+          { itemContent }
+          <span className="done-button">[DONE]</span>
+          <span onClick={ this.onClickDeleteButton.bind(this) }>[DELETE]</span>
+          { moveButton }
+        </div>
+        { categoryList }
       </li>
     );
   }
@@ -128,6 +164,7 @@ export default class TodoListItem extends Component {
 
 TodoListItem.propTypes = {
   todo: React.PropTypes.object.isRequired,
+  otherCategories: React.PropTypes.array.isRequired,
   _onDragStart: React.PropTypes.func,
   _onDragEnter: React.PropTypes.func,
   _onDragEnd: React.PropTypes.func,

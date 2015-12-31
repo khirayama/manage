@@ -15,7 +15,8 @@ const todoListItemElement = ReactTestUtils.renderIntoDocument(React.createElemen
     id: 'dummy-id',
     text: 'AAA',
     completed: false,
-  }
+  },
+  otherCategories: [],
 }));
 
 describe('TodoListItem', () => {
