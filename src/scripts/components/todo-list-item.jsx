@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import {
+  createTodo,
   editTodo,
   updateTodo,
   deleteTodo,
@@ -53,6 +54,9 @@ export default class TodoListItem extends Component {
     switch (true) {
       case (keyCode === keyCodes.ENTER && !shift && !ctrl):
         this.save();
+        break;
+      case (keyCode === keyCodes.ENTER && !shift && ctrl):
+        createTodo('', this.props.todo.categoryId);
         break;
       case (keyCode === keyCodes.TAB && !shift && !ctrl):
         event.preventDefault();
