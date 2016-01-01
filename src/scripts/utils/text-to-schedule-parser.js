@@ -118,7 +118,7 @@ export function textToSchedule(dateText, referenceDate) {
 export function parseTextToItem(text, referenceDate) {
   const _referenceDate = referenceDate || moment();
   const splitedItem = splitTextToDateAndText(text);
-  const schedule = textToSchedule(splitedItem.date, _referenceDate);
+  const schedule = textToSchedule(splitedItem.date, _referenceDate) || null;
   const item = (schedule) ? { schedule, text: splitedItem.text } : { schedule, text };
 
   return item;
