@@ -56,6 +56,9 @@ export default class TodoListItem extends Component {
         this.save();
         break;
       case (keyCode === keyCodes.ENTER && !shift && ctrl):
+        if (this.state.value === '') {
+          deleteTodo(this.props.todo.categoryId, this.props.todo.id);
+        }
         createTodo('', this.props.todo.categoryId);
         break;
       case (keyCode === keyCodes.TAB && !shift && !ctrl):
