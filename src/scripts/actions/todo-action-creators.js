@@ -2,8 +2,8 @@ import appDispatcher from '../dispatchers/app-dispatcher';
 import todoStorage from '../storages/todo-storage';
 import todoCategoryStorage from '../storages/todo-category-storage';
 import { actionTypes as types } from '../constants/constants';
-import { validateByJSONSchema } from '../json-schemas/json-schema.js';
-import todoStorageSchema from '../json-schemas/todo-storage.json';
+import { validateByJSONSchema } from '../json-schemas/json-schema';
+import { TODO_STORAGE_SCHEMA, TODOS_STORAGE_SCHEMA } from '../json-schemas/todo-storage';
 
 
 export function getTodos() {
@@ -20,10 +20,10 @@ export function getTodos() {
     });
   });
 
+  validateByJSONSchema(todos, TODOS_STORAGE_SCHEMA);
+
   todos.forEach(todoCategory => {
     todoCategory.todos.forEach(todo => {
-      validateByJSONSchema(todo, todoStorageSchema);
-
       todo.isEditing = false;
     });
   });
@@ -40,7 +40,7 @@ export function createTodo(text, categoryId) {
     order: todos.length,
   });
 
-  validateByJSONSchema(entity, todoStorageSchema);
+  validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
 
   entity.isEditing = true;
 
@@ -53,7 +53,7 @@ export function completeTodo(id) {
     completed: !todo.completed,
   });
 
-  validateByJSONSchema(entity, todoStorageSchema);
+  validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
 
   appDispatcher.emit(types.COMPLETE_TODO, entity);
 }
@@ -71,9 +71,9 @@ export function editTodo(categoryId, order) {
     entity = todoStorage.where({ categoryId }).where({ order }).get()[0];
   }
 
-  entity.isEditing = true;
+  validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
 
-  validateByJSONSchema(entity, todoStorageSchema);
+  entity.isEditing = true;
 
   appDispatcher.emit(types.EDIT_TODO, entity);
 }
@@ -81,7 +81,7 @@ export function editTodo(categoryId, order) {
 export function updateTodo(id, text) {
   const entity = todoStorage.update(id, { text });
 
-  validateByJSONSchema(entity, todoStorageSchema);
+  validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
 
   entity.isEditing = false;
 
