@@ -13,13 +13,13 @@ describe('TextToScheduleParser', () => {
       item = parseTextToItem('meets my friend', createdAt);
 
       assert(item.text === answerText);
-      assert(item.schedule === undefined);
+      assert(item.schedule === null);
     })
     it('mom meets my friend', () => {
       item = parseTextToItem('mom meets my friend', createdAt);
 
       assert(item.text === 'mom ' + answerText);
-      assert(item.schedule === undefined);
+      assert(item.schedule === null);
     })
     it('mon meets my friend', () => {
       item = parseTextToItem('mon meets my friend', createdAt);
