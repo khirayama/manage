@@ -2,8 +2,8 @@ import appDispatcher from '../dispatchers/app-dispatcher';
 import todoCategoryStorage from '../storages/todo-category-storage';
 import todoStorage from '../storages/todo-storage';
 import { actionTypes as types } from '../constants/constants';
-import { validateByJSONSchema } from '../json-schemas/json-schema.js';
-import todoCategoryStorageSchema from '../json-schemas/todo-category-storage.json';
+import { validateByJSONSchema } from '../json-schemas/json-schema';
+import { TODO_CATEGORY_STORAGE_SCHEMA, TODO_CATEGORIES_STORAGE_SCHEMA } from '../json-schemas/todo-category-storage';
 import {
   getTodos,
 } from './todo-action-creators';
@@ -12,9 +12,9 @@ import {
 export function getTodoCategories() {
   const allTodoCategories = todoCategoryStorage.order('order').get();
 
-  allTodoCategories.forEach(todoCategory => {
-    validateByJSONSchema(todoCategory, todoCategoryStorageSchema);
+  validateByJSONSchema(allTodoCategories, TODO_CATEGORIES_STORAGE_SCHEMA);
 
+  allTodoCategories.forEach(todoCategory => {
     todoCategory.isEditing = false;
   });
 
@@ -28,7 +28,7 @@ export function createTodoCategory(name) {
     order,
   });
 
-  validateByJSONSchema(entity, todoCategoryStorageSchema);
+  validateByJSONSchema(entity, TODO_CATEGORY_STORAGE);
 
   entity.isEditing = true;
 
@@ -49,9 +49,9 @@ export function editTodoCategory(order) {
     entity = todoCategoryStorage.where({ order }).get()[0];
   }
 
-  entity.isEditing = true;
+  validateByJSONSchema(entity, TODO_CATEGORY_STORAGE_SCHEMA);
 
-  validateByJSONSchema(entity, todoCategoryStorageSchema);
+  entity.isEditing = true;
 
   appDispatcher.emit(types.EDIT_TODO_CATEGORY, entity);
 }
@@ -59,7 +59,7 @@ export function editTodoCategory(order) {
 export function updateTodoCategory(id, name) {
   const entity = todoCategoryStorage.update(id, { name });
 
-  validateByJSONSchema(entity, todoCategoryStorageSchema);
+  validateByJSONSchema(entity, TODO_CATEGORY_STORAGE_SCHEMA);
 
   entity.isEditing = false;
 
