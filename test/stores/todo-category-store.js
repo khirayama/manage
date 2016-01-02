@@ -12,6 +12,7 @@ describe('TodoCategoryStore', () => {
     todoCategoryStore.create({
       id: 'dummy-id',
       name: 'Hello World',
+      order: 1,
     });
   });
 
@@ -29,6 +30,7 @@ describe('TodoCategoryStore', () => {
       todoCategoryStore.update({
         id: 'dummy-id',
         name: 'Hello New World',
+      order: 1,
       });
 
       todoCategories = todoCategoryStore._todoCategories;

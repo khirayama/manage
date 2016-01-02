@@ -5,7 +5,7 @@ import appDispatcher from '../dispatchers/app-dispatcher';
 import { actionTypes as types } from '../constants/constants';
 import { parseTextToItem } from '../utils/text-to-schedule-parser';
 import { validateByJSONSchema } from '../json-schemas/json-schema';
-import { TODO_SCHEMA, TODOS_SCHEMA } from '../json-schemas/todo-store';
+import { TODO_STORE_SCHEMA, TODOS_SCHEMA } from '../json-schemas/todo-store';
 
 
 export default class TodoStore extends MicroStore {
@@ -65,7 +65,7 @@ export default class TodoStore extends MicroStore {
   create(todo) {
     const newTodo = TodoStore._addSchedule(todo);
 
-    validateByJSONSchema(newTodo, TODO_SCHEMA);
+    validateByJSONSchema(newTodo, TODO_STORE_SCHEMA);
     this._todos.forEach(todoCategory => {
       if (todoCategory.categoryId === todo.categoryId) {
         todoCategory.todos.push(newTodo);
@@ -76,7 +76,7 @@ export default class TodoStore extends MicroStore {
   update(todo) {
     const newTodo = TodoStore._addSchedule(todo);
 
-    validateByJSONSchema(newTodo, TODO_SCHEMA);
+    validateByJSONSchema(newTodo, TODO_STORE_SCHEMA);
     this._todos.forEach((todoCategory) => {
       if (todoCategory.categoryId === todo.categoryId) {
         todoCategory.todos.forEach((todo_, index) => {

@@ -1,15 +1,18 @@
 export const TODO_CATEGORY_STORAGE_SCHEMA = {
-  "type": "object",
-  "required": ["name", "order"],
-  "properties": {
-    "name": {
-      "type": "string"
+  type: 'object',
+  required: [
+    'name',
+    'order',
+  ],
+  properties: {
+    name: {
+      type: 'string',
     },
-    "order": {
-      "type": "integer",
-      "minimum": 0
-    }
-  }
+    order: {
+      type: 'integer',
+      minimum: 0,
+    },
+  },
 };
 
 export const TODO_CATEGORIES_STORAGE_SCHEMA = {

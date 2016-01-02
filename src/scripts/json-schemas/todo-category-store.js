@@ -1,4 +1,4 @@
-export const TODO_CATEGORY_SCHEMA = {
+export const TODO_CATEGORY_STORE_SCHEMA = {
   type: 'object',
   required: [
     'name',
@@ -14,12 +14,12 @@ export const TODO_CATEGORY_SCHEMA = {
     },
     isEditing: {
       type: 'boolean',
-    }
-  }
+    },
+  },
 };
 
-export const TODO_CATEGORIES_SCHEMA = {
+export const TODO_CATEGORIES_STORE_SCHEMA = {
   type: 'array',
   minItems: 0,
-  items: TODO_CATEGORY_SCHEMA,
+  items: TODO_CATEGORY_STORE_SCHEMA,
 };

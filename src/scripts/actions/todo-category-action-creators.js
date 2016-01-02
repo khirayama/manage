@@ -28,7 +28,7 @@ export function createTodoCategory(name) {
     order,
   });
 
-  validateByJSONSchema(entity, TODO_CATEGORY_STORAGE);
+  validateByJSONSchema(entity, TODO_CATEGORY_STORAGE_SCHEMA);
 
   entity.isEditing = true;
 

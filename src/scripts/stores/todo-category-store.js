@@ -4,7 +4,7 @@ import logger from '../utils/logger';
 import appDispatcher from '../dispatchers/app-dispatcher';
 import { actionTypes as types } from '../constants/constants';
 import { validateByJSONSchema } from '../json-schemas/json-schema.js';
-import { TODO_CATEGORY_SCHEMA, TODO_CATEGORIES_SCHEMA } from '../json-schemas/todo-category-store.js';
+import { TODO_CATEGORY_STORE_SCHEMA, TODO_CATEGORIES_STORE_SCHEMA } from '../json-schemas/todo-category-store.js';
 
 
 export default class TodoCategoryStore extends MicroStore {
@@ -42,18 +42,18 @@ export default class TodoCategoryStore extends MicroStore {
   }
 
   setTodoCategories(todoCategories = []) {
-    validateByJSONSchema(todoCategories, TODO_CATEGORIES_SCHEMA);
+    validateByJSONSchema(todoCategories, TODO_CATEGORIES_STORE_SCHEMA);
     TodoCategoryStore._checkOrder(todoCategories);
     this._todoCategories = todoCategories;
   }
 
   create(todoCategory) {
-    validateByJSONSchema(todoCategory, TODO_CATEGORY_SCHEMA);
+    validateByJSONSchema(todoCategory, TODO_CATEGORY_STORE_SCHEMA);
     this._todoCategories.push(todoCategory);
   }
 
   update(todoCategory) {
-    validateByJSONSchema(todoCategory, TODO_CATEGORY_SCHEMA);
+    validateByJSONSchema(todoCategory, TODO_CATEGORY_STORE_SCHEMA);
     this._todoCategories.forEach((todoCategory_, index) => {
       if (todoCategory_.id === todoCategory.id) {
         this._todoCategories.splice(index, 1, todoCategory);

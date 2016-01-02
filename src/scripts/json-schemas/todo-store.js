@@ -15,7 +15,7 @@ export const SCHEDULE_SCHEMA = {
     'monthName',
     'shortDayName',
     'shortMonthName',
-    'year'
+    'year',
   ],
   properties: {
     completed: {
@@ -51,26 +51,26 @@ export const SCHEDULE_SCHEMA = {
   },
 };
 
-export const TODO_SCHEMA = {
+export const TODO_STORE_SCHEMA = {
   type: 'object',
   required: [
     'text',
     'completed',
     'categoryId',
     'order',
-    'isEditing',
     'schedule',
     'scheduleText',
+    'isEditing',
   ],
   properties: {
     text: {
-      type: 'string'
+      type: 'string',
     },
     completed: {
-      type: 'boolean'
+      type: 'boolean',
     },
     categoryId: {
-      type: 'string'
+      type: 'string',
     },
     order: {
       type: 'integer',
@@ -83,7 +83,7 @@ export const TODO_SCHEMA = {
     scheduleText: {
       type: 'string',
     },
-  }
+  },
 };
 
 export const TODOS_SCHEMA = {
@@ -107,8 +107,8 @@ export const TODOS_SCHEMA = {
       todos: {
         type: 'array',
         minItems: 0,
-        items: TODO_SCHEMA,
-      }
-    }
-  }
+        items: TODO_STORE_SCHEMA,
+      },
+    },
+  },
 };

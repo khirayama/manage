@@ -1,10 +1,10 @@
 import assert from 'power-assert';
 
 import { validateByJSONSchema } from '../../src/scripts/json-schemas/json-schema';
-import todoStorageSchema from '../../src/scripts/json-schemas/todo-storage';
-import todoCategoryStorageSchema from '../../src/scripts/json-schemas/todo-category-storage';
-import todoStoreSchema from '../../src/scripts/json-schemas/todo-store';
-import todoCategoryStoreSchema from '../../src/scripts/json-schemas/todo-category-store';
+import { TODO_STORAGE_SCHEMA } from '../../src/scripts/json-schemas/todo-storage';
+import { TODO_CATEGORY_STORAGE_SCHEMA } from '../../src/scripts/json-schemas/todo-category-storage';
+import { TODO_STORE_SCHEMA } from '../../src/scripts/json-schemas/todo-store';
+import { TODO_CATEGORY_STORE_SCHEMA } from '../../src/scripts/json-schemas/todo-category-store';
 
 
 describe('validateByJSONSchema', () => {
@@ -15,7 +15,7 @@ describe('validateByJSONSchema', () => {
       completed: false,
       categoryId: 'category-id',
       order: 1,
-    }, todoStorageSchema);
+    }, TODO_STORAGE_SCHEMA);
 
     assert(result.errors.length === 0);
   });
@@ -24,7 +24,7 @@ describe('validateByJSONSchema', () => {
     const result = validateByJSONSchema({
       name: '',
       order: 1,
-    }, todoCategoryStorageSchema);
+    }, TODO_CATEGORY_STORAGE_SCHEMA);
 
     assert(result.errors.length === 0);
   });
@@ -36,8 +36,10 @@ describe('validateByJSONSchema', () => {
       completed: false,
       categoryId: 'category-id',
       order: 1,
+      schedule: null,
+      scheduleText: '',
       isEditing: false,
-    }, todoStoreSchema);
+    }, TODO_STORE_SCHEMA);
 
     assert(result.errors.length === 0);
   });
@@ -47,7 +49,7 @@ describe('validateByJSONSchema', () => {
       name: '',
       order: 1,
       isEditing: false,
-    }, todoCategoryStorageSchema);
+    }, TODO_CATEGORY_STORE_SCHEMA);
 
     assert(result.errors.length === 0);
   });

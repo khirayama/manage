@@ -19,8 +19,8 @@ export const TODO_STORAGE_SCHEMA = {
     order: {
       type: 'integer',
       minimum: 0,
-    }
-  }
+    },
+  },
 };
 
 export const TODOS_STORAGE_SCHEMA = {
@@ -45,7 +45,7 @@ export const TODOS_STORAGE_SCHEMA = {
         type: 'array',
         minItems: 0,
         items: TODO_STORAGE_SCHEMA,
-      }
-    }
-  }
+      },
+    },
+  },
 };
