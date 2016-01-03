@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { pages } from '../constants/constants';
 import { changePage, backPage } from '../actions/app-action-creators';
+import Header from './header';
 import TodoList from './todo-list';
 import TodoCategoryList from './todo-category-list';
 
@@ -39,6 +40,7 @@ export default class ManageApp extends Component {
   }
 
   createTodosPage() {
+    const page = this.state.appStore.getPage();
     const todos = this.props.appStore.todoStore.getTodos();
 
     const todoListElements = todos.map((todoCategory) => {
@@ -47,23 +49,29 @@ export default class ManageApp extends Component {
 
     return (
       <section>
-        <span onClick={ this.onClickLink.bind(this, pages.MENU) }>Menu</span>
+        <Header page={ page } />
         { todoListElements }
       </section>
     );
   }
 
   createMenuPage() {
+    const page = this.state.appStore.getPage();
+
     return (
-      <ul>
-        <li onClick={ this.onClickBack.bind(this) }>Back</li>
-        <li onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</li>
-        <li onClick={ this.onClickLink.bind(this, pages.TODO_CATEGORIES) }>Show todo categories</li>
-      </ul>
+      <section>
+        <ul>
+          <li onClick={ this.onClickBack.bind(this) }>Back</li>
+          <li onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</li>
+          <li onClick={ this.onClickLink.bind(this, pages.TODO_CATEGORIES) }>Show todo categories</li>
+        </ul>
+        <Header page={ page } />
+      </section>
     );
   }
 
   createTodoCategoriesPage() {
+    const page = this.state.appStore.getPage();
     const todoCategories = this.props.appStore.todoCategoryStore.getTodoCategories();
 
     return (
@@ -71,6 +79,7 @@ export default class ManageApp extends Component {
         <div onClick={ this.onClickBack.bind(this) }>Back</div>
         <div onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</div>
         <TodoCategoryList todoCategories={todoCategories} />
+        <Header page={ page } />
       </section>
     );
   }
