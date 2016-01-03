@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import TodoListItem from './todo-list-item';
 
+import { pages } from '../constants/constants';
+import { changePage } from '../actions/app-action-creators';
 import {
   createTodo,
   sortTodos,
@@ -12,6 +14,10 @@ export default class TodoList extends Component {
     super(props);
 
     this._initializeOrder();
+  }
+
+  onClickTitle(page) {
+    changePage(page);
   }
 
   onClickAddButton() {
@@ -60,7 +66,7 @@ export default class TodoList extends Component {
 
     return (
       <section>
-        <h2>{this.props.todoCategory.categoryName}</h2>
+        <h2 onClick={ this.onClickTitle.bind(this, pages.TODO_CATEGORIES) }>{this.props.todoCategory.categoryName}</h2>
         <div onClick={ this.onClickAddButton.bind(this) }>[Add]</div>
         <ul>{ todoListItemElements }</ul>
       </section>

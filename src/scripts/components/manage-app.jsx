@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { pages } from '../constants/constants';
+import { changePage, backPage } from '../actions/app-action-creators';
 import TodoList from './todo-list';
 import TodoCategoryList from './todo-category-list';
 
@@ -8,8 +10,7 @@ export default class ManageApp extends Component {
     super(props);
 
     this.state = {
-      todos: this.props.appStore.todoStore.getTodos(),
-      todoCategories: this.props.appStore.todoCategoryStore.getTodoCategories(),
+      appStore: this.props.appStore,
     };
 
     this.updateState = this._updateState.bind(this);
@@ -23,25 +24,70 @@ export default class ManageApp extends Component {
     this.props.appStore.removeChangeListener(this.updateState);
   }
 
+  onClickLink(page) {
+    changePage(page);
+  }
+
+  onClickBack() {
+    backPage();
+  }
+
   _updateState() {
     this.setState({
-      todos: this.props.appStore.todoStore.getTodos(),
-      todoCategories: this.props.appStore.todoCategoryStore.getTodoCategories(),
+      appStore: this.props.appStore,
     });
   }
 
-  render() {
-    const todoListElements = this.state.todos.map((todoCategory) => {
+  createTodosPage() {
+    const todos = this.props.appStore.todoStore.getTodos();
+
+    const todoListElements = todos.map((todoCategory) => {
       return <TodoList key={todoCategory.categoryId} todoCategory={todoCategory} />;
     });
 
     return (
       <section>
-        <h1>Manage</h1>
-        <TodoCategoryList todoCategories={this.state.todoCategories} />
+        <span onClick={ this.onClickLink.bind(this, pages.MENU) }>Menu</span>
         { todoListElements }
       </section>
     );
+  }
+
+  createMenuPage() {
+    return (
+      <ul>
+        <li onClick={ this.onClickBack.bind(this) }>Back</li>
+        <li onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</li>
+        <li onClick={ this.onClickLink.bind(this, pages.TODO_CATEGORIES) }>Show todo categories</li>
+      </ul>
+    );
+  }
+
+  createTodoCategoriesPage() {
+    const todoCategories = this.props.appStore.todoCategoryStore.getTodoCategories();
+
+    return (
+      <section>
+        <div onClick={ this.onClickBack.bind(this) }>Back</div>
+        <div onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</div>
+        <TodoCategoryList todoCategories={todoCategories} />
+      </section>
+    );
+  }
+
+  render() {
+    const page = this.state.appStore.getPage();
+
+    switch (page) {
+      case (pages.TODOS):
+        return this.createTodosPage();
+      case (pages.MENU):
+        return this.createMenuPage();
+      case (pages.TODO_CATEGORIES):
+        return this.createTodoCategoriesPage();
+      default:
+        return this.createTodosPage();
+    }
   }
 }
 
