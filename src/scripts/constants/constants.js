@@ -3,9 +3,18 @@ export const keyCodes = {
   ENTER: 13,
 };
 
+export const pages = {
+  TODOS: 'TODO_PAGE',
+  TODO_CATEGORIES: 'TODO_CATEGORIES_PAGE',
+  MENU: 'MENU_PAGE',
+};
+
 export const EVENT_CHANGE = 'CHANGE_STORE';
 
 export const actionTypes = {
+  // FOR_APP
+  BACK_PAGE: 'BACK_PAGE',
+  CHANGE_PAGE: 'CHANGE_PAGE',
   // FOR_TODO
   GET_ALL_TODOS: 'GET_ALL_TODOS',
   CREATE_TODO: 'CREATE_TODO',
