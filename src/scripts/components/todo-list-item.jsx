@@ -162,11 +162,11 @@ export default class TodoListItem extends Component {
     }
 
     return (
-      <li className={ classNames("todo-list-item", { "is-completed": todo.completed }) } key={todo.id} >
+      <li className={ classNames('todo-list-item', { 'is-completed': todo.completed }) } key={todo.id} >
         <div>
           <div className="done-button" onClick={ this.onClickDoneButton.bind(this) }>D</div>
           { itemContent }
-          <div className="delete-button"  onClick={ this.onClickDeleteButton.bind(this) }>[D]</div>
+          <div className="delete-button" onClick={ this.onClickDeleteButton.bind(this) }>[D]</div>
           { moveButton }
         </div>
         { categoryList }
