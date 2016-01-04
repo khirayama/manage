@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 
 import {
   createTodo,
+  completeTodo,
   editTodo,
   updateTodo,
   deleteTodo,
@@ -24,6 +26,10 @@ export default class TodoListItem extends Component {
     if (!prevProps.todo.isEditing && this.props.todo.isEditing) {
       this.selectInputValue();
     }
+  }
+
+  onClickDoneButton() {
+    completeTodo(this.props.todo.id);
   }
 
   onClickDeleteButton() {
@@ -138,7 +144,7 @@ export default class TodoListItem extends Component {
     }
 
     if (this.props.otherCategories.length !== 0) {
-      moveButton = <span onClick={ this.onClickMoveButton.bind(this) }>[MOVE]</span>;
+      moveButton = <div className="move-button" onClick={ this.onClickMoveButton.bind(this) }>[M]</div>;
     }
 
     if (this.state.isCategoryListShowing && this.props.otherCategories.length !== 0) {
@@ -156,11 +162,11 @@ export default class TodoListItem extends Component {
     }
 
     return (
-      <li key={todo.id} >
+      <li className={ classNames("todo-list-item", { "is-completed": todo.completed }) } key={todo.id} >
         <div>
+          <div className="done-button" onClick={ this.onClickDoneButton.bind(this) }>D</div>
           { itemContent }
-          <span className="done-button">[DONE]</span>
-          <span onClick={ this.onClickDeleteButton.bind(this) }>[DELETE]</span>
+          <div className="delete-button"  onClick={ this.onClickDeleteButton.bind(this) }>[D]</div>
           { moveButton }
         </div>
         { categoryList }
