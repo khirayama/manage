@@ -55,6 +55,8 @@ export function completeTodo(id) {
 
   validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
 
+  entity.isEditing = false;
+
   appDispatcher.emit(types.COMPLETE_TODO, entity);
 }
 
