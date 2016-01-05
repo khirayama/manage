@@ -48,7 +48,7 @@ export default class ManageApp extends Component {
     });
 
     return (
-      <section>
+      <section className="todos-page">
         <Header page={ page } />
         { todoListElements }
       </section>
@@ -59,7 +59,7 @@ export default class ManageApp extends Component {
     const page = this.state.appStore.getPage();
 
     return (
-      <section>
+      <section className="menu-page">
         <ul>
           <li onClick={ this.onClickBack.bind(this) }>Back</li>
           <li onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</li>
@@ -75,7 +75,7 @@ export default class ManageApp extends Component {
     const todoCategories = this.props.appStore.todoCategoryStore.getTodoCategories();
 
     return (
-      <section>
+      <section className="todo-categories-page">
         <div onClick={ this.onClickBack.bind(this) }>Back</div>
         <div onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</div>
         <TodoCategoryList todoCategories={todoCategories} />
