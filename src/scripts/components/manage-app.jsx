@@ -39,9 +39,15 @@ export default class ManageApp extends Component {
     });
   }
 
+  _changeTitle(title) {
+    document.title = `${title} | Manage`;
+  }
+
   createTodosPage() {
     const page = this.state.appStore.getPage();
     const todos = this.props.appStore.todoStore.getTodos();
+
+    this._changeTitle('Todos');
 
     const todoListElements = todos.map((todoCategory) => {
       return <TodoList key={todoCategory.categoryId} todoCategory={todoCategory} />;
@@ -58,6 +64,8 @@ export default class ManageApp extends Component {
   createMenuPage() {
     const page = this.state.appStore.getPage();
 
+    this._changeTitle('Menu');
+
     return (
       <section className="menu-page">
         <ul>
@@ -73,6 +81,8 @@ export default class ManageApp extends Component {
   createTodoCategoriesPage() {
     const page = this.state.appStore.getPage();
     const todoCategories = this.props.appStore.todoCategoryStore.getTodoCategories();
+
+    this._changeTitle('Todo categories');
 
     return (
       <section className="todo-categories-page">
