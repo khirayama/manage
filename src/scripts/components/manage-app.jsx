@@ -56,7 +56,9 @@ export default class ManageApp extends Component {
     return (
       <section className="todos-page">
         <Header page={ page } />
-        { todoListElements }
+        <section className="page-content">
+          { todoListElements }
+        </section>
       </section>
     );
   }
@@ -68,11 +70,13 @@ export default class ManageApp extends Component {
 
     return (
       <section className="menu-page">
-        <ul>
-          <li onClick={ this.onClickBack.bind(this) }>Back</li>
-          <li onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</li>
-          <li onClick={ this.onClickLink.bind(this, pages.TODO_CATEGORIES) }>Show todo categories</li>
-        </ul>
+        <section className="page-content">
+          <ul>
+            <li onClick={ this.onClickBack.bind(this) }>Back</li>
+            <li onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</li>
+            <li onClick={ this.onClickLink.bind(this, pages.TODO_CATEGORIES) }>Show todo categories</li>
+          </ul>
+        </section>
         <Header page={ page } />
       </section>
     );
@@ -86,9 +90,11 @@ export default class ManageApp extends Component {
 
     return (
       <section className="todo-categories-page">
-        <div onClick={ this.onClickBack.bind(this) }>Back</div>
-        <div onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</div>
-        <TodoCategoryList todoCategories={todoCategories} />
+        <section className="page-content">
+          <div onClick={ this.onClickBack.bind(this) }>Back</div>
+          <div onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</div>
+          <TodoCategoryList todoCategories={todoCategories} />
+        </section>
         <Header page={ page } />
       </section>
     );
