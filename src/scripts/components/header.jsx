@@ -23,8 +23,8 @@ export default class Header extends Component {
     }
 
     return (
-      <header>
-        <span onClick={ this.onClickLink.bind(this, href) }>Menu</span>
+      <header className="app-header">
+        <div className="menu-button" onClick={ this.onClickLink.bind(this, href) }><span>M</span></div>
       </header>
     );
   }
