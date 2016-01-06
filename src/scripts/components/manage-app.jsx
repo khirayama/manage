@@ -54,7 +54,7 @@ export default class ManageApp extends Component {
     });
 
     return (
-      <section className="todos-page">
+      <section className="page todos-page">
         <Header page={ page } />
         <section className="page-content">
           { todoListElements }
@@ -69,7 +69,7 @@ export default class ManageApp extends Component {
     this._changeTitle('Menu');
 
     return (
-      <section className="menu-page">
+      <section className="page menu-page">
         <section className="page-content">
           <div className="page-back-button" onClick={ this.onClickBack.bind(this) }>←</div>
           <ul className="menu-list">
@@ -89,13 +89,12 @@ export default class ManageApp extends Component {
     this._changeTitle('Todo categories');
 
     return (
-      <section className="todo-categories-page">
+      <section className="page todo-categories-page">
         <section className="page-content">
-        <div className="page-back-button" onClick={ this.onClickBack.bind(this) }>←</div>
-          <div onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</div>
+          <div className="page-back-button" onClick={ this.onClickBack.bind(this) }>←</div>
           <TodoCategoryList todoCategories={todoCategories} />
         </section>
-        <Header page={ page } />
+        <Header page={ page } position="bottom" />
       </section>
     );
   }

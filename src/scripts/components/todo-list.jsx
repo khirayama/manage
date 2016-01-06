@@ -66,7 +66,15 @@ export default class TodoList extends Component {
 
     return (
       <section className="todo-list">
-        <h2 onClick={ this.onClickTitle.bind(this, pages.TODO_CATEGORIES) }>{this.props.todoCategory.categoryName}</h2>
+        <h2>
+          {this.props.todoCategory.categoryName}
+          <span
+            className="edit-button"
+            onClick={ this.onClickTitle.bind(this, pages.TODO_CATEGORIES) }
+          >
+          [E]
+        </span>
+        </h2>
         <ul>{ todoListItemElements }</ul>
         <div className="add-button" onClick={ this.onClickAddButton.bind(this) }>[Add]</div>
       </section>
