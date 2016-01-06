@@ -144,7 +144,7 @@ export default class TodoListItem extends Component {
     }
 
     if (this.props.otherCategories.length !== 0) {
-      moveButton = <div className="move-button" onClick={ this.onClickMoveButton.bind(this) }>[M]</div>;
+      moveButton = <div className="move-button" onClick={ this.onClickMoveButton.bind(this) }><span>[M]</span></div>;
     }
 
     if (this.state.isCategoryListShowing && this.props.otherCategories.length !== 0) {
@@ -164,9 +164,9 @@ export default class TodoListItem extends Component {
     return (
       <li className={ classNames('todo-list-item', { 'is-completed': todo.completed }) } key={todo.id} >
         <div>
-          <div className="done-button" onClick={ this.onClickDoneButton.bind(this) }>D</div>
+          <div className="done-button" onClick={ this.onClickDoneButton.bind(this) }><span>D</span></div>
           { itemContent }
-          <div className="delete-button" onClick={ this.onClickDeleteButton.bind(this) }>[D]</div>
+          <div className="delete-button" onClick={ this.onClickDeleteButton.bind(this) }><span>[D]</span></div>
           { moveButton }
         </div>
         { categoryList }
