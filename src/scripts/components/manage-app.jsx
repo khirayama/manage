@@ -39,18 +39,26 @@ export default class ManageApp extends Component {
     });
   }
 
+  _changeTitle(title) {
+    document.title = `${title} | Manage`;
+  }
+
   createTodosPage() {
     const page = this.state.appStore.getPage();
     const todos = this.props.appStore.todoStore.getTodos();
+
+    this._changeTitle('Todos');
 
     const todoListElements = todos.map((todoCategory) => {
       return <TodoList key={todoCategory.categoryId} todoCategory={todoCategory} />;
     });
 
     return (
-      <section>
+      <section className="todos-page">
         <Header page={ page } />
-        { todoListElements }
+        <section className="page-content">
+          { todoListElements }
+        </section>
       </section>
     );
   }
@@ -58,13 +66,17 @@ export default class ManageApp extends Component {
   createMenuPage() {
     const page = this.state.appStore.getPage();
 
+    this._changeTitle('Menu');
+
     return (
-      <section>
-        <ul>
-          <li onClick={ this.onClickBack.bind(this) }>Back</li>
-          <li onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</li>
-          <li onClick={ this.onClickLink.bind(this, pages.TODO_CATEGORIES) }>Show todo categories</li>
-        </ul>
+      <section className="menu-page">
+        <section className="page-content">
+          <ul>
+            <li onClick={ this.onClickBack.bind(this) }>Back</li>
+            <li onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</li>
+            <li onClick={ this.onClickLink.bind(this, pages.TODO_CATEGORIES) }>Show todo categories</li>
+          </ul>
+        </section>
         <Header page={ page } />
       </section>
     );
@@ -74,11 +86,15 @@ export default class ManageApp extends Component {
     const page = this.state.appStore.getPage();
     const todoCategories = this.props.appStore.todoCategoryStore.getTodoCategories();
 
+    this._changeTitle('Todo categories');
+
     return (
-      <section>
-        <div onClick={ this.onClickBack.bind(this) }>Back</div>
-        <div onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</div>
-        <TodoCategoryList todoCategories={todoCategories} />
+      <section className="todo-categories-page">
+        <section className="page-content">
+          <div onClick={ this.onClickBack.bind(this) }>Back</div>
+          <div onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</div>
+          <TodoCategoryList todoCategories={todoCategories} />
+        </section>
         <Header page={ page } />
       </section>
     );
