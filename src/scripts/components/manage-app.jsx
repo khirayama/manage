@@ -71,13 +71,13 @@ export default class ManageApp extends Component {
     return (
       <section className="menu-page">
         <section className="page-content">
-          <ul>
-            <li onClick={ this.onClickBack.bind(this) }>Back</li>
-            <li onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</li>
-            <li onClick={ this.onClickLink.bind(this, pages.TODO_CATEGORIES) }>Show todo categories</li>
+          <div className="page-back-button" onClick={ this.onClickBack.bind(this) }>←</div>
+          <ul className="menu-list">
+            <li className="menu-list-item" onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</li>
+            <li className="menu-list-item" onClick={ this.onClickLink.bind(this, pages.TODO_CATEGORIES) }>Show todo categories</li>
           </ul>
         </section>
-        <Header page={ page } />
+        <Header page={ page } position="bottom" />
       </section>
     );
   }
@@ -91,7 +91,7 @@ export default class ManageApp extends Component {
     return (
       <section className="todo-categories-page">
         <section className="page-content">
-          <div onClick={ this.onClickBack.bind(this) }>Back</div>
+        <div className="page-back-button" onClick={ this.onClickBack.bind(this) }>←</div>
           <div onClick={ this.onClickLink.bind(this, pages.TODOS) }>Show todos</div>
           <TodoCategoryList todoCategories={todoCategories} />
         </section>
