@@ -111,9 +111,9 @@ export default class TodoCategoryListItem extends Component {
     }
 
     return (
-      <li key={ todoCategory.id }>
+      <li className="todo-category-list-item" key={ todoCategory.id }>
         { itemContent }
-        <span onClick={ this.onClickDeleteButton.bind(this) }>[DELETE]</span>
+        <div className="delete-button" onClick={ this.onClickDeleteButton.bind(this) }><span>[D]</span></div>
       </li>
     );
   }

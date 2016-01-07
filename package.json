@@ -12,7 +12,7 @@
     "watch:css": "sass -w src/styles/index.sass:dist/index.css --style compressed",
     "watch:js": "watchify src/scripts/index.js -t babelify -o dist/bundle.js --extension=jsx --debug",
     "watch": "rm -rf dist && mkdir dist && npm run watch:html & npm run watch:css & npm run watch:js",
-    "server": "browser-sync start --server \"dist\" --files \"src/**/*.js\", \"src/**/*.sass\", \"src/**/*.jade\" --port 3000 --reload-delay 300 --no-notify",
+    "server": "browser-sync start --server \"dist\" --files \"dist/bundle.js\", \"dist/index.css\", \"dist/index.html\" --port 3000 --no-notify",
     "lint": "eslint src --ext=js --ext=jsx",
     "develop": "npm run watch & npm run server",
     "start": "npm run develop",

@@ -58,10 +58,10 @@ export default class TodoCategoryList extends Component {
     });
 
     return (
-      <section>
+      <section className="todo-category-list">
         <h2>CATEGORIES</h2>
-        <div onClick={ this.onClickAddButton.bind(this) }>[Add]</div>
         <ul>{todoCategoryListItemElements}</ul>
+        <div className="add-button" onClick={ this.onClickAddButton.bind(this) }>[Add]</div>
       </section>
     );
   }
