@@ -122,7 +122,11 @@ export default class TodoListItem extends Component {
 
         itemContent = (
           <label
+            draggable
             onClick={ this.onClickLabel.bind(this) }
+            onDrag={ this.props._onDragStart }
+            onDragEnter={ this.props._onDragEnter }
+            onDragEnd={ this.props._onDragEnd }
           >
             <span>{schedule.year}/{schedule.month}/{schedule.date}({schedule.shortDayName}.)</span>
             { todo.scheduleText }
