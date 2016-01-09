@@ -14,8 +14,8 @@ export default class MenuPage extends Component {
         <section className="page-content">
           <div className="page-back-button" onClick={ backPage }>←</div>
           <ul className="menu-list">
-            <li className="menu-list-item" onClick={ changePage.bind(this, pages.TODOS) }>Show todos</li>
             <li className="menu-list-item" onClick={ changePage.bind(this, pages.TODO_CATEGORIES) }>Show todo categories</li>
+            <li className="menu-list-item" onClick={ changePage.bind(this, pages.SETTINGS) }>Settings</li>
           </ul>
         </section>
         <Header page={ page } position="bottom" />
