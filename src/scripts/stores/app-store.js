@@ -12,6 +12,7 @@ export default class AppStore extends MicroStore {
     super();
 
     this._page = null;
+    this._title = '';
     this._history = [];
 
     this.routes();
@@ -44,6 +45,10 @@ export default class AppStore extends MicroStore {
     this.on(pages.TODO_CATEGORIES, () => {
       this.createTodoCategoriesPage();
     });
+
+    this.on(pages.SETTINGS, () => {
+      this.createSettingsPage();
+    });
   }
 
   _changePage(page) {
@@ -55,7 +60,13 @@ export default class AppStore extends MicroStore {
     return this._page;
   }
 
+  getTitle() {
+    return this._title;
+  }
+
   createTodosPage() {
+    this._title = 'Todo';
+
     this._changePage(pages.TODOS);
     this.todoStore = this.todoStore || new TodoStore();
 
@@ -67,10 +78,14 @@ export default class AppStore extends MicroStore {
   }
 
   createMenuPage() {
+    this._title = 'Menu';
+
     this._changePage(pages.MENU);
   }
 
   createTodoCategoriesPage() {
+    this._title = 'Todo categories';
+
     this._changePage(pages.TODO_CATEGORIES);
     this.todoCategoryStore = this.todoCategoryStore || new TodoCategoryStore();
 
@@ -79,5 +94,11 @@ export default class AppStore extends MicroStore {
     this.todoCategoryStore.addChangeListener(() => {
       this.dispatchChange();
     });
+  }
+
+  createSettingsPage() {
+    this._title = 'Settings';
+
+    this._changePage(pages.SETTINGS);
   }
 }

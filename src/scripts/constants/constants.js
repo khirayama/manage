@@ -7,6 +7,7 @@ export const pages = {
   TODOS: 'TODO_PAGE',
   TODO_CATEGORIES: 'TODO_CATEGORIES_PAGE',
   MENU: 'MENU_PAGE',
+  SETTINGS: 'SETTINGS_PAGE',
 };
 
 export const EVENT_CHANGE = 'CHANGE_STORE';

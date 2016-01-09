@@ -4,6 +4,7 @@ import { pages } from '../constants/constants';
 import TodosPage from './todos-page';
 import MenuPage from './menu-page';
 import TodoCategoriesPage from './todo-categories-page';
+import SettingsPage from './settings-page';
 
 
 export default class ManageApp extends Component {
@@ -37,24 +38,23 @@ export default class ManageApp extends Component {
 
   render() {
     const page = this.state.appStore.getPage();
+    const title = this.state.appStore.getTitle();
+
+    this._changeTitle(title);
 
     switch (page) {
       case (pages.TODOS):
         const todos = this.state.appStore.todoStore.getTodos();
 
-        this._changeTitle('Todos');
-
         return <TodosPage page={page} todos={todos} />;
       case (pages.MENU):
-        this._changeTitle('Menu');
-
         return <MenuPage page={page} />;
       case (pages.TODO_CATEGORIES):
         const todoCategories = this.props.appStore.todoCategoryStore.getTodoCategories();
 
-        this._changeTitle('Todo categories');
-
         return <TodoCategoriesPage page={page} todoCategories={todoCategories} />;
+      case (pages.SETTINGS):
+        return <SettingsPage page={page} />;
       default:
         return <div>404</div>;
     }
