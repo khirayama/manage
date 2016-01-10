@@ -35,10 +35,6 @@ export default class TodoStore extends MicroStore {
         this.update(todo);
         this.dispatchChange();
       },
-      [types.DELETE_TODO]: (id) => {
-        this.delete(id);
-        this.dispatchChange();
-      },
     });
   }
 
@@ -86,22 +82,6 @@ export default class TodoStore extends MicroStore {
         });
       }
     });
-  }
-
-  delete(id) {
-    // To break a for loop
-    for (let todoCategoryIndex = 0; todoCategoryIndex < this._todos.length; todoCategoryIndex++) {
-      const todoCategory = this._todos[todoCategoryIndex];
-
-      for (let todoIndex = 0; todoIndex < todoCategory.todos.length; todoIndex++) {
-        const todo = todoCategory.todos[todoIndex];
-
-        if (todo.id === id) {
-          todoCategory.todos.splice(todoIndex, 1);
-          return;
-        }
-      }
-    }
   }
 
   static _addSchedule(todo) {

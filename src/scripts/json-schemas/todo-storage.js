@@ -30,7 +30,6 @@ export const TODOS_STORAGE_SCHEMA = {
     required: [
       'categoryId',
       'categoryName',
-      'otherCategories',
       'todos',
     ],
     properties: {
@@ -40,7 +39,6 @@ export const TODOS_STORAGE_SCHEMA = {
       categoryName: {
         type: 'string',
       },
-      // otherCategories: TODO_CATEGORIES_STORAGE_SCHEMA,
       todos: {
         type: 'array',
         minItems: 0,

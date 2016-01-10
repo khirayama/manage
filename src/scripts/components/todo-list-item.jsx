@@ -149,7 +149,6 @@ export default class TodoListItem extends Component {
 
 TodoListItem.propTypes = {
   todo: React.PropTypes.object.isRequired,
-  otherCategories: React.PropTypes.array.isRequired,
   _onDragStart: React.PropTypes.func,
   _onDragEnter: React.PropTypes.func,
   _onDragEnd: React.PropTypes.func,

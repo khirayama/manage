@@ -15,7 +15,6 @@ export function getTodos() {
     todos.push({
       categoryName: todoCategory.name,
       categoryId: todoCategory.id,
-      otherCategories: todoCategoryStorage.where({ id: todoCategory.id }, true).get(),
       todos: todoStorage.where({ categoryId: todoCategory.id }).order('order').get(),
     });
   });
@@ -104,7 +103,7 @@ export function deleteTodo(categoryId, todoId) {
 
   todoStorage.destroy(todoId);
 
-  appDispatcher.emit(types.DELETE_TODO, todoId);
+  getTodos();
 }
 
 export function sortTodos(categoryId, from, to) {

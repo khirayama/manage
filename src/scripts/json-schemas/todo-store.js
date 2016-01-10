@@ -1,5 +1,3 @@
-import { TODO_CATEGORIES_SCHEMA } from './todo-category-store';
-
 export const SCHEDULE_SCHEMA = {
   type: [
     'object',
@@ -93,7 +91,6 @@ export const TODOS_SCHEMA = {
     required: [
       'categoryId',
       'categoryName',
-      'otherCategories',
       'todos',
     ],
     properties: {
@@ -102,12 +99,6 @@ export const TODOS_SCHEMA = {
       },
       categoryName: {
         type: 'string',
-      },
-      otherCategories: TODO_CATEGORIES_SCHEMA,
-      todos: {
-        type: 'array',
-        minItems: 0,
-        items: TODO_STORE_SCHEMA,
       },
     },
   },
