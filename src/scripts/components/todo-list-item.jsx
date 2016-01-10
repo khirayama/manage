@@ -55,6 +55,9 @@ export default class TodoListItem extends Component {
         }
         createTodo('', this.props.todo.categoryId);
         break;
+      case (keyCode === keyCodes.ESC && !shift && !ctrl):
+        this.save();
+        break;
       case (keyCode === keyCodes.TAB && !shift && !ctrl):
         event.preventDefault();
         editTodo(this.props.todo.categoryId, this.props.todo.order + 1);
@@ -79,7 +82,7 @@ export default class TodoListItem extends Component {
     if (text !== '') {
       updateTodo(todo.id, text);
     } else {
-      deleteTodo(todo.id);
+      deleteTodo(todo.categoryId, todo.id);
     }
   }
 
