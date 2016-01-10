@@ -109,16 +109,6 @@ describe('TodoStore', () => {
     });
   });
 
-  describe('delete', () => {
-    it('an item', () => {
-      todoStore.delete('id-AAA-1');
-
-      todos = todoStore._todos;
-
-      assert(todos[0].todos.length === 2);
-    });
-  });
-
   describe('apply parseTextToItem', () => {
     it('fri meets my friends', () => {
       todoStore.create({

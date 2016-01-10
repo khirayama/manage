@@ -39,14 +39,4 @@ describe('TodoCategoryStore', () => {
       assert(todoCategories[0].name === 'Hello New World');
     });
   });
-
-  describe('delete', () => {
-    it('an item', () => {
-      todoCategoryStore.delete('dummy-id');
-
-      todoCategories = todoCategoryStore._todoCategories;
-
-      assert(todoCategories.length === 0);
-    });
-  });
 });

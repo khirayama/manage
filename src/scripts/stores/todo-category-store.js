@@ -30,10 +30,6 @@ export default class TodoCategoryStore extends MicroStore {
         this.update(todoCategory);
         this.dispatchChange();
       },
-      [types.DELETE_TODO_CATEGORY]: (id) => {
-        this.delete(id);
-        this.dispatchChange();
-      },
     });
   }
 
@@ -57,14 +53,6 @@ export default class TodoCategoryStore extends MicroStore {
     this._todoCategories.forEach((todoCategory_, index) => {
       if (todoCategory_.id === todoCategory.id) {
         this._todoCategories.splice(index, 1, todoCategory);
-      }
-    });
-  }
-
-  delete(id) {
-    this._todoCategories.forEach((todoCategory_, index) => {
-      if (todoCategory_.id === id) {
-        this._todoCategories.splice(index, 1);
       }
     });
   }

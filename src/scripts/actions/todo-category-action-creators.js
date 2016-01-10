@@ -87,8 +87,8 @@ export function deleteTodoCategory(id) {
   });
 
   todoCategoryStorage.destroy(id);
-  getTodos();
-  appDispatcher.emit(types.DELETE_TODO_CATEGORY, id);
+
+  getTodoCategories();
 }
 
 export function sortTodoCategories(from, to) {
