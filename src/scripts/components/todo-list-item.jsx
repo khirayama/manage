@@ -100,6 +100,7 @@ export default class TodoListItem extends Component {
         <input
           autoFocus
           ref="input"
+          placeholder={ 'Add a todo' }
           value={ this.state.value }
           onChange={ this.onChangeInput.bind(this) }
           onKeyDown={ this.onKeyDownInput.bind(this) }
@@ -118,8 +119,8 @@ export default class TodoListItem extends Component {
             onDragEnter={ this.props._onDragEnter }
             onDragEnd={ this.props._onDragEnd }
           >
-            <span>{schedule.year}/{schedule.month}/{schedule.date}({schedule.shortDayName}.)</span>
             { todo.scheduleText }
+            <div className="todo-list-item-schedule">{schedule.year}/{schedule.month}/{schedule.date}({schedule.shortDayName}.)</div>
           </label>
         );
       } else {

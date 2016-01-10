@@ -1,7 +1,7 @@
 import MicroStore from './micro-store';
 
-import appDispatcher from '../dispatchers/app-dispatcher';
 import { actionTypes as types } from '../constants/constants';
+import appDispatcher from '../dispatchers/app-dispatcher';
 
 
 export default class LauncherStore extends MicroStore {
@@ -15,7 +15,8 @@ export default class LauncherStore extends MicroStore {
       this.setContents(contents);
       this.dispatchChange();
     });
-    this.register(appDispatcher, types.SHOW_LAUNCHER, () => {
+    this.register(appDispatcher, types.SHOW_LAUNCHER, contents => {
+      this.setContents(contents);
       this.showLauncher();
       this.dispatchChange();
     });
