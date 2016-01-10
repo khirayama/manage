@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
 import { pages } from '../constants/constants';
-import { changePage, backPage } from '../actions/app-action-creators';
+import { changePage } from '../actions/app-action-creators';
 import Header from './header';
+import PageBackButton from './page-back-button';
 
 
 export default class MenuPage extends Component {
@@ -12,7 +13,7 @@ export default class MenuPage extends Component {
     return (
       <section className="page menu-page">
         <section className="page-content">
-          <div className="page-back-button" onClick={ backPage }>←</div>
+          <PageBackButton />
           <ul className="menu-list">
             <li className="menu-list-item" onClick={ changePage.bind(this, pages.TODO_CATEGORIES) }>Show todo categories</li>
             <li className="menu-list-item" onClick={ changePage.bind(this, pages.SETTINGS) }>Settings</li>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import { backPage } from '../actions/app-action-creators';
 import Header from './header';
+import PageBackButton from './page-back-button';
 import TodoCategoryList from './todo-category-list';
 
 
@@ -13,7 +13,7 @@ export default class TodoCategoriesPage extends Component {
     return (
       <section className="page todo-categories-page">
         <section className="page-content">
-          <div className="page-back-button" onClick={ backPage }>←</div>
+          <PageBackButton />
           <TodoCategoryList todoCategories={todoCategories} />
         </section>
         <Header page={ page } position="bottom" />
