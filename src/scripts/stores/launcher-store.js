@@ -11,19 +11,17 @@ export default class LauncherStore extends MicroStore {
     this._isLauncherShowing = false;
     this._contents = [];
 
-    this.register(appDispatcher, {
-      [types.GET_LAUNCHER_CONTENTS]: contents => {
-        this.setContents(contents);
-        this.dispatchChange();
-      },
-      [types.SHOW_LAUNCHER]: () => {
-        this.showLauncher();
-        this.dispatchChange();
-      },
-      [types.HIDE_LAUNCHER]: () => {
-        this.hideLauncher();
-        this.dispatchChange();
-      },
+    this.register(appDispatcher, types.GET_LAUNCHER_CONTENTS, contents => {
+      this.setContents(contents);
+      this.dispatchChange();
+    });
+    this.register(appDispatcher, types.SHOW_LAUNCHER, () => {
+      this.showLauncher();
+      this.dispatchChange();
+    });
+    this.register(appDispatcher, types.HIDE_LAUNCHER, () => {
+      this.hideLauncher();
+      this.dispatchChange();
     });
   }
 

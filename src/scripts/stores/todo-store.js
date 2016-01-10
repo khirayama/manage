@@ -14,27 +14,25 @@ export default class TodoStore extends MicroStore {
 
     this._todos = [];
 
-    this.register(appDispatcher, {
-      [types.GET_ALL_TODOS]: (todos) => {
-        this.setTodos(todos);
-        this.dispatchChange();
-      },
-      [types.CREATE_TODO]: (todo) => {
-        this.create(todo);
-        this.dispatchChange();
-      },
-      [types.COMPLETE_TODO]: (todo) => {
-        this.update(todo);
-        this.dispatchChange();
-      },
-      [types.EDIT_TODO]: (todo) => {
-        this.update(todo);
-        this.dispatchChange();
-      },
-      [types.UPDATE_TODO]: (todo) => {
-        this.update(todo);
-        this.dispatchChange();
-      },
+    this.register(appDispatcher, types.GET_ALL_TODOS, todos => {
+      this.setTodos(todos);
+      this.dispatchChange();
+    });
+    this.register(appDispatcher, types.CREATE_TODO, todo => {
+      this.create(todo);
+      this.dispatchChange();
+    });
+    this.register(appDispatcher, types.COMPLETE_TODO, todo => {
+      this.update(todo);
+      this.dispatchChange();
+    });
+    this.register(appDispatcher, types.EDIT_TODO, todo => {
+      this.update(todo);
+      this.dispatchChange();
+    });
+    this.register(appDispatcher, types.UPDATE_TODO, todo => {
+      this.update(todo);
+      this.dispatchChange();
     });
   }
 
