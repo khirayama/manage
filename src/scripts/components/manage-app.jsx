@@ -5,7 +5,8 @@ import {
   keyCodes,
 } from '../constants/constants';
 import {
-  toggleLauncher,
+  showLauncher,
+  hideLauncher,
 } from '../actions/app-action-creators';
 import Launcher from './launcher';
 import TodosPage from './todos-page';
@@ -46,7 +47,6 @@ export default class ManageApp extends Component {
   }
 
   _setDocumentEventHandler() {
-
     document.addEventListener('keydown', event => {
       const keyCode = event.keyCode;
       const shift = event.shiftKey;
@@ -54,22 +54,26 @@ export default class ManageApp extends Component {
 
       switch (true) {
         case (keyCode === keyCodes.K && !shift && ctrl):
-        const isLauncherShowing = this.state.appStore.launcherStore.getLauncherShowing();
+          const isLauncherShowing = this.state.appStore.launcherStore.getLauncherShowing();
 
-        toggleLauncher(isLauncherShowing);
-        break;
+          if (isLauncherShowing) {
+            hideLauncher();
+          } else {
+            showLauncher();
+          }
+          break;
+        default:
+          break;
       }
     });
   }
 
   _createLauncherElement() {
-    const todoCategories = this.state.appStore.launcherStore.getTodoCategories();
-    const pages = this.state.appStore.launcherStore.getPages();
+    const contents = this.state.appStore.launcherStore.getContents();
 
     return (
       <Launcher
-        todoCategories={ todoCategories }
-        pages={ pages }
+        contents={ contents }
       />
     );
   }

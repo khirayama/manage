@@ -1,6 +1,10 @@
 export const keyCodes = {
   TAB: 9,
   ENTER: 13,
+  LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40,
   K: 75,
 };
 
@@ -38,4 +42,10 @@ export const initialTodoCategoryNames = {
   TODAY: 'TODAY',
   LATER: 'LATER',
   SCHEDULE: 'SCHEDULE',
+};
+
+export const launcherContentTypes = {
+  TODO: 'LAUNCHER_ITEM_TYPES_TODO',
+  TODO_CATEGORY: 'LAUNCHER_ITEM_TYPES_TODO_CATEGORY',
+  PAGE: 'LAUNCHER_ITEM_TYPES_PAGE',
 };

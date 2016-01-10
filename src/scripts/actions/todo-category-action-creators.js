@@ -4,9 +4,7 @@ import todoStorage from '../storages/todo-storage';
 import { actionTypes as types } from '../constants/constants';
 import { validateByJSONSchema } from '../json-schemas/json-schema';
 import { TODO_CATEGORY_STORAGE_SCHEMA, TODO_CATEGORIES_STORAGE_SCHEMA } from '../json-schemas/todo-category-storage';
-import {
-  getTodos,
-} from './todo-action-creators';
+import { getTodos } from './todo-action-creators';
 
 
 export function getTodoCategories() {

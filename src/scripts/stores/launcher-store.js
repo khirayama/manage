@@ -1,6 +1,5 @@
 import MicroStore from './micro-store';
 
-import logger from '../utils/logger';
 import appDispatcher from '../dispatchers/app-dispatcher';
 import { actionTypes as types } from '../constants/constants';
 
@@ -10,8 +9,7 @@ export default class LauncherStore extends MicroStore {
     super();
 
     this._isLauncherShowing = false;
-    this._todoCategories = [];
-    this._pages = [];
+    this._contents = [];
 
     this.register(appDispatcher, {
       [types.GET_LAUNCHER_CONTENTS]: contents => {
@@ -33,17 +31,12 @@ export default class LauncherStore extends MicroStore {
     return this._isLauncherShowing;
   }
 
-  getTodoCategories() {
-    return this._todoCategories;
+  getContents() {
+    return this._contents;
   }
 
-  getPages() {
-    return this._pages;
-  }
-
-  setContents({ todoCategories, pages }) {
-    this._todoCategories = todoCategories;
-    this._pages = pages;
+  setContents(contents) {
+    this._contents = contents;
   }
 
   showLauncher() {
@@ -54,4 +47,3 @@ export default class LauncherStore extends MicroStore {
     this._isLauncherShowing = false;
   }
 }
-

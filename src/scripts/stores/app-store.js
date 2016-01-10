@@ -75,7 +75,6 @@ export default class AppStore extends MicroStore {
     this.launcherStore.addChangeListener(() => {
       this.dispatchChange();
     });
-
   }
 
   // create page element methods
