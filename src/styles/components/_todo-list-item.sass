@@ -1,7 +1,8 @@
 .todo-list-item
   display: inline-block
   width: 100%
-  border-bottom: solid 1px #aaa
+  border-bottom: solid 1px $color-border
+  transition: opacity $timing-basic, background $timing-basic, color $timing-basic
   > div
     display: flex
     align-items: stretch
@@ -19,13 +20,30 @@
     justify-content: center
     span
       flex: none
+  .delete-button
+    opacity: 0
+    transition: opacity $timing-basic
   label,
   input
     flex: 1
-    padding: 12px 8px
+    line-height: 1rem
+    padding: 12px 4px
     word-wrap: break-word
+    background: transparent
+    color: inherit
   label,
     cursor: pointer
+    .todo-list-item-schedule
+      font-size: .75rem
+      line-height: 1rem
+      color: $color-sub
 
   &.is-completed
     opacity: .5
+
+  &:hover
+    opacity: .7
+    &.is-completed
+      opacity: .3
+    .delete-button
+      opacity: 1

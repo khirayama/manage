@@ -14,7 +14,7 @@ export function backPage() {
   appDispatcher.emit(types.BACK_PAGE);
 }
 
-export function getLauncherContents() {
+export function _createLauncherContents() {
   const todoCategoryItems = todoCategoryStorage.order('order').get().map(todoCategory => {
     const type = launcherContentTypes.TODO;
     const id = todoCategory.id;
@@ -41,11 +41,19 @@ export function getLauncherContents() {
 
   const contents = [...todoCategoryItems, createCategoryItem, ...pageItems];
 
+  return contents;
+}
+
+export function getLauncherContents() {
+  const contents = _createLauncherContents();
+
   appDispatcher.emit(types.GET_LAUNCHER_CONTENTS, contents);
 }
 
 export function showLauncher() {
-  appDispatcher.emit(types.SHOW_LAUNCHER);
+  const contents = _createLauncherContents();
+
+  appDispatcher.emit(types.SHOW_LAUNCHER, contents);
 }
 
 export function hideLauncher() {
