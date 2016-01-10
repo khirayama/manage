@@ -14,6 +14,7 @@ export default class AppStore extends MicroStore {
     this._page = null;
     this._title = '';
     this._history = [];
+    this._isLauncherShowing = false;
 
     this.routes();
     this.createTodosPage();
@@ -26,8 +27,16 @@ export default class AppStore extends MicroStore {
         this.emit(page);
         this.dispatchChange();
       },
-      [types.CHANGE_PAGE]: (page) => {
+      [types.CHANGE_PAGE]: page => {
         this.emit(page);
+        this.dispatchChange();
+      },
+      [types.SHOW_LAUNCHER]: () => {
+        this.showLauncher();
+        this.dispatchChange();
+      },
+      [types.HIDE_LAUNCHER]: () => {
+        this.hideLauncher();
         this.dispatchChange();
       },
     });
@@ -64,6 +73,19 @@ export default class AppStore extends MicroStore {
     return this._title;
   }
 
+  getLauncherShowing() {
+    return this._isLauncherShowing;
+  }
+
+  showLauncher() {
+    this._isLauncherShowing = true;
+  }
+
+  hideLauncher() {
+    this._isLauncherShowing = false;
+  }
+
+  // create page element methods
   createTodosPage() {
     this._title = 'Todo';
 

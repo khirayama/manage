@@ -1,6 +1,7 @@
 export const keyCodes = {
   TAB: 9,
   ENTER: 13,
+  K: 75,
 };
 
 export const pages = {
@@ -16,6 +17,8 @@ export const actionTypes = {
   // FOR_APP
   BACK_PAGE: 'BACK_PAGE',
   CHANGE_PAGE: 'CHANGE_PAGE',
+  SHOW_LAUNCHER: 'SHOW_LAUNCHER',
+  HIDE_LAUNCHER: 'HIDE_LAUNCHER',
   // FOR_TODO
   GET_ALL_TODOS: 'GET_ALL_TODOS',
   CREATE_TODO: 'CREATE_TODO',
