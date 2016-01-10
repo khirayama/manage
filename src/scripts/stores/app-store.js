@@ -21,18 +21,17 @@ export default class AppStore extends MicroStore {
     this.startLauncher();
     this.createTodosPage();
 
-    this.register(appDispatcher, {
-      [types.BACK_PAGE]: () => {
-        const page = this._history[this._history.length - 2];
+    this.register(appDispatcher, types.BACK_PAGE, () => {
+      const page = this._history[this._history.length - 2];
 
-        this._history.splice(this._history.length - 2, 2);
-        this.emit(page);
-        this.dispatchChange();
-      },
-      [types.CHANGE_PAGE]: page => {
-        this.emit(page);
-        this.dispatchChange();
-      },
+      this._history.splice(this._history.length - 2, 2);
+      this.emit(page);
+      this.dispatchChange();
+    });
+
+    this.register(appDispatcher, types.CHANGE_PAGE, page => {
+      this.emit(page);
+      this.dispatchChange();
     });
   }
 

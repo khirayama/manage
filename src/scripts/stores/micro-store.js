@@ -27,14 +27,9 @@ export default class MicroStore extends MicroEmitter {
     this.removeListener(type, listener);
   }
 
-  register(dispatcher, actions) {
-    for (const key in actions) {
-      if (!key) break;
-      const action = actions[key];
-
-      dispatcher.addListener(key, (data) => {
-        action(data);
-      });
-    }
+  register(dispatcher, actionType, callback) {
+    dispatcher.addListener(actionType, data => {
+      callback(data);
+    });
   }
 }
