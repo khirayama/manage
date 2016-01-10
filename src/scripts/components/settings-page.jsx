@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import { backPage } from '../actions/app-action-creators';
 import Header from './header';
+import PageBackButton from './page-back-button';
 
 
 export default class SettingsPage extends Component {
@@ -11,7 +11,7 @@ export default class SettingsPage extends Component {
     return (
       <section className="page settings-page">
         <section className="page-content">
-          <div className="page-back-button" onClick={ backPage }>←</div>
+          <PageBackButton />
           <ul className="setting-list">
             <li className="setting-list-item">Number of column</li>
             <li className="setting-list-item">Extract schedule</li>
