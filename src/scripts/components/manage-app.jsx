@@ -54,7 +54,7 @@ export default class ManageApp extends Component {
 
       switch (true) {
         case (keyCode === keyCodes.K && !shift && ctrl):
-        const isLauncherShowing = this.state.appStore.getLauncherShowing();
+        const isLauncherShowing = this.state.appStore.launcherStore.getLauncherShowing();
 
         toggleLauncher(isLauncherShowing);
         break;
@@ -62,10 +62,22 @@ export default class ManageApp extends Component {
     });
   }
 
+  _createLauncherElement() {
+    const todoCategories = this.state.appStore.launcherStore.getTodoCategories();
+    const pages = this.state.appStore.launcherStore.getPages();
+
+    return (
+      <Launcher
+        todoCategories={ todoCategories }
+        pages={ pages }
+      />
+    );
+  }
+
   render() {
     const page = this.state.appStore.getPage();
     const title = this.state.appStore.getTitle();
-    const launcherElement = (this.state.appStore.getLauncherShowing()) ? <Launcher /> : null;
+    const launcherElement = (this.state.appStore.launcherStore.getLauncherShowing()) ? this._createLauncherElement() : null;
 
     this._changeTitle(title);
 
