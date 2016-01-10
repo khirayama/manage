@@ -109,14 +109,18 @@ export default class Launcher extends Component {
   }
 
   static _filterContents(contents, searchText) {
-    const filteredContents = contents.map(content => {
-      if (content.text.toUpperCase().indexOf(searchText.toUpperCase()) !== -1) {
-        return content;
-      }
-      return false;
-    }).filter(el => Boolean(el));
+    const filteredContents = contents.concat();
+    const searchWords = searchText.split(' ');
 
-    return filteredContents;
+    searchWords.forEach(searchWord => {
+      filteredContents.forEach((content, index) => {
+        if (content && content.text.toUpperCase().indexOf(searchWord.toUpperCase()) === -1) {
+          filteredContents.splice(index, 1, false);
+        }
+      });
+    });
+
+    return filteredContents.filter(el => Boolean(el));
   }
 
   render() {
