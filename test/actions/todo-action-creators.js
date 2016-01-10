@@ -101,8 +101,11 @@ describe('TodoActionCreators', () => {
 
   describe('deleteTodo', () => {
     it('an item', (done) => {
-      appDispatcher.on(types.DELETE_TODO, (id) => {
-        assert(id !== undefined);
+      appDispatcher.on(types.GET_ALL_TODOS, (todos_) => {
+        // num of todo categories is 3
+        assert(todos_[0].todos.length === 0);
+        assert(todos_[1].todos.length === 0);
+        assert(todos_[2].todos.length === 0);
         done();
       });
       createTodo('Hello World', todoCategoryId);
