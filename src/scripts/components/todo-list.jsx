@@ -3,19 +3,10 @@ import TodoListItem from './todo-list-item';
 
 import { pages } from '../constants/constants';
 import { changePage } from '../actions/app-action-creators';
-import {
-  createTodo,
-  sortTodos,
-} from '../actions/todo-action-creators';
+import { createTodo } from '../actions/todo-action-creators';
 
 
 export default class TodoList extends Component {
-  constructor(props) {
-    super(props);
-
-    this._initializeOrder();
-  }
-
   onClickTitle(page) {
     changePage(page);
   }
@@ -24,26 +15,16 @@ export default class TodoList extends Component {
     createTodo('', this.props.todoCategory.categoryId);
   }
 
-  onDragStart(from) {
-    this._order.from = from;
+  onDragStart(categoryId, from) {
+    this.props.setCurrentOrder(categoryId, from);
   }
 
-  onDragEnter(to) {
-    this._order.to = to;
+  onDragEnter(categoryId, to) {
+    this.props.setNewOrder(categoryId, to);
   }
 
-  onDragEnd(todoCategoryId) {
-    if (this._order.from !== null && this._order.to !== null) {
-      sortTodos(todoCategoryId, this._order.from, this._order.to);
-      this._initializeOrder();
-    }
-  }
-
-  _initializeOrder() {
-    this._order = {
-      from: null,
-      to: null,
-    };
+  onDragEnd() {
+    this.props.moveTodo();
   }
 
   _createTodoListItemElement(todo) {
@@ -52,22 +33,26 @@ export default class TodoList extends Component {
         key={todo.id}
         todo={todo}
         otherCategories={this.props.todoCategory.otherCategories}
-        _onDragStart={ this.onDragStart.bind(this, todo.order) }
-        _onDragEnter={ this.onDragEnter.bind(this, todo.order) }
-        _onDragEnd={ this.onDragEnd.bind(this, todo.categoryId) }
+        _onDragStart={ this.onDragStart.bind(this, todo.categoryId, todo.order) }
+        _onDragEnter={ this.onDragEnter.bind(this, todo.categoryId, todo.order) }
+        _onDragEnd={ this.onDragEnd.bind(this) }
       />
     );
   }
 
   render() {
-    const todoListItemElements = this.props.todoCategory.todos.map((todo) => {
+    const todoCategory = this.props.todoCategory;
+    const todoListItemElements = todoCategory.todos.map((todo) => {
       return this._createTodoListItemElement(todo);
     });
 
     return (
       <section className="todo-list">
-        <h2>
-          {this.props.todoCategory.categoryName}
+        <h2
+          onDragEnter={ this.onDragEnter.bind(this, todoCategory.categoryId, 0) }
+          onDragEnd={ this.onDragEnd.bind(this) }
+        >
+          {todoCategory.categoryName}
           <span
             className="edit-button"
             onClick={ this.onClickTitle.bind(this, pages.TODO_CATEGORIES) }
@@ -76,7 +61,14 @@ export default class TodoList extends Component {
         </span>
         </h2>
         <ul>{ todoListItemElements }</ul>
-        <div className="add-button" onClick={ this.onClickAddButton.bind(this) }>[Add]</div>
+        <div
+          className="add-button"
+          onClick={ this.onClickAddButton.bind(this) }
+          onDragEnter={ this.onDragEnter.bind(this, todoCategory.categoryId, todoCategory.todos.length) }
+          onDragEnd={ this.onDragEnd.bind(this) }
+        >
+          [Add]
+        </div>
       </section>
     );
   }
@@ -84,4 +76,7 @@ export default class TodoList extends Component {
 
 TodoList.propTypes = {
   todoCategory: React.PropTypes.object,
+  setCurrentOrder: React.PropTypes.func.isRequired,
+  setNewOrder: React.PropTypes.func.isRequired,
+  moveTodo: React.PropTypes.func.isRequired,
 };
