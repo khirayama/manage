@@ -7,7 +7,6 @@ import {
   editTodo,
   updateTodo,
   deleteTodo,
-  moveTodoToOtherCategory,
 } from '../actions/todo-action-creators';
 import { keyCodes } from '../constants/constants';
 
@@ -18,7 +17,6 @@ export default class TodoListItem extends Component {
 
     this.state = {
       value: this.props.todo.text,
-      isCategoryListShowing: false,
     };
   }
 
@@ -34,16 +32,6 @@ export default class TodoListItem extends Component {
 
   onClickDeleteButton() {
     deleteTodo(this.props.todo.categoryId, this.props.todo.id);
-  }
-
-  onClickMoveButton() {
-    this.setState({
-      isCategoryListShowing: !this.state.isCategoryListShowing,
-    });
-  }
-
-  onClickOtherCategory(currentCategoryId, newCategoryId, todoId) {
-    moveTodoToOtherCategory(currentCategoryId, newCategoryId, todoId);
   }
 
   onChangeInput(event) {
@@ -102,7 +90,6 @@ export default class TodoListItem extends Component {
   render() {
     const todo = this.props.todo;
     let itemContent;
-    let moveButton;
     let categoryList;
 
     if (todo.isEditing) {
@@ -147,31 +134,12 @@ export default class TodoListItem extends Component {
       }
     }
 
-    if (this.props.otherCategories.length !== 0) {
-      moveButton = <div className="move-button" onClick={ this.onClickMoveButton.bind(this) }><span>[M]</span></div>;
-    }
-
-    if (this.state.isCategoryListShowing && this.props.otherCategories.length !== 0) {
-      const otherCategoryListItemElements = this.props.otherCategories.map(otherCategory => {
-        return (
-          <li
-            key={`${todo.id}-${otherCategory.id}`}
-            onClick={this.onClickOtherCategory.bind(this, todo.categoryId, otherCategory.id, todo.id)}
-          >
-            {otherCategory.name}
-          </li>
-        );
-      });
-      categoryList = <ul>{ otherCategoryListItemElements }</ul>;
-    }
-
     return (
       <li className={ classNames('todo-list-item', { 'is-completed': todo.completed }) } key={todo.id} >
         <div>
           <div className="done-button" onClick={ this.onClickDoneButton.bind(this) }><span>D</span></div>
           { itemContent }
           <div className="delete-button" onClick={ this.onClickDeleteButton.bind(this) }><span>[D]</span></div>
-          { moveButton }
         </div>
         { categoryList }
       </li>

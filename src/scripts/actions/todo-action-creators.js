@@ -137,22 +137,36 @@ export function sortTodos(categoryId, from, to) {
   getTodos();
 }
 
-export function moveTodoToOtherCategory(currentCategoryId, newCategoryId, todoId) {
-  const todo = todoStorage.get(todoId);
-  const currentCategoryTodos = todoStorage.where({ categoryId: currentCategoryId }).order('order').get();
+export function moveTodo(currentCategoryId, from, newCategoryId, to) {
+  const currentTodo = todoStorage.where({ categoryId: currentCategoryId }).where({ order: from }).get()[0];
+
   const newCategoryTodos = todoStorage.where({ categoryId: newCategoryId }).order('order').get();
 
-  currentCategoryTodos.forEach(currentCategoryTodo => {
-    if (todo.order < currentCategoryTodo.order) {
-      todoStorage.update(currentCategoryTodo.id, {
-        order: currentCategoryTodo.order - 1,
+  newCategoryTodos.forEach(newCategoryTodo => {
+    const order = newCategoryTodo.order;
+
+    if (order >= to) {
+      todoStorage.update(newCategoryTodo.id, {
+        order: newCategoryTodo.order + 1,
       });
     }
   });
 
-  todoStorage.update(todoId, {
+  todoStorage.update(currentTodo.id, {
+    order: to,
     categoryId: newCategoryId,
-    order: newCategoryTodos.length,
+  });
+
+  const currentCategoryTodos = todoStorage.where({ categoryId: currentCategoryId }).order('order').get();
+
+  currentCategoryTodos.forEach(currentCategoryTodo => {
+    const order = currentCategoryTodo.order;
+
+    if (order >= from) {
+      todoStorage.update(currentCategoryTodo.id, {
+        order: currentCategoryTodo.order - 1,
+      });
+    }
   });
 
   getTodos();
