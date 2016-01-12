@@ -181,10 +181,10 @@ describe('TextToScheduleParser', () => {
       item = parseTextToItem('9/22 meets my friend', createdAt);
 
       assert(item.text === answerText);
-      assert(item.schedule.year === 2016);
+      assert(item.schedule.year === 2015);
       assert(item.schedule.month === 9);
       assert(item.schedule.date === 22);
-      assert(item.schedule.day === 4);
+      assert(item.schedule.day === 2);
 
       const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
 

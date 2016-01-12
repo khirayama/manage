@@ -33,7 +33,7 @@ describe('TodoCategoryActionCreators', () => {
 
   describe('editTodoCategory', () => {
     it('an item', (done) => {
-      appDispatcher.on(types.EDIT_TODO_CATEGORY, (todoCategoryId) => {
+      appDispatcher.on(types.UPDATE_TODO_CATEGORY, (todoCategoryId) => {
         assert(todoCategoryId !== undefined);
         done();
       });
