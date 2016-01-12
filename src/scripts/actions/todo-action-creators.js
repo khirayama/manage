@@ -56,27 +56,17 @@ export function completeTodo(id) {
 
   entity.isEditing = false;
 
-  appDispatcher.emit(types.COMPLETE_TODO, entity);
+  appDispatcher.emit(types.UPDATE_TODO, entity);
 }
 
-export function editTodo(categoryId, order) {
-  const todos = todoStorage.where({ categoryId }).get();
-  const len = todos.length;
-  let entity;
-
-  if (len - 1 < order) {
-    entity = todoStorage.where({ categoryId }).where({ order: 0 }).get()[0];
-  } else if (order < 0) {
-    entity = todoStorage.where({ categoryId }).where({ order: len - 1 }).get()[0];
-  } else {
-    entity = todoStorage.where({ categoryId }).where({ order }).get()[0];
-  }
+export function editTodo(id) {
+  const entity = todoStorage.get(id);
 
   validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
 
   entity.isEditing = true;
 
-  appDispatcher.emit(types.EDIT_TODO, entity);
+  appDispatcher.emit(types.UPDATE_TODO, entity);
 }
 
 export function updateTodo(id, text) {
@@ -86,7 +76,7 @@ export function updateTodo(id, text) {
 
   entity.isEditing = false;
 
-  appDispatcher.emit(types.EDIT_TODO, entity);
+  appDispatcher.emit(types.UPDATE_TODO, entity);
 }
 
 export function deleteTodo(categoryId, todoId) {
