@@ -34,24 +34,14 @@ export function createTodoCategory(name) {
   appDispatcher.emit(types.CREATE_TODO_CATEGORY, entity);
 }
 
-export function editTodoCategory(order) {
-  const todoCategories = todoCategoryStorage.all();
-  const len = todoCategories.length;
-  let entity;
-
-  if (len - 1 < order) {
-    entity = todoCategoryStorage.where({ order: 0 }).get()[0];
-  } else if (order < 0) {
-    entity = todoCategoryStorage.where({ order: len - 1 }).get()[0];
-  } else {
-    entity = todoCategoryStorage.where({ order }).get()[0];
-  }
+export function editTodoCategory(id) {
+  const entity = todoCategoryStorage.get(id);
 
   validateByJSONSchema(entity, TODO_CATEGORY_STORAGE_SCHEMA);
 
   entity.isEditing = true;
 
-  appDispatcher.emit(types.EDIT_TODO_CATEGORY, entity);
+  appDispatcher.emit(types.UPDATE_TODO_CATEGORY, entity);
 }
 
 export function updateTodoCategory(id, name) {
