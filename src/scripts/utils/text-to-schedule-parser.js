@@ -98,7 +98,7 @@ export function textToSchedule(dateText, referenceDate) {
       }
       _date[1] = +_date[1] - 1;
       date = moment(_date);
-      if (date.isBefore(referenceDate)) {
+      if (date.isBefore(referenceDate.subtract(1, 'days'))) {
         date = moment(_date).add(1, 'years');
       }
     } else {

@@ -2,7 +2,7 @@
   display: flex
   align-items: stretch
   width: 100%
-  border-bottom: solid 1px #aaa
+  border-bottom: solid 1px $color-border
   .delete-button
     flex: none
     width: 44px
@@ -11,12 +11,22 @@
     display: flex
     align-items: center
     justify-content: center
+    opacity: 0
+    transition: opacity $timing-basic
     span
       flex: none
   label,
   input
     flex: 1
-    padding: 12px 8px
+    line-height: 1rem
+    padding: 12px
     word-wrap: break-word
+    background: transparent
+    color: inherit
   label,
     cursor: pointer
+
+  &:hover
+    opacity: .7
+    .delete-button
+      opacity: 1

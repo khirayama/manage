@@ -22,14 +22,6 @@ export default class TodoStore extends MicroStore {
       this.create(todo);
       this.dispatchChange();
     });
-    this.register(appDispatcher, types.COMPLETE_TODO, todo => {
-      this.update(todo);
-      this.dispatchChange();
-    });
-    this.register(appDispatcher, types.EDIT_TODO, todo => {
-      this.update(todo);
-      this.dispatchChange();
-    });
     this.register(appDispatcher, types.UPDATE_TODO, todo => {
       this.update(todo);
       this.dispatchChange();

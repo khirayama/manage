@@ -52,7 +52,7 @@ describe('TodoActionCreators', () => {
 
   describe('editTodo', () => {
     it('an item', (done) => {
-      appDispatcher.on(types.EDIT_TODO, (id) => {
+      appDispatcher.on(types.UPDATE_TODO, (id) => {
         assert(id !== undefined);
         done();
       });
@@ -61,13 +61,13 @@ describe('TodoActionCreators', () => {
       const todos = todoStorage.all();
       const todo_ = todos[0];
 
-      editTodo(todo_.categoryId, todo_.order);
+      editTodo(todo_.id);
     });
   });
 
   describe('updateTodo', () => {
     it('an item', (done) => {
-      appDispatcher.on(types.EDIT_TODO, (todo) => {
+      appDispatcher.on(types.UPDATE_TODO, (todo) => {
         assert(todo.id !== undefined);
         assert(todo.text === 'Hello New World');
         assert(todo.completed === false);
@@ -84,7 +84,7 @@ describe('TodoActionCreators', () => {
 
   describe('completeTodo', () => {
     it('an item', (done) => {
-      appDispatcher.on(types.COMPLETE_TODO, (todo) => {
+      appDispatcher.on(types.UPDATE_TODO, (todo) => {
         assert(todo.id !== undefined);
         assert(todo.text === 'Hello World');
         assert(todo.completed === true);

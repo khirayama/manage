@@ -50,6 +50,9 @@ export default class Launcher extends Component {
         }
         this.setState({ contentIndex });
         break;
+      case (keyCode === keyCodes.ESC && !shift && !ctrl):
+        hideLauncher();
+        break;
       default:
         break;
     }
@@ -62,6 +65,10 @@ export default class Launcher extends Component {
   }
 
   _callAction(content) {
+    if (this.state.filteredContents.length === 0) {
+      return;
+    }
+
     switch (content.type) {
       case (launcherContentTypes.TODO):
         this._createTodo(content.id);
@@ -95,7 +102,7 @@ export default class Launcher extends Component {
   }
 
   _createContentItemElement(content, index) {
-    const className = (this.state.contentIndex === index) ? 'is-selected' : '';
+    const className = (this.state.contentIndex === index) ? 'launcher-list-item is-selected' : 'launcher-list-item';
 
     return (
       <li
@@ -124,9 +131,15 @@ export default class Launcher extends Component {
   }
 
   render() {
-    const contentElements = this.state.filteredContents.map((content, index) => {
-      return this._createContentItemElement(content, index);
-    });
+    let contentElements;
+
+    if (this.state.filteredContents.length !== 0) {
+      contentElements = this.state.filteredContents.map((content, index) => {
+        return this._createContentItemElement(content, index);
+      });
+    } else {
+      contentElements = [<li key="launcher-list-item-no-results" className="launcher-list-item">No results</li>];
+    }
 
     return (
       <div
@@ -139,12 +152,13 @@ export default class Launcher extends Component {
         >
           <input
             autoFocus
+            placeholder="Search shortcut"
             type="text"
             onKeyDown={ event => { this.onKeyDownInput(event); } }
             onChange={ event => { this.onChangeInput(event.target.value); } }
             value={ this.state.value }
           />
-          <ul>{ contentElements }</ul>
+          <ul className="launcher-list">{ contentElements }</ul>
         </div>
       </div>
     );
