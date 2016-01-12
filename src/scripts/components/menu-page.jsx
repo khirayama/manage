@@ -14,10 +14,14 @@ export default class MenuPage extends Component {
       <section className="page menu-page">
         <section className="page-content">
           <PageBackButton />
-          <ul className="menu-list">
-            <li className="menu-list-item" onClick={ changePage.bind(this, pages.TODO_CATEGORIES) }>Show todo categories</li>
-            <li className="menu-list-item" onClick={ changePage.bind(this, pages.SETTINGS) }>Settings</li>
-          </ul>
+          <section className="menu-list">
+            <h2>Menu</h2>
+            <ul>
+              <li className="menu-list-item" onClick={ changePage.bind(this, pages.TODOS) }>Show todos</li>
+              <li className="menu-list-item" onClick={ changePage.bind(this, pages.TODO_CATEGORIES) }>Show todo categories</li>
+              <li className="menu-list-item" onClick={ changePage.bind(this, pages.SETTINGS) }>Settings</li>
+            </ul>
+          </section>
         </section>
         <Header page={ page } position="bottom" />
       </section>

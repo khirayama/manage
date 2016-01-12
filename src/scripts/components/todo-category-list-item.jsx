@@ -65,10 +65,6 @@ export default class TodoCategoryListItem extends Component {
     }
   }
 
-  onClickLabel() {
-    editTodoCategory(this.props.todoCategory.order);
-  }
-
   save() {
     const todoCategory = this.props.todoCategory;
     const text = this.state.value.trim();
@@ -93,6 +89,7 @@ export default class TodoCategoryListItem extends Component {
         <input
           autoFocus
           ref="input"
+          placeholder="Add a category"
           value={ this.state.value }
           onChange={ this.onChangeInput.bind(this) }
           onKeyDown={ this.onKeyDownInput.bind(this) }
@@ -103,7 +100,7 @@ export default class TodoCategoryListItem extends Component {
       itemContent = (
         <label
           draggable
-          onClick={ this.onClickLabel.bind(this) }
+          onClick={ editTodoCategory.bind(this, this.props.todoCategory.id) }
           onDrag={ this.props._onDragStart }
           onDragEnter={ this.props._onDragEnter }
           onDragEnd={ this.props._onDragEnd }

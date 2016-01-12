@@ -26,14 +26,6 @@ export default class TodoListItem extends Component {
     }
   }
 
-  onClickDoneButton() {
-    completeTodo(this.props.todo.id);
-  }
-
-  onClickDeleteButton() {
-    deleteTodo(this.props.todo.categoryId, this.props.todo.id);
-  }
-
   onChangeInput(event) {
     this.setState({
       value: event.target.value,
@@ -69,10 +61,6 @@ export default class TodoListItem extends Component {
       default:
         break;
     }
-  }
-
-  onClickLabel() {
-    editTodo(this.props.todo.categoryId, this.props.todo.order);
   }
 
   save() {
@@ -114,7 +102,7 @@ export default class TodoListItem extends Component {
         itemContent = (
           <label
             draggable
-            onClick={ this.onClickLabel.bind(this) }
+            onClick={ editTodo.bind(this, this.props.todo.id) }
             onDrag={ this.props._onDragStart }
             onDragEnter={ this.props._onDragEnter }
             onDragEnd={ this.props._onDragEnd }
@@ -127,7 +115,7 @@ export default class TodoListItem extends Component {
         itemContent = (
           <label
             draggable
-            onClick={ this.onClickLabel.bind(this) }
+            onClick={ editTodo.bind(this, this.props.todo.id) }
             onDrag={ this.props._onDragStart }
             onDragEnter={ this.props._onDragEnter }
             onDragEnd={ this.props._onDragEnd }
@@ -141,9 +129,9 @@ export default class TodoListItem extends Component {
     return (
       <li className={ classNames('todo-list-item', { 'is-completed': todo.completed }) } key={todo.id} >
         <div>
-          <div className="done-button" onClick={ this.onClickDoneButton.bind(this) }><span>D</span></div>
+          <div className="done-button" onClick={ completeTodo.bind(this, this.props.todo.id) }><span>D</span></div>
           { itemContent }
-          <div className="delete-button" onClick={ this.onClickDeleteButton.bind(this) }><span>[D]</span></div>
+          <div className="delete-button" onClick={ deleteTodo.bind(this, this.props.todo.categoryId, this.props.todo.id) }><span>[D]</span></div>
         </div>
         { categoryList }
       </li>

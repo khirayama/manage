@@ -11,21 +11,27 @@ export default class Header extends Component {
   }
 
   render() {
+    const HOME = pages.TODOS;
     const page = this.props.page;
-    let href;
+    let menuHref = HOME;
+    let settingsHref = pages.SETTINGS;
 
     switch (page) {
       case (pages.TODOS):
-        href = pages.MENU;
+        menuHref = pages.MENU;
+        break;
+      case (pages.SETTINGS):
+        settingsHref = HOME;
         break;
       default:
-        href = pages.TODOS;
         break;
     }
 
     return (
-      <header className={ classNames('app-header', { 'is-bottom': (this.props.position === 'bottom') })} >
-        <div className="menu-button" onClick={ this.onClickLink.bind(this, href) }><span>M</span></div>
+      <header key="header" className={ classNames('app-header', { 'is-bottom': (this.props.position === 'bottom') })} >
+        <div className="menu-button" onClick={ this.onClickLink.bind(this, menuHref) }><span>M</span></div>
+        <h1 className="app-title"><span>Manage</span></h1>
+        <div className="settings-button" onClick={ this.onClickLink.bind(this, settingsHref) }><span>S</span></div>
       </header>
     );
   }
