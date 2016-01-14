@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import config from '../../config';
 import {
   pages,
   keyCodes,
@@ -43,7 +44,7 @@ export default class ManageApp extends Component {
   }
 
   _changeTitle(title) {
-    document.title = `${title} | Manage`;
+    document.title = `${title} | ${config.name}`;
   }
 
   _setDocumentEventHandler() {
