@@ -15,6 +15,24 @@ describe('TextToScheduleParser', () => {
       assert(item.text === answerText);
       assert(item.schedule === null);
     })
+    it('today meets my friend', () => {
+      item = parseTextToItem('today meets my friend', createdAt);
+
+      assert(item.text === answerText);
+      assert(item.schedule.year === 2015);
+      assert(item.schedule.month === 9);
+      assert(item.schedule.date === 23);
+      assert(item.schedule.day === 3);
+    })
+    it('tomorrow meets my friend', () => {
+      item = parseTextToItem('tomorrow meets my friend', createdAt);
+
+      assert(item.text === answerText);
+      assert(item.schedule.year === 2015);
+      assert(item.schedule.month === 9);
+      assert(item.schedule.date === 24);
+      assert(item.schedule.day === 4);
+    })
     it('mom meets my friend', () => {
       item = parseTextToItem('mom meets my friend', createdAt);
 

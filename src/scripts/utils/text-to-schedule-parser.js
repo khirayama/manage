@@ -50,12 +50,18 @@ export function splitTextToDateAndText(text) {
   let textPart;
   let item;
 
+  const resultToday = text.match(/^today\s/i);
+  const resultTomorrow = text.match(/^tomorrow\s/i);
   const resultThis = text.match(/^this ([A-Z]{3}|[A-Z]{3,6}day)\s/i);
   const resultNext = text.match(/^next ([A-Z]{3}|[A-Z]{3,6}day)\s/i);
   const resultDate = text.match(/^([0-9]{1,2}\/[0-9]{1,2}|[0-9]{2,4}\/[0-9]{1,2}\/[0-9]{2,4})\s/);
   const resultDay = text.match(/^([A-Z]{3}|[A-Z]{3,6}day)\s/i);
 
-  if (resultThis) {
+  if (resultToday) {
+    result = resultToday;
+  } else if (resultTomorrow) {
+    result = resultTomorrow;
+  } else if (resultThis) {
     result = resultThis;
   } else if (resultNext) {
     result = resultNext;
@@ -82,7 +88,13 @@ export function textToSchedule(dateText, referenceDate) {
   let date;
 
   if (dateText) {
-    if (dateText.match(/this/i)) {
+    if (dateText.match(/today/i)) {
+      // today
+      date = moment(referenceDate);
+    } else if (dateText.match(/tomorrow/i)) {
+      // tomorrow
+      date = moment(referenceDate).add(1, 'days');
+    } else if (dateText.match(/this/i)) {
       // this week
       _dayNum = getDayNum(dateText);
       if (_dayNum !== -1) date = moment(referenceDate).day(_dayNum);
