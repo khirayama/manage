@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
+import config from '../../config';
 import { pages } from '../constants/constants';
 import { changePage } from '../actions/app-action-creators';
 
@@ -30,7 +31,7 @@ export default class Header extends Component {
     return (
       <header key="header" className={ classNames('app-header', { 'is-bottom': (this.props.position === 'bottom') })} >
         <div className="menu-button" onClick={ this.onClickLink.bind(this, menuHref) }><span>M</span></div>
-        <h1 className="app-title"><span>Manage</span></h1>
+        <h1 className="app-title"><span>{ config.name }</span></h1>
         <div className="settings-button" onClick={ this.onClickLink.bind(this, settingsHref) }><span>S</span></div>
       </header>
     );
