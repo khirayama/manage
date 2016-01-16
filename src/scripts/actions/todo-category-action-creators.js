@@ -5,6 +5,7 @@ import { actionTypes as types } from '../constants/constants';
 import { validateByJSONSchema } from '../json-schemas/json-schema';
 import { TODO_CATEGORY_STORAGE_SCHEMA, TODO_CATEGORIES_STORAGE_SCHEMA } from '../json-schemas/todo-category-storage';
 import { getTodos } from './todo-action-creators';
+import promiseConfirm from '../utils/promise-confirm';
 
 
 export function getTodoCategories() {
@@ -77,6 +78,19 @@ export function deleteTodoCategory(id) {
   todoCategoryStorage.destroy(id);
 
   getTodoCategories();
+}
+
+export function confirmDelete(id) {
+  const categoryTodos = todoStorage.where({ categoryId: id }).get();
+  const message = 'This category has todos. Delete this category?';
+
+  if (categoryTodos.length !== 0) {
+    promiseConfirm(message).then(() => {
+      deleteTodoCategory(id);
+    }).catch(error => error);
+  } else {
+    deleteTodoCategory(id);
+  }
 }
 
 export function sortTodoCategories(from, to) {

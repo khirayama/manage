@@ -5,6 +5,7 @@ import {
   editTodoCategory,
   updateTodoCategory,
   deleteTodoCategory,
+  confirmDelete,
 } from '../actions/todo-category-action-creators';
 import { keyCodes } from '../constants/constants';
 
@@ -25,7 +26,10 @@ export default class TodoCategoryListItem extends Component {
   }
 
   onClickDeleteButton() {
-    deleteTodoCategory(this.props.todoCategory.id);
+    // deleteTodoCategory(this.props.todoCategory.id);
+    // TODO: check confirm here. Ref #107 https://github.com/khirayama/manage/issues/107
+    // need number of todos in this category
+    confirmDelete(this.props.todoCategory.id);
   }
 
   onChangeInput(event) {
