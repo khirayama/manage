@@ -13,6 +13,10 @@ export default class TodosPage extends Component {
     super(props);
 
     this._initializeOrder();
+
+    this._setCurrentOrder = this._setCurrentOrder.bind(this);
+    this._setNewOrder = this._setNewOrder.bind(this);
+    this._moveTodo = this._moveTodo.bind(this);
   }
 
   _initializeOrder() {
@@ -57,9 +61,9 @@ export default class TodosPage extends Component {
         <TodoList
           key={todoCategory.categoryId}
           todoCategory={todoCategory}
-          setCurrentOrder={this._setCurrentOrder.bind(this)}
-          setNewOrder={this._setNewOrder.bind(this)}
-          moveTodo={this._moveTodo.bind(this)}
+          setCurrentOrder={ this._setCurrentOrder }
+          setNewOrder={ this._setNewOrder }
+          moveTodo={ this._moveTodo }
         />
       );
     });
