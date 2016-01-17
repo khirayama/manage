@@ -6,24 +6,50 @@ import { changePage } from '../actions/app-action-creators';
 import { createTodo } from '../actions/todo-action-creators';
 
 
+const propTypes = {
+  todoCategory: React.PropTypes.object,
+  setCurrentOrder: React.PropTypes.func.isRequired,
+  setNewOrder: React.PropTypes.func.isRequired,
+  moveTodo: React.PropTypes.func.isRequired,
+};
+
 export default class TodoList extends Component {
-  onClickTitle(page) {
-    changePage(page);
+  constructor(props) {
+    super(props);
+
+    this.onClickTitle = this.onClickTitle.bind(this);
+    this.onClickAddButton = this.onClickAddButton.bind(this);
+    this.onDragEnterHeader = this.onDragEnterHeader.bind(this);
+    this.onDragEndHeader = this.onDragEndHeader.bind(this);
+    this.onDragEnterAddButton = this.onDragEnterAddButton.bind(this);
+    this.onDragEndAddButton = this.onDragEndAddButton.bind(this);
+  }
+
+  onClickTitle() {
+    changePage(pages.TODO_CATEGORIES);
   }
 
   onClickAddButton() {
     createTodo('', this.props.todoCategory.categoryId);
   }
 
-  onDragStart(categoryId, from) {
-    this.props.setCurrentOrder(categoryId, from);
+  onDragEnterHeader() {
+    const todoCategory = this.props.todoCategory;
+
+    this.props.setNewOrder(todoCategory.categoryId, 0);
   }
 
-  onDragEnter(categoryId, to) {
-    this.props.setNewOrder(categoryId, to);
+  onDragEndHeader() {
+    this.props.moveTodo();
   }
 
-  onDragEnd() {
+  onDragEnterAddButton() {
+    const todoCategory = this.props.todoCategory;
+
+    this.props.setNewOrder(todoCategory.categoryId, todoCategory.todos.length);
+  }
+
+  onDragEndAddButton() {
     this.props.moveTodo();
   }
 
@@ -32,9 +58,9 @@ export default class TodoList extends Component {
       <TodoListItem
         key={todo.id}
         todo={todo}
-        _onDragStart={ this.onDragStart.bind(this, todo.categoryId, todo.order) }
-        _onDragEnter={ this.onDragEnter.bind(this, todo.categoryId, todo.order) }
-        _onDragEnd={ this.onDragEnd.bind(this) }
+        setCurrentOrder={ this.props.setCurrentOrder }
+        setNewOrder={ this.props.setNewOrder }
+        moveTodo={ this.props.moveTodo }
       />
     );
   }
@@ -48,13 +74,13 @@ export default class TodoList extends Component {
     return (
       <section className="todo-list">
         <h2
-          onDragEnter={ this.onDragEnter.bind(this, todoCategory.categoryId, 0) }
-          onDragEnd={ this.onDragEnd.bind(this) }
+          onDragEnter={ this.onDragEnterHeader }
+          onDragEnd={ this.onDragEndHeader }
         >
           {todoCategory.categoryName}
           <span
             className="edit-button"
-            onClick={ this.onClickTitle.bind(this, pages.TODO_CATEGORIES) }
+            onClick={ this.onClickTitle }
           >
           [E]
         </span>
@@ -62,9 +88,9 @@ export default class TodoList extends Component {
         <ul>{ todoListItemElements }</ul>
         <div
           className="add-button"
-          onClick={ this.onClickAddButton.bind(this) }
-          onDragEnter={ this.onDragEnter.bind(this, todoCategory.categoryId, todoCategory.todos.length) }
-          onDragEnd={ this.onDragEnd.bind(this) }
+          onClick={ this.onClickAddButton }
+          onDragEnter={ this.onDragEnterAddButton }
+          onDragEnd={ this.onDragEndAddButton }
         >
           [Add]
         </div>
@@ -73,9 +99,4 @@ export default class TodoList extends Component {
   }
 }
 
-TodoList.propTypes = {
-  todoCategory: React.PropTypes.object,
-  setCurrentOrder: React.PropTypes.func.isRequired,
-  setNewOrder: React.PropTypes.func.isRequired,
-  moveTodo: React.PropTypes.func.isRequired,
-};
+TodoList.propTypes = propTypes;
