@@ -21,11 +21,15 @@ export function getTodos() {
 
   validateByJSONSchema(todos, TODOS_STORAGE_SCHEMA);
 
-  todos.forEach(todoCategory => {
-    todoCategory.todos.forEach(todo => {
+  for (let todoCategoryIndex = 0; todoCategoryIndex < todos.length; todoCategoryIndex++) {
+    const todoCategory = todos[todoCategoryIndex];
+
+    for (let todoIndex = 0; todoIndex < todoCategory.todos.length; todoIndex++) {
+      const todo = todoCategory.todos[todoIndex];
+
       todo.isEditing = false;
-    });
-  });
+    }
+  }
 
   appDispatcher.emit(types.GET_ALL_TODOS, todos);
 }
@@ -127,7 +131,10 @@ export function sortTodos(categoryId, from, to) {
 }
 
 export function moveTodo(currentCategoryId, from, newCategoryId, to) {
-  const currentTodo = todoStorage.where({ categoryId: currentCategoryId }).where({ order: from }).get()[0];
+  const currentTodo = todoStorage
+                        .where({ categoryId: currentCategoryId })
+                        .where({ order: from })
+                        .get()[0];
 
   const newCategoryTodos = todoStorage.where({ categoryId: newCategoryId }).order('order').get();
 
@@ -146,7 +153,10 @@ export function moveTodo(currentCategoryId, from, newCategoryId, to) {
     categoryId: newCategoryId,
   });
 
-  const currentCategoryTodos = todoStorage.where({ categoryId: currentCategoryId }).order('order').get();
+  const currentCategoryTodos = todoStorage
+                                 .where({ categoryId: currentCategoryId })
+                                 .order('order')
+                                 .get();
 
   currentCategoryTodos.forEach(currentCategoryTodo => {
     const order = currentCategoryTodo.order;

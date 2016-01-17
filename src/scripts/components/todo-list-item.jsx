@@ -11,6 +11,13 @@ import {
 import { keyCodes } from '../constants/constants';
 
 
+const propTypes = {
+  todo: React.PropTypes.object.isRequired,
+  setCurrentOrder: React.PropTypes.func,
+  setNewOrder: React.PropTypes.func,
+  moveTodo: React.PropTypes.func,
+};
+
 export default class TodoListItem extends Component {
   constructor(props) {
     super(props);
@@ -18,12 +25,50 @@ export default class TodoListItem extends Component {
     this.state = {
       value: this.props.todo.text,
     };
+
+    this.onClickLabel = this.onClickLabel.bind(this);
+    this.onClickDoneButton = this.onClickDoneButton.bind(this);
+    this.onClickDeleteButton = this.onClickDeleteButton.bind(this);
+    this.onDragStart = this.onDragStart.bind(this);
+    this.onDragEnter = this.onDragEnter.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
+    this.onChangeInput = this.onChangeInput.bind(this);
+    this.onKeyDownInput = this.onKeyDownInput.bind(this);
+    this.onBlurInput = this.onBlurInput.bind(this);
   }
 
   componentDidUpdate(prevProps) {
     if (!prevProps.todo.isEditing && this.props.todo.isEditing) {
       this.selectInputValue();
     }
+  }
+
+  onClickLabel() {
+    editTodo(this.props.todo.id);
+  }
+
+  onClickDoneButton() {
+    completeTodo(this.props.todo.id);
+  }
+
+  onClickDeleteButton() {
+    deleteTodo(this.props.todo.categoryId, this.props.todo.id);
+  }
+
+  onDragStart() {
+    const todo = this.props.todo;
+
+    this.props.setCurrentOrder(todo.categoryId, todo.order);
+  }
+
+  onDragEnter() {
+    const todo = this.props.todo;
+
+    this.props.setNewOrder(todo.categoryId, todo.order);
+  }
+
+  onDragEnd() {
+    this.props.moveTodo();
   }
 
   onChangeInput(event) {
@@ -63,6 +108,10 @@ export default class TodoListItem extends Component {
     }
   }
 
+  onBlurInput() {
+    this.save();
+  }
+
   save() {
     const todo = this.props.todo;
     const text = this.state.value.trim();
@@ -90,48 +139,44 @@ export default class TodoListItem extends Component {
           ref="input"
           placeholder={ 'Add a todo' }
           value={ this.state.value }
-          onChange={ this.onChangeInput.bind(this) }
-          onKeyDown={ this.onKeyDownInput.bind(this) }
-          onBlur={ this.save.bind(this) }
+          onChange={ this.onChangeInput }
+          onKeyDown={ this.onKeyDownInput }
+          onBlur={ this.onBlurInput }
         />
       );
     } else {
+      const itemContentProps = {
+        draggable: true,
+        onClick: this.onClickLabel,
+        onDragStart: this.onDragStart,
+        onDragEnter: this.onDragEnter,
+        onDragEnd: this.onDragEnd,
+      };
+
       if (todo.schedule) {
         const schedule = todo.schedule;
-
         itemContent = (
-          <label
-            draggable
-            onClick={ editTodo.bind(this, this.props.todo.id) }
-            onDrag={ this.props._onDragStart }
-            onDragEnter={ this.props._onDragEnter }
-            onDragEnd={ this.props._onDragEnd }
-          >
+          <label { ...itemContentProps } >
             { todo.scheduleText }
-            <div className="todo-list-item-schedule">{schedule.year}/{schedule.month}/{schedule.date}({schedule.shortDayName}.)</div>
+            <div className="todo-list-item-schedule">
+              {schedule.year}/{schedule.month}/{schedule.date}({schedule.shortDayName}.)
+            </div>
           </label>
         );
       } else {
-        itemContent = (
-          <label
-            draggable
-            onClick={ editTodo.bind(this, this.props.todo.id) }
-            onDrag={ this.props._onDragStart }
-            onDragEnter={ this.props._onDragEnter }
-            onDragEnd={ this.props._onDragEnd }
-          >
-            { todo.text }
-          </label>
-        );
+        itemContent = <label { ...itemContentProps } >{ todo.text }</label>;
       }
     }
 
     return (
-      <li className={ classNames('todo-list-item', { 'is-completed': todo.completed }) } key={todo.id} >
+      <li
+        key={ todo.id }
+        className={ classNames('todo-list-item', { 'is-completed': todo.completed }) }
+      >
         <div>
-          <div className="done-button" onClick={ completeTodo.bind(this, this.props.todo.id) }><span>D</span></div>
+          <div className="done-button" onClick={ this.onClickDoneButton }><span>D</span></div>
           { itemContent }
-          <div className="delete-button" onClick={ deleteTodo.bind(this, this.props.todo.categoryId, this.props.todo.id) }><span>[D]</span></div>
+          <div className="delete-button" onClick={ this.onClickDeleteButton }><span>[D]</span></div>
         </div>
         { categoryList }
       </li>
@@ -139,9 +184,4 @@ export default class TodoListItem extends Component {
   }
 }
 
-TodoListItem.propTypes = {
-  todo: React.PropTypes.object.isRequired,
-  _onDragStart: React.PropTypes.func,
-  _onDragEnter: React.PropTypes.func,
-  _onDragEnd: React.PropTypes.func,
-};
+TodoListItem.propTypes = propTypes;

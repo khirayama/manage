@@ -16,6 +16,10 @@ import TodoCategoriesPage from './todo-categories-page';
 import SettingsPage from './settings-page';
 
 
+const propTypes = {
+  appStore: React.PropTypes.object.isRequired,
+};
+
 export default class ManageApp extends Component {
   constructor(props) {
     super(props);
@@ -82,7 +86,8 @@ export default class ManageApp extends Component {
   render() {
     const page = this.state.appStore.getPage();
     const title = this.state.appStore.getTitle();
-    const launcherElement = (this.state.appStore.launcherStore.getLauncherShowing()) ? this._createLauncherElement() : null;
+    const isLauncherShowing = this.state.appStore.launcherStore.getLauncherShowing();
+    const launcherElement = (isLauncherShowing) ? this._createLauncherElement() : null;
 
     this._changeTitle(title);
 
@@ -130,6 +135,4 @@ export default class ManageApp extends Component {
   }
 }
 
-ManageApp.propTypes = {
-  appStore: React.PropTypes.object.isRequired,
-};
+ManageApp.propTypes = propTypes;

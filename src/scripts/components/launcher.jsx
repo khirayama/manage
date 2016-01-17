@@ -9,7 +9,11 @@ import { hideLauncher } from '../actions/app-action-creators';
 import { changePage } from '../actions/app-action-creators';
 import { createTodo } from '../actions/todo-action-creators';
 import { createTodoCategory } from '../actions/todo-category-action-creators';
+import LauncherListItem from './launcher-list-item';
 
+const propTypes = {
+  contents: React.PropTypes.array.isRequired,
+};
 
 export default class Launcher extends Component {
   constructor(props) {
@@ -20,6 +24,10 @@ export default class Launcher extends Component {
       contentIndex: 0,
       filteredContents: this.props.contents,
     };
+
+    this.onKeyDownInput = this.onKeyDownInput.bind(this);
+    this.onChangeInput = this.onChangeInput.bind(this);
+    this.callAction = this.callAction.bind(this);
   }
 
   onKeyDownInput(event) {
@@ -32,7 +40,7 @@ export default class Launcher extends Component {
       case (keyCode === keyCodes.ENTER && !shift && !ctrl):
         const content = this.state.filteredContents[this.state.contentIndex];
 
-        this._callAction(content);
+        this.callAction(content);
         break;
       case (keyCode === keyCodes.UP && !shift && !ctrl):
         event.preventDefault();
@@ -58,13 +66,14 @@ export default class Launcher extends Component {
     }
   }
 
-  onChangeInput(value) {
+  onChangeInput(event) {
+    const value = event.target.value;
     const filteredContents = Launcher._filterContents(this.props.contents, value);
 
     this.setState({ value, filteredContents });
   }
 
-  _callAction(content) {
+  callAction(content) {
     if (this.state.filteredContents.length === 0) {
       return;
     }
@@ -102,17 +111,22 @@ export default class Launcher extends Component {
   }
 
   _createContentItemElement(content, index) {
-    const className = (this.state.contentIndex === index) ? 'launcher-list-item is-selected' : 'launcher-list-item';
+    const isSelected = (this.state.contentIndex === index);
 
     return (
-      <li
+      <LauncherListItem
         key={ `content-${index}` }
-        className={ className }
-        onClick={ this._callAction.bind(this, content) }
-      >
-        { content.text }
-      </li>
+        content={ content }
+        isSelected={ isSelected }
+        callAction={ this.callAction }
+      />
     );
+  }
+
+  _createNoResultItem() {
+    return [
+      <li key="launcher-list-item-no-results" className="launcher-list-item">No results</li>,
+    ];
   }
 
   static _filterContents(contents, searchText) {
@@ -138,7 +152,7 @@ export default class Launcher extends Component {
         return this._createContentItemElement(content, index);
       });
     } else {
-      contentElements = [<li key="launcher-list-item-no-results" className="launcher-list-item">No results</li>];
+      contentElements = this._createNoResultItem();
     }
 
     return (
@@ -146,16 +160,13 @@ export default class Launcher extends Component {
         className="launcher-background"
         onClick={ hideLauncher }
       >
-        <div
-          className="launcher"
-          onClick={ (event) => { event.stopPropagation(); } }
-        >
+        <div className="launcher">
           <input
             autoFocus
             placeholder="Search shortcut"
             type="text"
-            onKeyDown={ event => { this.onKeyDownInput(event); } }
-            onChange={ event => { this.onChangeInput(event.target.value); } }
+            onKeyDown={ this.onKeyDownInput }
+            onChange={ this.onChangeInput }
             value={ this.state.value }
           />
           <ul className="launcher-list">{ contentElements }</ul>
@@ -165,6 +176,4 @@ export default class Launcher extends Component {
   }
 }
 
-Launcher.propTypes = {
-  contents: React.PropTypes.array.isRequired,
-};
+Launcher.propTypes = propTypes;
