@@ -6,27 +6,35 @@ import {
 } from '../actions/todo-category-action-creators';
 import TodoCategoryListItem from './todo-category-list-item';
 
+const propTypes = {
+  todoCategories: React.PropTypes.array.isRequired,
+};
 
 export default class TodoCategoryList extends Component {
   constructor(props) {
     super(props);
 
     this._initializeOrder();
+
+    this.onClickAddButton = this.onClickAddButton.bind(this);
+    this.setFromOrder = this.setFromOrder.bind(this);
+    this.setToOrder = this.setToOrder.bind(this);
+    this.moveTodoCategory = this.moveTodoCategory.bind(this);
   }
 
   onClickAddButton() {
     createTodoCategory('');
   }
 
-  onDragStart(from) {
+  setFromOrder(from) {
     this._order.from = from;
   }
 
-  onDragEnter(to) {
+  setToOrder(to) {
     this._order.to = to;
   }
 
-  onDragEnd() {
+  moveTodoCategory() {
     if (this._order.from !== null && this._order.to !== null) {
       sortTodoCategories(this._order.from, this._order.to);
       this._initializeOrder();
@@ -45,9 +53,9 @@ export default class TodoCategoryList extends Component {
       <TodoCategoryListItem
         key={ todoCategory.id }
         todoCategory={ todoCategory }
-        _onDragStart={ this.onDragStart.bind(this, todoCategory.order) }
-        _onDragEnter={ this.onDragEnter.bind(this, todoCategory.order) }
-        _onDragEnd={ this.onDragEnd.bind(this) }
+        setFromOrder={ this.setFromOrder }
+        setToOrder={ this.setToOrder }
+        moveTodoCategory={ this.moveTodoCategory }
       />
     );
   }
@@ -61,12 +69,10 @@ export default class TodoCategoryList extends Component {
       <section className="todo-category-list">
         <h2>CATEGORIES</h2>
         <ul>{todoCategoryListItemElements}</ul>
-        <div className="add-button" onClick={ this.onClickAddButton.bind(this) }>[Add]</div>
+        <div className="add-button" onClick={ this.onClickAddButton }>[Add]</div>
       </section>
     );
   }
 }
 
-TodoCategoryList.propTypes = {
-  todoCategories: React.PropTypes.array.isRequired,
-};
+TodoCategoryList.propTypes = propTypes;

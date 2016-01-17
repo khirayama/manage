@@ -10,6 +10,13 @@ import {
 import { keyCodes } from '../constants/constants';
 
 
+const propTypes = {
+  todoCategory: React.PropTypes.object.isRequired,
+  setFromOrder: React.PropTypes.func.isRequired,
+  setToOrder: React.PropTypes.func.isRequired,
+  moveTodoCategory: React.PropTypes.func.isRequired,
+};
+
 export default class TodoCategoryListItem extends Component {
   constructor(props) {
     super(props);
@@ -17,12 +24,37 @@ export default class TodoCategoryListItem extends Component {
     this.state = {
       value: this.props.todoCategory.name,
     };
+
+    this.onClickLabel = this.onClickLabel.bind(this);
+    this.onDragStart = this.onDragStart.bind(this);
+    this.onDragEnter = this.onDragEnter.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
+    this.onClickDeleteButton = this.onClickDeleteButton.bind(this);
+    this.onChangeInput = this.onChangeInput.bind(this);
+    this.onKeyDownInput = this.onKeyDownInput.bind(this);
+    this.onBlurInput = this.onBlurInput.bind(this);
   }
 
   componentDidUpdate(prevProps) {
     if (!prevProps.todoCategory.isEditing && this.props.todoCategory.isEditing) {
       this.selectInputValue();
     }
+  }
+
+  onClickLabel() {
+    editTodoCategory(this.props.todoCategory.id);
+  }
+
+  onDragStart() {
+    this.props.setFromOrder(this.props.todoCategory.order);
+  }
+
+  onDragEnter() {
+    this.props.setToOrder(this.props.todoCategory.order);
+  }
+
+  onDragEnd() {
+    this.props.moveTodoCategory();
   }
 
   onClickDeleteButton() {
@@ -69,6 +101,10 @@ export default class TodoCategoryListItem extends Component {
     }
   }
 
+  onBlurInput() {
+    this.save();
+  }
+
   save() {
     const todoCategory = this.props.todoCategory;
     const text = this.state.value.trim();
@@ -95,19 +131,19 @@ export default class TodoCategoryListItem extends Component {
           ref="input"
           placeholder="Add a category"
           value={ this.state.value }
-          onChange={ this.onChangeInput.bind(this) }
-          onKeyDown={ this.onKeyDownInput.bind(this) }
-          onBlur={ this.save.bind(this) }
+          onChange={ this.onChangeInput }
+          onKeyDown={ this.onKeyDownInput }
+          onBlur={ this.onBlurInput }
         />
       );
     } else {
       itemContent = (
         <label
           draggable
-          onClick={ editTodoCategory.bind(this, this.props.todoCategory.id) }
-          onDrag={ this.props._onDragStart }
-          onDragEnter={ this.props._onDragEnter }
-          onDragEnd={ this.props._onDragEnd }
+          onClick={ this.onClickLabel }
+          onDragStart={ this.onDragStart }
+          onDragEnter={ this.onDragEnter }
+          onDragEnd={ this.onDragEnd }
         >
           { todoCategory.name }
         </label>
@@ -117,15 +153,10 @@ export default class TodoCategoryListItem extends Component {
     return (
       <li className="todo-category-list-item" key={ todoCategory.id }>
         { itemContent }
-        <div className="delete-button" onClick={ this.onClickDeleteButton.bind(this) }><span>[D]</span></div>
+        <div className="delete-button" onClick={ this.onClickDeleteButton }><span>[D]</span></div>
       </li>
     );
   }
 }
 
-TodoCategoryListItem.propTypes = {
-  todoCategory: React.PropTypes.object.isRequired,
-  _onDragStart: React.PropTypes.func.isRequired,
-  _onDragEnter: React.PropTypes.func.isRequired,
-  _onDragEnd: React.PropTypes.func.isRequired,
-};
+TodoCategoryListItem.propTypes = propTypes;
