@@ -4,7 +4,10 @@ import logger from '../utils/logger';
 import appDispatcher from '../dispatchers/app-dispatcher';
 import { actionTypes as types } from '../constants/constants';
 import { validateByJSONSchema } from '../json-schemas/json-schema.js';
-import { TODO_CATEGORY_STORE_SCHEMA, TODO_CATEGORIES_STORE_SCHEMA } from '../json-schemas/todo-category-store.js';
+import {
+  TODO_CATEGORY_STORE_SCHEMA,
+  TODO_CATEGORIES_STORE_SCHEMA,
+} from '../json-schemas/todo-category-store.js';
 
 
 export default class TodoCategoryStore extends MicroStore {
