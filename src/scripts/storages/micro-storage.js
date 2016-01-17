@@ -1,4 +1,13 @@
-if (global) global.localStorage = global.localStorage || { getItem: () => { return '{}'; }, setItem: () => {} };
+// localStorage mock
+if (global) {
+  global.localStorage = global.localStorage || {
+    getItem: () => {
+      return '{}';
+    },
+    setItem: () => {
+    },
+  };
+}
 
 function _o2a(obj) {
   const arr = [];
@@ -24,7 +33,11 @@ export default class MicroStorage {
     const now = new Date();
     const id = (+now + Math.floor(Math.random() * 999999)).toString(36);
 
-    this._data[id] = Object.assign({}, { id, createdAt: now, updatedAt: now }, this.defaults, entity);
+    this._data[id] = Object.assign({}, {
+      id,
+      createdAt: now,
+      updatedAt: now,
+    }, this.defaults, entity);
     if (this._localStorage) this._save();
 
     return Object.assign({}, this._data[id]);
