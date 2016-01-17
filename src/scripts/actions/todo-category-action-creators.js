@@ -3,7 +3,10 @@ import todoCategoryStorage from '../storages/todo-category-storage';
 import todoStorage from '../storages/todo-storage';
 import { actionTypes as types } from '../constants/constants';
 import { validateByJSONSchema } from '../json-schemas/json-schema';
-import { TODO_CATEGORY_STORAGE_SCHEMA, TODO_CATEGORIES_STORAGE_SCHEMA } from '../json-schemas/todo-category-storage';
+import {
+  TODO_CATEGORY_STORAGE_SCHEMA,
+  TODO_CATEGORIES_STORAGE_SCHEMA,
+} from '../json-schemas/todo-category-storage';
 import { getTodos } from './todo-action-creators';
 import promiseConfirm from '../utils/promise-confirm';
 
@@ -13,9 +16,11 @@ export function getTodoCategories() {
 
   validateByJSONSchema(allTodoCategories, TODO_CATEGORIES_STORAGE_SCHEMA);
 
-  allTodoCategories.forEach(todoCategory => {
+  for (let index = 0; index < allTodoCategories.length; index++) {
+    const todoCategory = allTodoCategories[index];
+
     todoCategory.isEditing = false;
-  });
+  }
 
   appDispatcher.emit(types.GET_ALL_TODO_CATEGORIES, allTodoCategories);
 }
