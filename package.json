@@ -5,19 +5,19 @@
   "main": "src/scripts/index.js",
   "scripts": {
     "build:markups": "gulp build:markups",
-    "build:styles": "gulp build:styles",
-    "build:scripts": "gulp build:scripts",
-    "build": "rm -rf dist && npm run build:markups & npm run build:styles &npm run build:scripts",
     "watch:markups": "gulp watch:markups",
+    "build:styles": "gulp build:styles",
     "watch:styles": "gulp watch:styles",
+    "build:scripts": "gulp build:scripts",
     "watch:scripts": "gulp watch:scripts",
-    "watch": "rm -rf dist && npm run watch:markups & npm run watch:styles & npm run watch:scripts",
+    "build": "rm -rf dist && gulp build",
+    "watch": "rm -rf dist && gulp watch",
     "server": "gulp server",
+    "develop": "gulp develop",
     "lint": "eslint src --ext=js --ext=jsx",
-    "develop": "npm run watch & npm run server",
-    "start": "npm run develop",
     "test": "mocha --require=babel-core/register test/**/*.js",
-    "watch:test": "npm test -- --watch"
+    "watch:test": "npm test -- --watch",
+    "start": "npm run develop"
   },
   "author": "khirayama",
   "repository": {

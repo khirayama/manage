@@ -59,7 +59,7 @@ var options = {
 
 function buildMarkups(isWatch) {
   function build() {
-    console.log('build markups');
+    console.log('build: markups');
     return gulp.src('src/index.jade')
       .pipe(plumber())
       .pipe(jade())
@@ -69,6 +69,7 @@ function buildMarkups(isWatch) {
 
   if (isWatch) {
     return function() {
+      build();
       gulp.watch('src/index.jade', build);
     };
   } else {
@@ -80,7 +81,7 @@ function buildMarkups(isWatch) {
 
 function buildStyles(isWatch) {
   function build() {
-    console.log('build styles');
+    console.log('build: styles');
     return gulp.src('src/styles/index.sass')
       .pipe(plumber())
       .pipe(sass(options.styles.sass))
@@ -91,6 +92,7 @@ function buildStyles(isWatch) {
 
   if (isWatch) {
     return function() {
+      build();
       gulp.watch('src/styles/**/*.sass', build);
     };
   } else {
@@ -100,21 +102,26 @@ function buildStyles(isWatch) {
   }
 }
 
-function bundle(isWatch) {
-  return function () {
-    var options_ = (!isWatch) ? options.scripts.browserify : options.scripts.watchify;
-    var bundler = browserify(options_);
+function buildScripts(isWatch) {
+  var options_ = (isWatch) ? options.scripts.watchify : options.scripts.browserify;
+  var bundler = browserify(options_);
 
-    bundler
-    .bundle()
-    .pipe(source('bundle.js'))
-    .pipe(gulp.dest(DIST_ROOT))
-    .pipe(browserSync.reload({ stream: true }));
-
-    if (isWatch) {
-      bundler.on('update', bundle.bind(this, isWatch));
-    }
+  function build() {
+    return function() {
+      console.log('build: scripts');
+      bundler
+        .bundle()
+        .on('error', function(error) {
+          console.error(error.message);
+        })
+        .pipe(source('bundle.js'))
+        .pipe(gulp.dest(DIST_ROOT))
+        .pipe(browserSync.reload({ stream: true }));
+    };
   }
+
+  bundler.on('update', build());
+  return build();
 }
 
 function buildImages() {
@@ -137,8 +144,11 @@ gulp.task('build:markups', buildMarkups(false));
 gulp.task('watch:markups', buildMarkups(true));
 gulp.task('build:styles', buildStyles(false));
 gulp.task('watch:styles', buildStyles(true));
-gulp.task('build:scripts', bundle(false));
-gulp.task('watch:scripts', bundle(true));
+gulp.task('build:scripts', buildScripts(false));
+gulp.task('watch:scripts', buildScripts(true));
 gulp.task('build:images', buildImages);
 gulp.task('build:files', buildFiles);
+gulp.task('build', ['build:markups', 'build:styles', 'build:scripts', 'build:images', 'build:files']);
+gulp.task('watch', ['watch:markups', 'watch:styles', 'watch:scripts', 'build:images', 'build:files']);
 gulp.task('server', runServer);
+gulp.task('develop', ['server', 'watch']);
