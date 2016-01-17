@@ -15,9 +15,12 @@ export const ConfirmDialog = {
 
     ConfirmDialog._container = document.querySelector('body');
     ConfirmDialog._element = stringToElement(template);
-    ConfirmDialog._background = ConfirmDialog._element.querySelector('.confirm-dialog-background');
-    ConfirmDialog._cancelButton = ConfirmDialog._element.querySelector('.confirm-dialog-cancel-button');
-    ConfirmDialog._acceptButton = ConfirmDialog._element.querySelector('.confirm-dialog-accept-button');
+    ConfirmDialog._background =
+      ConfirmDialog._element.querySelector('.confirm-dialog-background');
+    ConfirmDialog._cancelButton =
+      ConfirmDialog._element.querySelector('.confirm-dialog-cancel-button');
+    ConfirmDialog._acceptButton =
+      ConfirmDialog._element.querySelector('.confirm-dialog-accept-button');
 
     ConfirmDialog.setEventHandlers();
     ConfirmDialog.show();
