@@ -3,6 +3,7 @@ export const TODO_CATEGORY_STORE_SCHEMA = {
   required: [
     'name',
     'order',
+    'numberOfTodos',
   ],
   properties: {
     name: {
@@ -14,6 +15,10 @@ export const TODO_CATEGORY_STORE_SCHEMA = {
     },
     isEditing: {
       type: 'boolean',
+    },
+    numberOfTodos: {
+      type: 'integer',
+      minimum: 0,
     },
   },
 };

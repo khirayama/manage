@@ -8,7 +8,6 @@ import {
   TODO_CATEGORIES_STORAGE_SCHEMA,
 } from '../json-schemas/todo-category-storage';
 import { getTodos } from './todo-action-creators';
-import promiseConfirm from '../utils/promise-confirm';
 
 
 export function getTodoCategories() {
@@ -20,6 +19,7 @@ export function getTodoCategories() {
     const todoCategory = allTodoCategories[index];
 
     todoCategory.isEditing = false;
+    todoCategory.numberOfTodos = todoStorage.where({ categoryId: todoCategory.id }).get().length;
   }
 
   appDispatcher.emit(types.GET_ALL_TODO_CATEGORIES, allTodoCategories);
@@ -35,6 +35,7 @@ export function createTodoCategory(name) {
   validateByJSONSchema(entity, TODO_CATEGORY_STORAGE_SCHEMA);
 
   entity.isEditing = true;
+  entity.numberOfTodos = todoStorage.where({ categoryId: entity.id }).get().length;
 
   getTodos();
   appDispatcher.emit(types.CREATE_TODO_CATEGORY, entity);
@@ -46,6 +47,7 @@ export function editTodoCategory(id) {
   validateByJSONSchema(entity, TODO_CATEGORY_STORAGE_SCHEMA);
 
   entity.isEditing = true;
+  entity.numberOfTodos = todoStorage.where({ categoryId: entity.id }).get().length;
 
   appDispatcher.emit(types.UPDATE_TODO_CATEGORY, entity);
 }
@@ -56,6 +58,7 @@ export function updateTodoCategory(id, name) {
   validateByJSONSchema(entity, TODO_CATEGORY_STORAGE_SCHEMA);
 
   entity.isEditing = false;
+  entity.numberOfTodos = todoStorage.where({ categoryId: entity.id }).get().length;
 
   getTodos();
   appDispatcher.emit(types.UPDATE_TODO_CATEGORY, entity);
@@ -83,19 +86,6 @@ export function deleteTodoCategory(id) {
   todoCategoryStorage.destroy(id);
 
   getTodoCategories();
-}
-
-export function confirmDelete(id) {
-  const categoryTodos = todoStorage.where({ categoryId: id }).get();
-  const message = 'This category has todos. Delete this category?';
-
-  if (categoryTodos.length !== 0) {
-    promiseConfirm(message).then(() => {
-      deleteTodoCategory(id);
-    }).catch(error => error);
-  } else {
-    deleteTodoCategory(id);
-  }
 }
 
 export function sortTodoCategories(from, to) {

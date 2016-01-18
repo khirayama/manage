@@ -5,9 +5,9 @@ import {
   editTodoCategory,
   updateTodoCategory,
   deleteTodoCategory,
-  confirmDelete,
 } from '../actions/todo-category-action-creators';
 import { keyCodes } from '../constants/constants';
+import promiseConfirm from '../utils/promise-confirm';
 
 
 const propTypes = {
@@ -58,10 +58,16 @@ export default class TodoCategoryListItem extends Component {
   }
 
   onClickDeleteButton() {
-    // deleteTodoCategory(this.props.todoCategory.id);
-    // TODO: check confirm here. Ref #107 https://github.com/khirayama/manage/issues/107
-    // need number of todos in this category
-    confirmDelete(this.props.todoCategory.id);
+    const message = 'This category has todos. Delete this category?';
+    const todoCategory = this.props.todoCategory;
+
+    if (todoCategory.numberOfTodos !== 0) {
+      promiseConfirm(message).then(() => {
+        deleteTodoCategory(todoCategory.id);
+      }).catch(error => error);
+    } else {
+      deleteTodoCategory(todoCategory.id);
+    }
   }
 
   onChangeInput(event) {
@@ -145,7 +151,7 @@ export default class TodoCategoryListItem extends Component {
           onDragEnter={ this.onDragEnter }
           onDragEnd={ this.onDragEnd }
         >
-          { todoCategory.name }
+        {todoCategory.numberOfTodos} / { todoCategory.name }
         </label>
       );
     }
