@@ -46,3 +46,7 @@ export const launcherContentTypes = {
   TODO_CATEGORY: 'LAUNCHER_ITEM_TYPES_TODO_CATEGORY',
   PAGE: 'LAUNCHER_ITEM_TYPES_PAGE',
 };
+
+export const messages = {
+  CONFIRM_DELETE_TODO_CATEGORY: 'This category has todos. Delete this category?',
+};
