@@ -6,7 +6,10 @@ import {
   updateTodoCategory,
   deleteTodoCategory,
 } from '../actions/todo-category-action-creators';
-import { keyCodes } from '../constants/constants';
+import {
+  keyCodes,
+  messages,
+} from '../constants/constants';
 import promiseConfirm from '../utils/promise-confirm';
 
 
@@ -58,11 +61,10 @@ export default class TodoCategoryListItem extends Component {
   }
 
   onClickDeleteButton() {
-    const message = 'This category has todos. Delete this category?';
     const todoCategory = this.props.todoCategory;
 
     if (todoCategory.numberOfTodos !== 0) {
-      promiseConfirm(message).then(() => {
+      promiseConfirm(messages.CONFIRM_DELETE_TODO_CATEGORY).then(() => {
         deleteTodoCategory(todoCategory.id);
       }).catch(error => error);
     } else {
