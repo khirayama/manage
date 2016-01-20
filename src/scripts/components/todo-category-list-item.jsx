@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { changePage } from '../actions/app-action-creators';
 import {
   createTodoCategory,
   editTodoCategory,
@@ -9,6 +10,7 @@ import {
 import {
   keyCodes,
   messages,
+  pages,
 } from '../constants/constants';
 import promiseConfirm from '../utils/promise-confirm';
 
@@ -36,6 +38,7 @@ export default class TodoCategoryListItem extends Component {
     this.onChangeInput = this.onChangeInput.bind(this);
     this.onKeyDownInput = this.onKeyDownInput.bind(this);
     this.onBlurInput = this.onBlurInput.bind(this);
+    this.onClickBadge = this.onClickBadge.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -113,6 +116,10 @@ export default class TodoCategoryListItem extends Component {
     this.save();
   }
 
+  onClickBadge() {
+    changePage(pages.TODOS);
+  }
+
   save() {
     const todoCategory = this.props.todoCategory;
     const text = this.state.value.trim();
@@ -153,7 +160,13 @@ export default class TodoCategoryListItem extends Component {
           onDragEnter={ this.onDragEnter }
           onDragEnd={ this.onDragEnd }
         >
-        {todoCategory.numberOfTodos} / { todoCategory.name }
+          <span
+            className="badge"
+            onClick={ this.onClickBadge }
+          >
+            {todoCategory.numberOfTodos}
+          </span>
+          { todoCategory.name }
         </label>
       );
     }
