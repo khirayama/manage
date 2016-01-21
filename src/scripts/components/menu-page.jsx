@@ -2,13 +2,10 @@ import React, { Component } from 'react';
 
 import { pages } from '../constants/constants';
 import { changePage } from '../actions/app-action-creators';
-import Header from './header';
 import PageBackButton from './page-back-button';
 
 
-const propTypes = {
-  page: React.PropTypes.string.isRequired,
-};
+const propTypes = {};
 
 export default class MenuPage extends Component {
   constructor(props) {
@@ -32,8 +29,6 @@ export default class MenuPage extends Component {
   }
 
   render() {
-    const page = this.props.page;
-
     return (
       <section className="page menu-page">
         <section className="page-content">
@@ -62,7 +57,6 @@ export default class MenuPage extends Component {
             </ul>
           </section>
         </section>
-        <Header page={ page } position="bottom" />
       </section>
     );
   }

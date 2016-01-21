@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 
-import Header from './header';
 import PageBackButton from './page-back-button';
 
 
+const propTypes = {};
+
 export default class SettingsPage extends Component {
   render() {
-    const page = this.props.page;
-
     return (
       <section className="page settings-page">
         <section className="page-content">
@@ -22,12 +21,9 @@ export default class SettingsPage extends Component {
             </ul>
           </section>
         </section>
-        <Header page={ page } position="bottom" />
       </section>
     );
   }
 }
 
-SettingsPage.propTypes = {
-  page: React.PropTypes.string.isRequired,
-};
+SettingsPage.propTypes = propTypes;
