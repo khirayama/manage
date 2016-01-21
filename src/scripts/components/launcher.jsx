@@ -11,6 +11,7 @@ import { createTodo } from '../actions/todo-action-creators';
 import { createTodoCategory } from '../actions/todo-category-action-creators';
 import LauncherListItem from './launcher-list-item';
 
+
 const propTypes = {
   contents: React.PropTypes.array.isRequired,
 };
