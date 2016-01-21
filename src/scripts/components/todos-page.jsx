@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 
-import Header from './header';
 import TodoList from './todo-list';
 import {
   sortTodos,
   moveTodo,
 } from '../actions/todo-action-creators';
 
+
+const propTypes = {
+  todos: React.PropTypes.array.isRequired,
+};
 
 export default class TodosPage extends Component {
   constructor(props) {
@@ -53,9 +56,7 @@ export default class TodosPage extends Component {
   }
 
   render() {
-    const page = this.props.page;
     const todos = this.props.todos;
-
     const todoListElements = todos.map((todoCategory) => {
       return (
         <TodoList
@@ -70,7 +71,6 @@ export default class TodosPage extends Component {
 
     return (
       <section className="page todos-page">
-        <Header page={ page } />
         <section className="page-content">
           { todoListElements }
         </section>
@@ -79,7 +79,4 @@ export default class TodosPage extends Component {
   }
 }
 
-TodosPage.propTypes = {
-  page: React.PropTypes.string.isRequired,
-  todos: React.PropTypes.array.isRequired,
-};
+TodosPage.propTypes = propTypes;

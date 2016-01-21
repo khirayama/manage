@@ -9,6 +9,7 @@ import {
   showLauncher,
   hideLauncher,
 } from '../actions/app-action-creators';
+import Header from './header';
 import Launcher from './launcher';
 import TodosPage from './todos-page';
 import MenuPage from './menu-page';
@@ -97,6 +98,7 @@ export default class ManageApp extends Component {
 
         return (
           <section className="page-container">
+            <Header key="app-header" page={ page } />
             <TodosPage page={page} todos={todos} />
             { launcherElement }
           </section>
@@ -104,6 +106,7 @@ export default class ManageApp extends Component {
       case (pages.MENU):
         return (
           <section className="page-container">
+            <Header key="app-header" page={ page } position="bottom" />
             <MenuPage page={page} />
             { launcherElement }
           </section>
@@ -113,6 +116,7 @@ export default class ManageApp extends Component {
 
         return (
           <section className="page-container">
+            <Header key="app-header" page={ page } position="bottom" />
             <TodoCategoriesPage page={page} todoCategories={todoCategories} />
             { launcherElement }
           </section>
@@ -120,6 +124,7 @@ export default class ManageApp extends Component {
       case (pages.SETTINGS):
         return (
           <section className="page-container">
+            <Header key="app-header" page={ page } position="bottom" />
             <SettingsPage page={page} />
             { launcherElement }
           </section>
@@ -127,6 +132,7 @@ export default class ManageApp extends Component {
       default:
         return (
           <section className="page-container">
+            <Header key="app-header" page={ page } position="bottom" />
             <div>404</div>
             { launcherElement }
           </section>
