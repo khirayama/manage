@@ -76,14 +76,9 @@ export default class TodoList extends Component {
         <h2
           onDragEnter={ this.onDragEnterHeader }
           onDragEnd={ this.onDragEndHeader }
+          onClick={ this.onClickTitle }
         >
           {todoCategory.categoryName}
-          <span
-            className="edit-button"
-            onClick={ this.onClickTitle }
-          >
-          [E]
-        </span>
         </h2>
         <ul>{ todoListItemElements }</ul>
         <div
