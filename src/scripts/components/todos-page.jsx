@@ -57,17 +57,15 @@ export default class TodosPage extends Component {
 
   render() {
     const todos = this.props.todos;
-    const todoListElements = todos.map((todoCategory) => {
-      return (
-        <TodoList
-          key={todoCategory.categoryId}
-          todoCategory={todoCategory}
-          setCurrentOrder={ this._setCurrentOrder }
-          setNewOrder={ this._setNewOrder }
-          moveTodo={ this._moveTodo }
-        />
-      );
-    });
+    const todoListElements = todos.map(todoCategory => (
+      <TodoList
+        key={todoCategory.categoryId}
+        todoCategory={todoCategory}
+        setCurrentOrder={ this._setCurrentOrder }
+        setNewOrder={ this._setNewOrder }
+        moveTodo={ this._moveTodo }
+      />
+    ));
 
     return (
       <section className="page todos-page">
