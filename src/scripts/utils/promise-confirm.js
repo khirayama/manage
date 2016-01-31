@@ -56,19 +56,17 @@ export const ConfirmDialog = {
   hide: () => {
     ConfirmDialog._container.removeChild(ConfirmDialog._element);
   },
-  template: (message) => {
-    return `
-      <div class="confirm-dialog-background">
-        <div class="confirm-dialog">
-          <div class="confirm-dialog-message">${message}</div>
-          <div class="confirm-dialog-buttons-container">
-            <div class="confirm-dialog-cancel-button">Cancel</div>
-            <div class="confirm-dialog-accept-button">OK</div>
-          </div>
+  template: message => (`
+    <div class="confirm-dialog-background">
+      <div class="confirm-dialog">
+        <div class="confirm-dialog-message">${message}</div>
+        <div class="confirm-dialog-buttons-container">
+          <div class="confirm-dialog-cancel-button">Cancel</div>
+          <div class="confirm-dialog-accept-button">OK</div>
         </div>
       </div>
-    `;
-  },
+    </div>
+  `),
 };
 
 export default function promiseConfirm(message) {

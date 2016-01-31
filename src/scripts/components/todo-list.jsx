@@ -67,9 +67,9 @@ export default class TodoList extends Component {
 
   render() {
     const todoCategory = this.props.todoCategory;
-    const todoListItemElements = todoCategory.todos.map((todo) => {
-      return this._createTodoListItemElement(todo);
-    });
+    const todoListItemElements = todoCategory.todos.map(
+      (todo) => this._createTodoListItemElement(todo)
+    );
 
     return (
       <section className="todo-list">

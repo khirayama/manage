@@ -61,9 +61,9 @@ export default class TodoCategoryList extends Component {
   }
 
   render() {
-    const todoCategoryListItemElements = this.props.todoCategories.map((todoCategory) => {
-      return this._createTodoCategoryListItemElement(todoCategory);
-    });
+    const todoCategoryListItemElements = this.props.todoCategories.map(
+      (todoCategory) => this._createTodoCategoryListItemElement(todoCategory)
+    );
 
     return (
       <section className="todo-category-list">

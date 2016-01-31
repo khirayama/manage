@@ -1,11 +1,8 @@
 // localStorage mock
 if (global) {
   global.localStorage = global.localStorage || {
-    getItem: () => {
-      return '{}';
-    },
-    setItem: () => {
-    },
+    getItem: () => '{}',
+    setItem: () => false,
   };
 }
 

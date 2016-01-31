@@ -149,9 +149,9 @@ export default class Launcher extends Component {
     let contentElements;
 
     if (this.state.filteredContents.length !== 0) {
-      contentElements = this.state.filteredContents.map((content, index) => {
-        return this._createContentItemElement(content, index);
-      });
+      contentElements = this.state.filteredContents.map(
+        (content, index) => this._createContentItemElement(content, index)
+      );
     } else {
       contentElements = this._createNoResultItem();
     }
