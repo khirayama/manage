@@ -154,7 +154,7 @@ export default class ManageApp extends Component {
             enter: 'fade-in',
             leave: 'fade-out',
           } }
-          transitionAppear={true}
+          transitionAppear
           transitionAppearTimeout={300}
           transitionEnterTimeout={300}
           transitionLeaveTimeout={300}
@@ -169,7 +169,7 @@ export default class ManageApp extends Component {
             enter: 'slide-up',
             leave: 'slide-down',
           } }
-          transitionAppear={true}
+          transitionAppear
           transitionAppearTimeout={300}
           transitionEnterTimeout={300}
           transitionLeaveTimeout={300}
@@ -184,7 +184,7 @@ export default class ManageApp extends Component {
             enter: 'slide-in',
             leave: 'slide-out',
           } }
-          transitionAppear={true}
+          transitionAppear
           transitionAppearTimeout={300}
           transitionEnterTimeout={300}
           transitionLeaveTimeout={300}
