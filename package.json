@@ -64,6 +64,7 @@
     "moment": "^2.11.1",
     "power-assert": "^1.2.0",
     "react": "^0.14.6",
+    "react-addons-css-transition-group": "^0.14.6",
     "react-addons-test-utils": "^0.14.6",
     "react-dom": "^0.14.6",
     "tv4": "^1.2.7",
