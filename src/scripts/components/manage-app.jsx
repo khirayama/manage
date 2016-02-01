@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import config from '../../config';
 import {
@@ -84,7 +85,7 @@ export default class ManageApp extends Component {
     );
   }
 
-  render() {
+  _createPageElement() {
     const page = this.state.appStore.getPage();
     const title = this.state.appStore.getTitle();
     const isLauncherShowing = this.state.appStore.launcherStore.getLauncherShowing();
@@ -97,16 +98,16 @@ export default class ManageApp extends Component {
         const todos = this.state.appStore.todoStore.getTodos();
 
         return (
-          <section className="page-container">
-            <Header key="app-header" page={ page } />
-            <TodosPage page={page} todos={todos} />
+          <section key={ page } className="page-container">
+            <Header page={ page } />
+            <TodosPage page={ page } todos={todos} />
             { launcherElement }
           </section>
         );
       case (pages.MENU):
         return (
-          <section className="page-container">
-            <Header key="app-header" page={ page } position="bottom" />
+          <section key={ page } className="page-container">
+            <Header page={ page } position="bottom" />
             <MenuPage page={page} />
             { launcherElement }
           </section>
@@ -115,29 +116,85 @@ export default class ManageApp extends Component {
         const todoCategories = this.props.appStore.todoCategoryStore.getTodoCategories();
 
         return (
-          <section className="page-container">
-            <Header key="app-header" page={ page } position="bottom" />
+          <section key={ page } className="page-container">
+            <Header page={ page } position="bottom" />
             <TodoCategoriesPage page={page} todoCategories={todoCategories} />
             { launcherElement }
           </section>
         );
       case (pages.SETTINGS):
         return (
-          <section className="page-container">
-            <Header key="app-header" page={ page } position="bottom" />
+          <section key={ page } className="page-container">
+            <Header page={ page } position="bottom" />
             <SettingsPage page={page} />
             { launcherElement }
           </section>
         );
       default:
         return (
-          <section className="page-container">
-            <Header key="app-header" page={ page } position="bottom" />
+          <section key={ page } className="page-container">
+            <Header page={ page } position="bottom" />
             <div>404</div>
             { launcherElement }
           </section>
         );
     }
+  }
+
+  render() {
+    const pageElement = this._createPageElement();
+    const page = this.state.appStore.getPage();
+
+    return (
+      <div>
+        { /* fade-in / fade-out */ }
+        <ReactCSSTransitionGroup
+          transitionName={ {
+            appear: 'fade-in',
+            enter: 'fade-in',
+            leave: 'fade-out',
+          } }
+          transitionAppear
+          transitionAppearTimeout={300}
+          transitionEnterTimeout={300}
+          transitionLeaveTimeout={300}
+        >
+        { (page === pages.MENU) ? pageElement : null }
+        </ReactCSSTransitionGroup>
+
+        { /* fade-up / fade-down */ }
+        <ReactCSSTransitionGroup
+          transitionName={ {
+            appear: 'slide-up',
+            enter: 'slide-up',
+            leave: 'slide-down',
+          } }
+          transitionAppear
+          transitionAppearTimeout={300}
+          transitionEnterTimeout={300}
+          transitionLeaveTimeout={300}
+        >
+        { (page === pages.TODOS) ? pageElement : null }
+        </ReactCSSTransitionGroup>
+
+        { /* fade-in / fade-out */ }
+        <ReactCSSTransitionGroup
+          transitionName={ {
+            appear: 'slide-in',
+            enter: 'slide-in',
+            leave: 'slide-out',
+          } }
+          transitionAppear
+          transitionAppearTimeout={300}
+          transitionEnterTimeout={300}
+          transitionLeaveTimeout={300}
+        >
+        { (page === pages.TODO_CATEGORIES) ? pageElement : null }
+        { (page === pages.SETTINGS) ? pageElement : null }
+        </ReactCSSTransitionGroup>
+
+      </div>
+    );
   }
 }
 
