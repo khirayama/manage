@@ -88,8 +88,6 @@ export default class ManageApp extends Component {
   _createPageElement() {
     const page = this.state.appStore.getPage();
     const title = this.state.appStore.getTitle();
-    const isLauncherShowing = this.state.appStore.launcherStore.getLauncherShowing();
-    const launcherElement = (isLauncherShowing) ? this._createLauncherElement() : null;
 
     this._changeTitle(title);
 
@@ -101,7 +99,6 @@ export default class ManageApp extends Component {
           <section key={ page } className="page-container">
             <Header page={ page } />
             <TodosPage page={ page } todos={todos} />
-            { launcherElement }
           </section>
         );
       case (pages.MENU):
@@ -109,7 +106,6 @@ export default class ManageApp extends Component {
           <section key={ page } className="page-container">
             <Header page={ page } position="bottom" />
             <MenuPage page={page} />
-            { launcherElement }
           </section>
         );
       case (pages.TODO_CATEGORIES):
@@ -119,7 +115,6 @@ export default class ManageApp extends Component {
           <section key={ page } className="page-container">
             <Header page={ page } position="bottom" />
             <TodoCategoriesPage page={page} todoCategories={todoCategories} />
-            { launcherElement }
           </section>
         );
       case (pages.SETTINGS):
@@ -127,7 +122,6 @@ export default class ManageApp extends Component {
           <section key={ page } className="page-container">
             <Header page={ page } position="bottom" />
             <SettingsPage page={page} />
-            { launcherElement }
           </section>
         );
       default:
@@ -135,64 +129,73 @@ export default class ManageApp extends Component {
           <section key={ page } className="page-container">
             <Header page={ page } position="bottom" />
             <div>404</div>
-            { launcherElement }
           </section>
         );
     }
   }
 
   render() {
-    const pageElement = this._createPageElement();
     const page = this.state.appStore.getPage();
+    const isLauncherShowing = this.state.appStore.launcherStore.getLauncherShowing();
+    const pageElement = this._createPageElement();
+    const launcherElement = (isLauncherShowing) ? this._createLauncherElement() : null;
+
+    const transitionOptions = {
+      transitionAppear: true,
+      transitionAppearTimeout: 300,
+      transitionEnterTimeout: 300,
+      transitionLeaveTimeout: 300,
+    };
+
+    const transitionVariations = {
+      slideInOut: {
+        appear: 'slide-in',
+        enter: 'slide-in',
+        leave: 'slide-out',
+      },
+      slideUpDown: {
+        appear: 'slide-up',
+        enter: 'slide-up',
+        leave: 'slide-down',
+      },
+      fadeInOut: {
+        appear: 'fade-in',
+        enter: 'fade-in',
+        leave: 'fade-out',
+      },
+    };
 
     return (
       <div>
-        { /* fade-in / fade-out */ }
         <ReactCSSTransitionGroup
-          transitionName={ {
-            appear: 'fade-in',
-            enter: 'fade-in',
-            leave: 'fade-out',
-          } }
-          transitionAppear
-          transitionAppearTimeout={300}
-          transitionEnterTimeout={300}
-          transitionLeaveTimeout={300}
+          transitionName={ transitionVariations.slideUpDown }
+          { ...transitionOptions }
         >
-        { (page === pages.MENU) ? pageElement : null }
+          { (
+            page === pages.TODOS
+          ) ? pageElement : null }
         </ReactCSSTransitionGroup>
 
-        { /* fade-up / fade-down */ }
         <ReactCSSTransitionGroup
-          transitionName={ {
-            appear: 'slide-up',
-            enter: 'slide-up',
-            leave: 'slide-down',
-          } }
-          transitionAppear
-          transitionAppearTimeout={300}
-          transitionEnterTimeout={300}
-          transitionLeaveTimeout={300}
+          transitionName={ transitionVariations.fadeInOut }
+          { ...transitionOptions }
         >
-        { (page === pages.TODOS) ? pageElement : null }
+          { (
+            page === pages.MENU
+          ) ? pageElement : null }
         </ReactCSSTransitionGroup>
 
-        { /* fade-in / fade-out */ }
         <ReactCSSTransitionGroup
-          transitionName={ {
-            appear: 'slide-in',
-            enter: 'slide-in',
-            leave: 'slide-out',
-          } }
-          transitionAppear
-          transitionAppearTimeout={300}
-          transitionEnterTimeout={300}
-          transitionLeaveTimeout={300}
+          transitionName={ transitionVariations.slideInOut }
+          { ...transitionOptions }
         >
-        { (page === pages.TODO_CATEGORIES) ? pageElement : null }
-        { (page === pages.SETTINGS) ? pageElement : null }
+          { (
+            page === pages.TODO_CATEGORIES ||
+            page === pages.SETTINGS
+          ) ? pageElement : null }
         </ReactCSSTransitionGroup>
 
+        { launcherElement }
       </div>
     );
   }
