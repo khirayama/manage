@@ -140,6 +140,7 @@ export default class ManageApp extends Component {
     const pageElement = this._createPageElement();
     const launcherElement = (isLauncherShowing) ? this._createLauncherElement() : null;
 
+    // Ref _transition.sass
     const transitionOptions = {
       transitionAppear: true,
       transitionAppearTimeout: 300,
@@ -148,6 +149,11 @@ export default class ManageApp extends Component {
     };
 
     const transitionVariations = {
+      fadeInOut: {
+        appear: 'fade-in',
+        enter: 'fade-in',
+        leave: 'fade-out',
+      },
       slideInOut: {
         appear: 'slide-in',
         enter: 'slide-in',
@@ -158,24 +164,10 @@ export default class ManageApp extends Component {
         enter: 'slide-up',
         leave: 'slide-down',
       },
-      fadeInOut: {
-        appear: 'fade-in',
-        enter: 'fade-in',
-        leave: 'fade-out',
-      },
     };
 
     return (
       <div>
-        <ReactCSSTransitionGroup
-          transitionName={ transitionVariations.slideUpDown }
-          { ...transitionOptions }
-        >
-          { (
-            page === pages.TODOS
-          ) ? pageElement : null }
-        </ReactCSSTransitionGroup>
-
         <ReactCSSTransitionGroup
           transitionName={ transitionVariations.fadeInOut }
           { ...transitionOptions }
@@ -192,6 +184,15 @@ export default class ManageApp extends Component {
           { (
             page === pages.TODO_CATEGORIES ||
             page === pages.SETTINGS
+          ) ? pageElement : null }
+        </ReactCSSTransitionGroup>
+
+        <ReactCSSTransitionGroup
+          transitionName={ transitionVariations.slideUpDown }
+          { ...transitionOptions }
+        >
+          { (
+            page === pages.TODOS
           ) ? pageElement : null }
         </ReactCSSTransitionGroup>
 
