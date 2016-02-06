@@ -58,11 +58,10 @@ export default class ManageApp extends Component {
       const keyCode = event.keyCode;
       const shift = event.shiftKey;
       const ctrl = event.ctrlKey || event.metaKey;
+      const isLauncherShowing = this.state.appStore.launcherStore.getLauncherShowing();
 
       switch (true) {
         case (keyCode === keyCodes.K && !shift && ctrl):
-          const isLauncherShowing = this.state.appStore.launcherStore.getLauncherShowing();
-
           if (isLauncherShowing) {
             hideLauncher();
           } else {
@@ -89,11 +88,14 @@ export default class ManageApp extends Component {
     const page = this.state.appStore.getPage();
     const title = this.state.appStore.getTitle();
 
+    let todos = [];
+    let todoCategories = [];
+
     this._changeTitle(title);
 
     switch (page) {
       case (pages.TODOS):
-        const todos = this.state.appStore.todoStore.getTodos();
+        todos = this.state.appStore.todoStore.getTodos();
 
         return (
           <section key={ page } className="page-container">
@@ -109,7 +111,7 @@ export default class ManageApp extends Component {
           </section>
         );
       case (pages.TODO_CATEGORIES):
-        const todoCategories = this.props.appStore.todoCategoryStore.getTodoCategories();
+        todoCategories = this.props.appStore.todoCategoryStore.getTodoCategories();
 
         return (
           <section key={ page } className="page-container">
