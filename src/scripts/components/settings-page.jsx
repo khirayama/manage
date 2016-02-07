@@ -16,7 +16,6 @@ export default class SettingsPage extends Component {
             <ul>
               <li className="setting-list-item">Number of column</li>
               <li className="setting-list-item">Extract schedule</li>
-              <li className="setting-list-item">Custom style</li>
               <li className="setting-list-item">Clear all data</li>
             </ul>
           </section>
