@@ -142,25 +142,20 @@ export default class ManageApp extends Component {
 
     // Ref _transition.sass
     const transitionOptions = {
-      transitionAppear: true,
-      transitionAppearTimeout: 300,
       transitionEnterTimeout: 300,
       transitionLeaveTimeout: 300,
     };
 
     const transitionVariations = {
       fadeInOut: {
-        appear: 'fade-in',
         enter: 'fade-in',
         leave: 'fade-out',
       },
       slideInOut: {
-        appear: 'slide-in',
         enter: 'slide-in',
         leave: 'slide-out',
       },
       slideUpDown: {
-        appear: 'slide-up',
         enter: 'slide-up',
         leave: 'slide-down',
       },
