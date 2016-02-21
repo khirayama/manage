@@ -36,10 +36,11 @@ export default class Launcher extends Component {
     const shift = event.shiftKey;
     const ctrl = event.ctrlKey || event.metaKey;
     let contentIndex;
+    let content = [];
 
     switch (true) {
       case (keyCode === keyCodes.ENTER && !shift && !ctrl):
-        const content = this.state.filteredContents[this.state.contentIndex];
+        content = this.state.filteredContents[this.state.contentIndex];
 
         this.callAction(content);
         break;
