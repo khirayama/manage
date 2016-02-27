@@ -60,7 +60,7 @@
     "gulp-sass": "^2.1.1",
     "jsdom": "^7.2.2",
     "micro-emitter": "^1.1.0",
-    "mocha": "^2.3.4",
+    "mocha": "^2.4.5",
     "moment": "^2.11.2",
     "power-assert": "^1.2.0",
     "react": "^0.14.6",
