@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 
 import {
   pages,
@@ -9,10 +10,9 @@ import { hideLauncher } from '../actions/app-action-creators';
 import { changePage } from '../actions/app-action-creators';
 import { createTodo } from '../actions/todo-action-creators';
 import { createTodoCategory } from '../actions/todo-category-action-creators';
-import LauncherListItem from './launcher-list-item';
 
 
-const propTypes = {
+const LauncherPropTypes = {
   contents: React.PropTypes.array.isRequired,
 };
 
@@ -178,4 +178,35 @@ export default class Launcher extends Component {
   }
 }
 
-Launcher.propTypes = propTypes;
+Launcher.propTypes = LauncherPropTypes;
+
+
+const LauncherListItemPropTypes = {
+  content: React.PropTypes.object.isRequired,
+  isSelected: React.PropTypes.bool.isRequired,
+  callAction: React.PropTypes.func.isRequired,
+};
+export default class LauncherListItem extends Component {
+  constructor(props) {
+    super(props);
+
+    this.onClickItem = this.onClickItem.bind(this);
+  }
+
+  onClickItem() {
+    this.props.callAction(this.props.content);
+  }
+
+  render() {
+    return (
+      <li
+        className={ classNames('launcher-list-item', { 'is-selected': this.props.isSelected }) }
+        onClick={ this.onClickItem }
+      >
+        { this.props.content.text }
+      </li>
+    );
+  }
+}
+
+LauncherListItem.propTypes = LauncherListItemPropTypes;
