@@ -79,6 +79,7 @@ export default class ManageApp extends Component {
 
     return (
       <Launcher
+        key="launcher"
         contents={ contents }
       />
     );

@@ -186,7 +186,7 @@ const LauncherListItemPropTypes = {
   isSelected: React.PropTypes.bool.isRequired,
   callAction: React.PropTypes.func.isRequired,
 };
-export default class LauncherListItem extends Component {
+class LauncherListItem extends Component {
   constructor(props) {
     super(props);
 
