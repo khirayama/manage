@@ -17,3 +17,17 @@
 
 .launcher-list
   border-top: solid 1px $color-border
+
+.launcher-list-item
+  display: inline-block
+  width: 100%
+  border-bottom: solid 1px $color-border
+  padding: 12px
+  cursor: pointer
+  line-height: 1rem
+  background: transparent
+  color: inherit
+  &.is-selected,
+  &:hover
+    color: $color-white
+    background: $color-yellow
