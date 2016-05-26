@@ -86,23 +86,27 @@ export default class TodoList extends Component {
     );
 
     return (
-      <section className="todo-list">
-        <h2
-          onDragEnter={ this.onDragEnterHeader }
-          onDragEnd={ this.onDragEndHeader }
-          onClick={ this.onClickTitle }
-        >
-          {todoCategory.categoryName}
-        </h2>
+      <section className="list">
+        <header>
+          <h3
+            onDragEnter={ this.onDragEnterHeader }
+            onDragEnd={ this.onDragEndHeader }
+            onClick={ this.onClickTitle }
+          >
+            {todoCategory.categoryName}
+          </h3>
+        </header>
         <ul>{ todoListItemElements }</ul>
-        <div
-          className="add-button"
-          onClick={ this.onClickAddButton }
-          onDragEnter={ this.onDragEnterAddButton }
-          onDragEnd={ this.onDragEndAddButton }
-        >
-          [Add]
-        </div>
+        <footer>
+          <div
+            className="add-button"
+            onClick={ this.onClickAddButton }
+            onDragEnter={ this.onDragEnterAddButton }
+            onDragEnd={ this.onDragEndAddButton }
+          >
+            [Add]
+          </div>
+        </footer>
       </section>
     );
   }
@@ -261,12 +265,12 @@ class TodoListItem extends Component {
     return (
       <li
         key={ todo.id }
-        className={ classNames('todo-list-item', { 'is-completed': todo.completed }) }
+        className={ classNames('list-item', { 'is-completed': todo.completed }) }
       >
-        <div>
-          <div className="done-button" onClick={ this.onClickDoneButton }><span>D</span></div>
-          { itemContent }
-          <div className="delete-button" onClick={ this.onClickDeleteButton }><span>[D]</span></div>
+        <div className="list-item-content">
+          <div className="list-item-icon done-button" onClick={ this.onClickDoneButton }><span>D</span></div>
+          <div className="list-item-text">{ itemContent }</div>
+          <div className="list-item-icon delete-button" onClick={ this.onClickDeleteButton }><span>[D]</span></div>
         </div>
         { categoryList }
       </li>

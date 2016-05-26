@@ -11,6 +11,12 @@
     h2
       font-size: 1.5rem
       font-weight: bold
+    h3
+      font-size: 1.2rem
+      font-weight: bold
+    h4
+      font-size: 1.0rem
+      font-weight: bold
   footer
     text-align: left
     padding: 16px 12px
@@ -22,8 +28,8 @@
     display: inline-block
     width: 100%
     border-bottom: solid 1px $color-border
-    padding: 20px 12px
     cursor: pointer
+    font-size: 1rem
     line-height: 1rem
     background: $color-white
     color: inherit
@@ -34,3 +40,29 @@
       background: $color-light-gray
     &:last-of-type
       border-bottom: none
+
+    .list-item-text
+      padding: 16px 12px
+
+    .list-item-content
+      display: flex
+      align-items: stretch
+      width: 100%
+      height: 100%
+      .list-item-text
+        flex: 1
+      .list-item-icon
+        flex: none
+        width: 44px
+        cursor: pointer
+        text-align: center
+        display: flex
+        align-items: center
+        justify-content: center
+        span,
+        i
+          flex: none
+    // .list-item-text + .list-item-icon
+    //   color: red
+    // .list-item-icon + .list-item-text
+    //   color: blue
