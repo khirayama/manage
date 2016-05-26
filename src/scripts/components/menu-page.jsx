@@ -34,7 +34,9 @@ export default class MenuPage extends Component {
         <section className="page-content">
           <PageBackButton />
           <section className="list menu-list">
-            <h2>Menu</h2>
+            <header>
+              <h2>Menu</h2>
+            </header>
             <ul>
               <li
                 className="list-item"
