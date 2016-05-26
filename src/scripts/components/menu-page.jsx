@@ -33,23 +33,23 @@ export default class MenuPage extends Component {
       <section className="page menu-page">
         <section className="page-content">
           <PageBackButton />
-          <section className="menu-list">
+          <section className="list menu-list">
             <h2>Menu</h2>
             <ul>
               <li
-                className="menu-list-item"
+                className="list-item"
                 onClick={ this.onClickShowTodos }
               >
                 Show todos
               </li>
               <li
-                className="menu-list-item"
+                className="list-item"
                 onClick={ this.onClickShowTodoCategories }
               >
                 Show todo categories
               </li>
               <li
-                className="menu-list-item"
+                className="list-item"
                 onClick={ this.onClickSettings }
               >
                 Settings
