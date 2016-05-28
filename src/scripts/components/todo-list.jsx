@@ -228,18 +228,21 @@ class TodoListItem extends Component {
 
     if (todo.isEditing) {
       itemContent = (
-        <input
-          autoFocus
-          ref="input"
-          placeholder={ 'Add a todo' }
-          value={ this.state.value }
-          onChange={ this.onChangeInput }
-          onKeyDown={ this.onKeyDownInput }
-          onBlur={ this.onBlurInput }
-        />
+        <div className="list-item-text">
+          <input
+            autoFocus
+            ref="input"
+            placeholder={ 'Add a todo' }
+            value={ this.state.value }
+            onChange={ this.onChangeInput }
+            onKeyDown={ this.onKeyDownInput }
+            onBlur={ this.onBlurInput }
+          />
+        </div>
       );
     } else {
       const itemContentProps = {
+        className: 'list-item-text',
         draggable: true,
         onClick: this.onClickLabel,
         onDragStart: this.onDragStart,
@@ -250,15 +253,15 @@ class TodoListItem extends Component {
       if (todo.schedule) {
         const schedule = todo.schedule;
         itemContent = (
-          <label { ...itemContentProps } >
+          <div { ...itemContentProps } >
             { todo.scheduleText }
             <div className="todo-list-item-schedule">
               {schedule.year}/{schedule.month}/{schedule.date}({schedule.shortDayName}.)
             </div>
-          </label>
+          </div>
         );
       } else {
-        itemContent = <label { ...itemContentProps } >{ todo.text }</label>;
+        itemContent = <div { ...itemContentProps } >{ todo.text }</div>;
       }
     }
 
@@ -269,7 +272,7 @@ class TodoListItem extends Component {
       >
         <div className="list-item-content">
           <div className="list-item-icon done-button" onClick={ this.onClickDoneButton }><span>D</span></div>
-          <div className="list-item-text">{ itemContent }</div>
+          { itemContent }
           <div className="list-item-icon delete-button" onClick={ this.onClickDeleteButton }><span>[D]</span></div>
         </div>
         { categoryList }

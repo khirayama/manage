@@ -7,7 +7,7 @@
     box-shadow: 0 3px 1px 0 rgba($color-black, .1)
   header
     text-align: left
-    padding: 16px 12px
+    padding: 12px
     h2
       font-size: 1.5rem
       font-weight: bold
@@ -35,6 +35,9 @@
     color: inherit
     cursor: pointer
     transition: background $timing-basic, color $timing-basic
+    input
+      background: inherit
+      width: 100%
     &:hover
       color: $color-gray
       background: $color-light-gray
@@ -42,7 +45,7 @@
       border-bottom: none
 
     .list-item-text
-      padding: 16px 12px
+      padding: 12px
 
     .list-item-content
       display: flex
@@ -51,6 +54,7 @@
       height: 100%
       .list-item-text
         flex: 1
+        padding: 12px 4px
       .list-item-icon
         flex: none
         width: 44px
