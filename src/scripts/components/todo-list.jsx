@@ -140,7 +140,9 @@ class TodoListItem extends Component {
   }
 
   onClickLabel() {
-    editTodo(this.props.todo.id);
+    if (!this.props.todo.completed) {
+      editTodo(this.props.todo.id);
+    }
   }
 
   onClickDoneButton() {
