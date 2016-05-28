@@ -73,6 +73,34 @@ export function editTodo(id) {
   appDispatcher.emit(types.UPDATE_TODO, entity);
 }
 
+export function editNextTodo(categoryId, currentOrder) {
+  const entities = todoStorage.where({ categoryId }).where({ order: currentOrder + 1 }).get();
+  if (entities.length == 0) {
+    return false;
+  }
+  const entity = entities[0];
+
+  validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
+
+  entity.isEditing = true;
+
+  appDispatcher.emit(types.UPDATE_TODO, entity);
+}
+
+export function editPrevTodo(categoryId, currentOrder) {
+  const entities = todoStorage.where({ categoryId }).where({ order: currentOrder - 1 }).get();
+  if (entities.length == 0) {
+    return false;
+  }
+  const entity = entities[0];
+
+  validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
+
+  entity.isEditing = true;
+
+  appDispatcher.emit(types.UPDATE_TODO, entity);
+}
+
 export function updateTodo(id, text) {
   const entity = todoStorage.update(id, { text });
 

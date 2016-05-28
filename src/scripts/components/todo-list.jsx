@@ -7,6 +7,8 @@ import {
   createTodo,
   completeTodo,
   editTodo,
+  editNextTodo,
+  editPrevTodo,
   updateTodo,
   deleteTodo,
 } from '../actions/todo-action-creators';
@@ -191,11 +193,11 @@ class TodoListItem extends Component {
         break;
       case (keyCode === keyCodes.TAB && !shift && !ctrl):
         event.preventDefault();
-        editTodo(this.props.todo.categoryId, this.props.todo.order + 1);
+        editNextTodo(this.props.todo.categoryId, this.props.todo.order);
         break;
       case (keyCode === keyCodes.TAB && shift && !ctrl):
         event.preventDefault();
-        editTodo(this.props.todo.categoryId, this.props.todo.order - 1);
+        editPrevTodo(this.props.todo.categoryId, this.props.todo.order);
         break;
       default:
         break;
