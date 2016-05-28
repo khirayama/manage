@@ -74,11 +74,10 @@ export function editTodo(id) {
 }
 
 export function editNextTodo(categoryId, currentOrder) {
-  const entities = todoStorage.where({ categoryId }).where({ order: currentOrder + 1 }).get();
-  if (entities.length == 0) {
-    return false;
+  const entity = todoStorage.where({ categoryId }).where({ order: currentOrder + 1 }).first();
+  if (entity == null) {
+    return true;
   }
-  const entity = entities[0];
 
   validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
 
@@ -88,11 +87,10 @@ export function editNextTodo(categoryId, currentOrder) {
 }
 
 export function editPrevTodo(categoryId, currentOrder) {
-  const entities = todoStorage.where({ categoryId }).where({ order: currentOrder - 1 }).get();
-  if (entities.length == 0) {
-    return false;
+  const entity = todoStorage.where({ categoryId }).where({ order: currentOrder - 1 }).first();
+  if (entity == null) {
+    return true;
   }
-  const entity = entities[0];
 
   validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
 
@@ -162,7 +160,7 @@ export function moveTodo(currentCategoryId, from, newCategoryId, to) {
   const currentTodo = todoStorage
                         .where({ categoryId: currentCategoryId })
                         .where({ order: from })
-                        .get()[0];
+                        .first();
 
   const newCategoryTodos = todoStorage.where({ categoryId: newCategoryId }).order('order').get();
 
