@@ -259,7 +259,7 @@ class TodoListItem extends Component {
         itemContent = (
           <div { ...itemContentProps } >
             { todo.scheduleText }
-            <div className="todo-list-item-schedule">
+            <div className="list-item-note">
               {schedule.year}/{schedule.month}/{schedule.date}({schedule.shortDayName}.)
             </div>
           </div>
@@ -272,7 +272,7 @@ class TodoListItem extends Component {
     return (
       <li
         key={ todo.id }
-        className={ classNames('list-item', { 'is-completed': todo.completed }) }
+        className={ classNames('list-item', { 'list-item__disabled': todo.completed }) }
       >
         <div className="list-item-content">
           <div className="list-item-icon done-button" onClick={ this.onClickDoneButton }><span>D</span></div>

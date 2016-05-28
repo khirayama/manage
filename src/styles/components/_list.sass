@@ -43,9 +43,15 @@
       background: $color-light-gray
     &:last-of-type
       border-bottom: none
+    &.list-item__disabled
+      opacity: 0.3 // TODO: select color
 
     .list-item-text
       padding: 12px
+      word-break: break-word
+
+    .list-item-note
+      font-size: .8rem
 
     .list-item-content
       display: flex
