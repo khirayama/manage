@@ -60,7 +60,7 @@ var options = {
 function buildMarkups(isWatch) {
   function build() {
     console.log('build: markups');
-    return gulp.src('src/index.jade')
+    return gulp.src(['src/index.jade', 'src/styleguide.jade'])
       .pipe(plumber())
       .pipe(jade())
       .pipe(gulp.dest(DIST_ROOT))
@@ -70,7 +70,7 @@ function buildMarkups(isWatch) {
   if (isWatch) {
     return function() {
       build();
-      gulp.watch('src/index.jade', build);
+      gulp.watch(['src/index.jade', 'src/styleguide.jade'], build);
     };
   } else {
     return function() {

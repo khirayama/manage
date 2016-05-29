@@ -1,9 +1,29 @@
+$color-base: #444444
+$color-sub: #898789
+$color-background: #f4f4f4
+$color-border: #ecedec
+$color-white: #fff
+$color-light-gray: #fafafa
+$color-gray: #666
+$color-black: #000
+$color-yellow: #e4ae0a
+
+$font-size-base: 16px
+
+$timing-basic: .1s ease-out
+
+
 @import 'reset'
 
 // transitions
 @import 'transitions'
 
 // components
+// Ref: https://www.google.com/design/spec/components/
+@import 'components/column'
+@import 'components/list'
+
+// custom components
 @import 'components/manage-app'
 
 @import 'components/todos-page'
@@ -16,11 +36,10 @@
 
 @import 'components/page-back-button'
 
-@import 'components/todo-list'
-@import 'components/todo-list-item'
-
 @import 'components/todo-category-list'
-@import 'components/todo-category-list-item'
 
 // utils
 @import 'utils/promise-confirm'
+
+// styleguide
+@import 'styleguide'

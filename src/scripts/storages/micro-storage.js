@@ -67,6 +67,17 @@ export default class MicroStorage {
     return _o2a(this._filteredData);
   }
 
+  first() {
+    this._filtering = false;
+
+    const data = _o2a(this._filteredData);
+    if (data.length != 0) {
+      return data[0];
+    } else {
+      return null;
+    }
+  }
+
   all() {
     return _o2a(this._data);
   }

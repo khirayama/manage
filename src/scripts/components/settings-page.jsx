@@ -11,11 +11,13 @@ export default class SettingsPage extends Component {
       <section className="page settings-page">
         <section className="page-content">
           <PageBackButton />
-          <section className="setting-list">
-            <h2>Settings</h2>
+          <section className="list setting-list">
+            <header>
+              <h2>Settings</h2>
+            </header>
             <ul>
-              <li className="setting-list-item">Extract schedule</li>
-              <li className="setting-list-item">Clear all data</li>
+              <li className="list-item">Extract schedule</li>
+              <li className="list-item">Clear all data</li>
             </ul>
           </section>
         </section>
