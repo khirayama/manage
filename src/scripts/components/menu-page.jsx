@@ -33,31 +33,33 @@ export default class MenuPage extends Component {
       <section className="page menu-page">
         <section className="page-content">
           <PageBackButton />
-          <section className="list menu-list">
-            <header>
-              <h2>Menu</h2>
-            </header>
-            <ul>
-              <li
-                className="list-item"
-                onClick={ this.onClickShowTodos }
-              >
-                Show todos
-              </li>
-              <li
-                className="list-item"
-                onClick={ this.onClickShowTodoCategories }
-              >
-                Show todo categories
-              </li>
-              <li
-                className="list-item"
-                onClick={ this.onClickSettings }
-              >
-                Settings
-              </li>
-            </ul>
-          </section>
+          <div className="menu-list-container">
+            <section className="list">
+              <header>
+                <h2>Menu</h2>
+              </header>
+              <ul>
+                <li
+                  className="list-item"
+                  onClick={ this.onClickShowTodos }
+                >
+                  <div className="list-item-text">Show todos</div>
+                </li>
+                <li
+                  className="list-item"
+                  onClick={ this.onClickShowTodoCategories }
+                >
+                  <div className="list-item-text">Show todo categories</div>
+                </li>
+                <li
+                  className="list-item"
+                  onClick={ this.onClickSettings }
+                >
+                  <div className="list-item-text">Settings</div>
+                </li>
+              </ul>
+            </section>
+          </div>
         </section>
       </section>
     );
