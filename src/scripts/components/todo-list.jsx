@@ -101,7 +101,6 @@ export default class TodoList extends Component {
         <ul>{ todoListItemElements }</ul>
         <footer>
           <div
-            className="add-button"
             onClick={ this.onClickAddButton }
             onDragEnter={ this.onDragEnterAddButton }
             onDragEnd={ this.onDragEndAddButton }
@@ -275,9 +274,9 @@ class TodoListItem extends Component {
         className={ classNames('list-item', { 'list-item__disabled': todo.completed }) }
       >
         <div className="list-item-content">
-          <div className="list-item-icon done-button" onClick={ this.onClickDoneButton }><span>D</span></div>
+          <div className="list-item-icon" onClick={ this.onClickDoneButton }><span>D</span></div>
           { itemContent }
-          <div className="list-item-icon delete-button" onClick={ this.onClickDeleteButton }><span>[D]</span></div>
+          <div className="list-item-icon" onClick={ this.onClickDeleteButton }><span>[D]</span></div>
         </div>
         { categoryList }
       </li>

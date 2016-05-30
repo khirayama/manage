@@ -84,10 +84,18 @@ export default class TodoCategoryList extends Component {
     );
 
     return (
-      <section className="todo-category-list">
-        <h2>CATEGORIES</h2>
+      <section className="list">
+        <header>
+          <h2>CATEGORIES</h2>
+        </header>
         <ul>{todoCategoryListItemElements}</ul>
-        <div className="add-button" onClick={ this.onClickAddButton }>[Add]</div>
+        <footer>
+          <div
+            onClick={ this.onClickAddButton }
+          >
+            [Add]
+          </div>
+        </footer>
       </section>
     );
   }
@@ -212,40 +220,48 @@ class TodoCategoryListItem extends Component {
 
     if (todoCategory.isEditing) {
       itemContent = (
-        <input
-          autoFocus
-          ref="input"
-          placeholder="Add a category"
-          value={ this.state.value }
-          onChange={ this.onChangeInput }
-          onKeyDown={ this.onKeyDownInput }
-          onBlur={ this.onBlurInput }
-        />
+        <div className="list-item-text">
+          <input
+            autoFocus
+            ref="input"
+            placeholder="Add a category"
+            value={ this.state.value }
+            onChange={ this.onChangeInput }
+            onKeyDown={ this.onKeyDownInput }
+            onBlur={ this.onBlurInput }
+          />
+        </div>
       );
     } else {
       itemContent = (
-        <label
+        <div
+          className="list-item-text"
           draggable
           onClick={ this.onClickLabel }
           onDragStart={ this.onDragStart }
           onDragEnter={ this.onDragEnter }
           onDragEnd={ this.onDragEnd }
         >
-          <span
-            className="badge"
-            onClick={ this.onClickBadge }
-          >
-            {todoCategory.numberOfTodos}
-          </span>
           { todoCategory.name }
-        </label>
+        </div>
       );
     }
 
     return (
-      <li className="todo-category-list-item" key={ todoCategory.id }>
-        { itemContent }
-        <div className="delete-button" onClick={ this.onClickDeleteButton }><span>[D]</span></div>
+      <li
+        key={ todoCategory.id }
+        className="list-item"
+      >
+        <div className="list-item-content">
+          <div
+            className="list-item-icon"
+            onClick={ this.onClickBadge }
+          >
+            <span>{todoCategory.numberOfTodos}</span>
+        </div>
+          { itemContent }
+          <div className="list-item-icon" onClick={ this.onClickDeleteButton }><span>[D]</span></div>
+        </div>
       </li>
     );
   }

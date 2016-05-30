@@ -16,7 +16,9 @@ export default class TodoCategoriesPage extends Component {
       <section className="page todo-categories-page">
         <section className="page-content">
           <PageBackButton />
-          <TodoCategoryList todoCategories={todoCategories} />
+          <div className="todo-category-list-container">
+            <TodoCategoryList todoCategories={todoCategories} />
+          </div>
         </section>
       </section>
     );
