@@ -17,6 +17,10 @@
     h4
       font-size: 1.0rem
       font-weight: bold
+    input
+      display: inline-block
+      width: 100%
+      padding: 0
   footer
     text-align: left
     padding: 16px 12px
@@ -43,8 +47,17 @@
       background: $color-light-gray
     &:last-of-type
       border-bottom: none
+
+    // modifier
     &.list-item__disabled
       opacity: 0.3 // TODO: select color
+    &.list-item__selected
+      background-color: $color-yellow
+      color: $color-white
+    &:hover.list-item__selected
+      opacity: 0.3 // TODO: select color
+      background-color: $color-yellow
+      color: $color-white
 
     .list-item-text
       padding: 12px

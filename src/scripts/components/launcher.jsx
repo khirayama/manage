@@ -95,6 +95,10 @@ export default class Launcher extends Component {
     }
   }
 
+  _stopPropagation(event) {
+    event.stopPropagation();
+  }
+
   _createTodo(categoryId) {
     hideLauncher();
     changePage(pages.TODOS);
@@ -126,9 +130,14 @@ export default class Launcher extends Component {
   }
 
   _createNoResultItem() {
-    return [
-      <li key="launcher-list-item-no-results" className="launcher-list-item">No results</li>,
-    ];
+    return [(
+      <li
+        key="launcher-list-item-no-results"
+        className="list-item"
+      >
+        <div className="list-item-text">No results</div>
+      </li>
+    ),];
   }
 
   static _filterContents(contents, searchText) {
@@ -162,16 +171,21 @@ export default class Launcher extends Component {
         className="launcher-background"
         onClick={ hideLauncher }
       >
-        <div className="launcher">
-          <input
-            autoFocus
-            placeholder="Search shortcut"
-            type="text"
-            onKeyDown={ this.onKeyDownInput }
-            onChange={ this.onChangeInput }
-            value={ this.state.value }
-          />
-          <ul className="launcher-list">{ contentElements }</ul>
+        <div className="launcher-list-container">
+          <section className="list">
+            <header>
+              <input
+                autoFocus
+                placeholder="Search shortcut"
+                type="text"
+                onClick={ this._stopPropagation }
+                onKeyDown={ this.onKeyDownInput }
+                onChange={ this.onChangeInput }
+                value={ this.state.value }
+              />
+            </header>
+            <ul>{ contentElements }</ul>
+          </section>
         </div>
       </div>
     );
@@ -200,10 +214,12 @@ class LauncherListItem extends Component {
   render() {
     return (
       <li
-        className={ classNames('launcher-list-item', { 'is-selected': this.props.isSelected }) }
+        className={ classNames('list-item', { 'list-item__selected': this.props.isSelected }) }
         onClick={ this.onClickItem }
       >
-        { this.props.content.text }
+        <div className="list-item-text">
+          { this.props.content.text }
+        </div>
       </li>
     );
   }
