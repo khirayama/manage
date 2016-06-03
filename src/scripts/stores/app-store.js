@@ -70,7 +70,6 @@ export default class AppStore extends MicroStore {
     this.launcherStore = new LauncherStore();
 
     getLauncherContents();
-    this.launcherStore.showLauncher();
 
     this.launcherStore.addChangeListener(() => {
       this.dispatchChange();
