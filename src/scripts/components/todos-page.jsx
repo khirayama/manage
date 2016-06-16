@@ -59,7 +59,7 @@ export default class TodosPage extends Component {
     const todos = this.props.todos;
     const todoListElements = todos.map(todoCategory => (
       <section
-        className="column"
+        className="column todo-list-column"
         key={todoCategory.categoryId}
       >
         <TodoList
