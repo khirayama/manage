@@ -1,11 +1,3 @@
-// localStorage mock
-if (global) {
-  global.localStorage = global.localStorage || {
-    getItem: () => '{}',
-    setItem: () => false,
-  };
-}
-
 function _o2a(obj) {
   const arr = [];
 
