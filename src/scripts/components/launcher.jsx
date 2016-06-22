@@ -6,10 +6,6 @@ import {
   keyCodes,
   launcherContentTypes,
 } from '../constants/constants';
-import { hideLauncher } from '../actions/app-action-creators';
-import { changePage } from '../actions/app-action-creators';
-import { createTodo } from '../actions/todo-action-creators';
-import { createTodoCategory } from '../actions/todo-category-action-creators';
 
 
 const LauncherPropTypes = {
@@ -24,11 +20,30 @@ export default class Launcher extends Component {
       value: '',
       contentIndex: 0,
       filteredContents: this.props.contents,
+      isShowing: false,
     };
 
     this.onKeyDownInput = this.onKeyDownInput.bind(this);
     this.onChangeInput = this.onChangeInput.bind(this);
-    this.callAction = this.callAction.bind(this);
+    this.callAction = this._callAction.bind(this);
+    this.showLauncher = this._showLauncher.bind(this);
+    this.hideLauncher = this._hideLauncher.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', event => {
+      const keyCode = event.keyCode;
+      const shift = event.shiftKey;
+      const ctrl = event.ctrlKey || event.metaKey;
+
+      switch (true) {
+        case (keyCode === keyCodes.K && !shift && ctrl):
+          this.showLauncher();
+          break;
+        default:
+          break;
+      }
+    });
   }
 
   onKeyDownInput(event) {
@@ -61,7 +76,7 @@ export default class Launcher extends Component {
         this.setState({ contentIndex });
         break;
       case (keyCode === keyCodes.ESC && !shift && !ctrl):
-        hideLauncher();
+        this.hideLauncher();
         break;
       default:
         break;
@@ -75,45 +90,31 @@ export default class Launcher extends Component {
     this.setState({ value, filteredContents });
   }
 
-  callAction(content) {
+  _callAction(content) {
     if (this.state.filteredContents.length === 0) {
       return;
     }
-
-    switch (content.type) {
-      case (launcherContentTypes.TODO):
-        this._createTodo(content.id);
-        break;
-      case (launcherContentTypes.TODO_CATEGORY):
-        this._createTodoCategory();
-        break;
-      case (launcherContentTypes.PAGE):
-        this._movePage(content.href);
-        break;
-      default:
-        break;
+    if (content.callback) {
+      content.callback();
     }
+    this.hideLauncher();
+  }
+
+  _showLauncher() {
+    this.setState({ isShowing: true });
+  }
+
+  _hideLauncher() {
+    this.setState({
+      isShowing: false,
+      value: '',
+      filteredContents: this.props.contents,
+      contentIndex: 0,
+    });
   }
 
   _stopPropagation(event) {
     event.stopPropagation();
-  }
-
-  _createTodo(categoryId) {
-    hideLauncher();
-    changePage(pages.TODOS);
-    createTodo('', categoryId);
-  }
-
-  _createTodoCategory() {
-    hideLauncher();
-    changePage(pages.TODO_CATEGORIES);
-    createTodoCategory('');
-  }
-
-  _movePage(page) {
-    hideLauncher();
-    changePage(page);
   }
 
   _createContentItemElement(content, index) {
@@ -166,29 +167,32 @@ export default class Launcher extends Component {
       contentElements = this._createNoResultItem();
     }
 
-    return (
-      <div
-        className="launcher-background"
-        onClick={ hideLauncher }
-      >
-        <div className="launcher-list-container">
-          <section className="list">
-            <header>
-              <input
-                autoFocus
-                placeholder="Search shortcut"
-                type="text"
-                onClick={ this._stopPropagation }
-                onKeyDown={ this.onKeyDownInput }
-                onChange={ this.onChangeInput }
-                value={ this.state.value }
-              />
-            </header>
-            <ul>{ contentElements }</ul>
-          </section>
+    if (this.state.isShowing) {
+      return (
+        <div
+          className="launcher-background"
+          onClick={ this.hideLauncher }
+        >
+          <div className="launcher-list-container">
+            <section className="list">
+              <header>
+                <input
+                  autoFocus
+                  placeholder="Search shortcut"
+                  type="text"
+                  onClick={ this._stopPropagation }
+                  onKeyDown={ this.onKeyDownInput }
+                  onChange={ this.onChangeInput }
+                  value={ this.state.value }
+                />
+              </header>
+              <ul>{ contentElements }</ul>
+            </section>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+    return null;
   }
 }
 
@@ -200,6 +204,7 @@ const LauncherListItemPropTypes = {
   isSelected: React.PropTypes.bool.isRequired,
   callAction: React.PropTypes.func.isRequired,
 };
+
 class LauncherListItem extends Component {
   constructor(props) {
     super(props);

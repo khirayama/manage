@@ -1,11 +1,9 @@
 import { pages, actionTypes as types } from '../constants/constants';
-import { getLauncherContents } from '../actions/app-action-creators';
 import { getTodos } from '../actions/todo-action-creators';
 import { getTodoCategories } from '../actions/todo-category-action-creators';
 import appDispatcher from '../dispatchers/app-dispatcher';
 import MicroStore from './micro-store';
 import TodoStore from './todo-store';
-import LauncherStore from './launcher-store';
 import TodoCategoryStore from './todo-category-store';
 
 
@@ -18,7 +16,6 @@ export default class AppStore extends MicroStore {
     this._history = [];
 
     this.routes();
-    this.startLauncher();
     this.createTodosPage();
 
     this.register(appDispatcher, types.BACK_PAGE, () => {
@@ -64,16 +61,6 @@ export default class AppStore extends MicroStore {
 
   getTitle() {
     return this._title;
-  }
-
-  startLauncher() {
-    this.launcherStore = new LauncherStore();
-
-    getLauncherContents();
-
-    this.launcherStore.addChangeListener(() => {
-      this.dispatchChange();
-    });
   }
 
   // create page element methods

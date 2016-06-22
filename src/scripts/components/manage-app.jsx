@@ -6,15 +6,12 @@ import {
   pages,
   keyCodes,
 } from '../constants/constants';
-import {
-  showLauncher,
-  hideLauncher,
-} from '../actions/app-action-creators';
 import Header from './header';
 import Launcher from './launcher';
 import TodosPage from './todos-page';
 import MenuPage from './menu-page';
 import TodoCategoriesPage from './todo-categories-page';
+import { getLauncherContents } from '../utils/get-launcher-contents';
 import SettingsPage from './settings-page';
 
 
@@ -35,8 +32,6 @@ export default class ManageApp extends Component {
 
   componentDidMount() {
     this.props.appStore.addChangeListener(this.updateState);
-
-    this._setDocumentEventHandler();
   }
 
   componentWillUnmount() {
@@ -51,38 +46,6 @@ export default class ManageApp extends Component {
 
   _changeTitle(title) {
     document.title = `${title} | ${config.name}`;
-  }
-
-  _setDocumentEventHandler() {
-    document.addEventListener('keydown', event => {
-      const keyCode = event.keyCode;
-      const shift = event.shiftKey;
-      const ctrl = event.ctrlKey || event.metaKey;
-      const isLauncherShowing = this.state.appStore.launcherStore.getLauncherShowing();
-
-      switch (true) {
-        case (keyCode === keyCodes.K && !shift && ctrl):
-          if (isLauncherShowing) {
-            hideLauncher();
-          } else {
-            showLauncher();
-          }
-          break;
-        default:
-          break;
-      }
-    });
-  }
-
-  _createLauncherElement() {
-    const contents = this.state.appStore.launcherStore.getContents();
-
-    return (
-      <Launcher
-        key="launcher"
-        contents={ contents }
-      />
-    );
   }
 
   _createPageElement() {
@@ -139,9 +102,7 @@ export default class ManageApp extends Component {
 
   render() {
     const page = this.state.appStore.getPage();
-    const isLauncherShowing = this.state.appStore.launcherStore.getLauncherShowing();
     const pageElement = this._createPageElement();
-    const launcherElement = (isLauncherShowing) ? this._createLauncherElement() : null;
 
     // Ref _transition.sass
     const transitionOptions = {
@@ -194,7 +155,9 @@ export default class ManageApp extends Component {
           ) ? pageElement : null }
         </ReactCSSTransitionGroup>
 
-        { launcherElement }
+        <Launcher
+          contents={ getLauncherContents() }
+        />
       </div>
     );
   }
