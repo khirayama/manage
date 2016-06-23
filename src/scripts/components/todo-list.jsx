@@ -12,7 +12,14 @@ import {
   updateTodo,
   deleteTodo,
 } from '../actions/todo-action-creators';
-import { keyCodes } from '../constants/constants';
+import {
+  deleteTodoCategory,
+} from '../actions/todo-category-action-creators';
+import {
+  messages,
+  keyCodes,
+} from '../constants/constants';
+import promiseConfirm from '../utils/promise-confirm';
 
 
 const todoListPropTypes = {
@@ -35,6 +42,7 @@ export default class TodoList extends Component {
 
     this.onClickTitle = this.onClickTitle.bind(this);
     this.onClickAddButton = this.onClickAddButton.bind(this);
+    this.onClickDeleteTodoCategoryButton = this.onClickDeleteTodoCategoryButton.bind(this);
     this.onDragEnterHeader = this.onDragEnterHeader.bind(this);
     this.onDragEndHeader = this.onDragEndHeader.bind(this);
     this.onDragEnterAddButton = this.onDragEnterAddButton.bind(this);
@@ -47,6 +55,16 @@ export default class TodoList extends Component {
 
   onClickAddButton() {
     createTodo('', this.props.todoCategory.categoryId);
+  }
+
+  onClickDeleteTodoCategoryButton() {
+    if (this.props.todoCategory.todos.length) {
+      promiseConfirm(messages.CONFIRM_DELETE_TODO_CATEGORY).then(() => {
+        deleteTodoCategory(this.props.todoCategory.categoryId);
+      }).catch(error => error);
+    } else {
+      deleteTodoCategory(this.props.todoCategory.categoryId);
+    }
   }
 
   onDragEnterHeader() {
@@ -99,7 +117,7 @@ export default class TodoList extends Component {
             >
               {todoCategory.categoryName}
             </h3>
-            <div className="list-header-icon"><span>D</span></div>
+            <div className="list-header-icon" onClick={ this.onClickDeleteTodoCategoryButton }><span>D</span></div>
           </div>
         </header>
         <ul>{ todoListItemElements }</ul>
