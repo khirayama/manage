@@ -89,14 +89,18 @@ export default class TodoList extends Component {
 
     return (
       <section className="list">
-        <header>
-          <h3
-            onDragEnter={ this.onDragEnterHeader }
-            onDragEnd={ this.onDragEndHeader }
-            onClick={ this.onClickTitle }
-          >
-            {todoCategory.categoryName}
-          </h3>
+        <header className="list-header">
+          <div className="list-header-content">
+            <h3
+              className="list-header-text"
+              onDragEnter={ this.onDragEnterHeader }
+              onDragEnd={ this.onDragEndHeader }
+              onClick={ this.onClickTitle }
+            >
+              {todoCategory.categoryName}
+            </h3>
+            <div className="list-header-icon"><span>D</span></div>
+          </div>
         </header>
         <ul>{ todoListItemElements }</ul>
         <footer>
@@ -227,7 +231,6 @@ class TodoListItem extends Component {
   render() {
     const todo = this.props.todo;
     let itemContent;
-    let categoryList;
 
     if (todo.isEditing) {
       itemContent = (
@@ -278,7 +281,6 @@ class TodoListItem extends Component {
           { itemContent }
           <div className="list-item-icon" onClick={ this.onClickDeleteButton }><span>[D]</span></div>
         </div>
-        { categoryList }
       </li>
     );
   }

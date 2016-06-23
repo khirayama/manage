@@ -5,22 +5,51 @@
   transition: box-shadow $timing-basic
   &:hover
     box-shadow: 0 3px 1px 0 rgba($color-black, .1)
-  header
+
+  .list-header
+    display: inline-block
+    width: 100%
     text-align: left
-    padding: 12px
-    h2
+    font-size: 1rem
+    line-height: 1rem
+    background: $color-white
+    color: inherit
+    .list-header-text
+      padding: 12px
+      font-weight: bold
+      word-break: break-word
+    h2.list-header-text
       font-size: 1.5rem
-      font-weight: bold
-    h3
+    h3.list-header-text
       font-size: 1.2rem
-      font-weight: bold
-    h4
+    h4.list-header-text
       font-size: 1.0rem
-      font-weight: bold
     input
       display: inline-block
       width: 100%
       padding: 0
+
+    .list-header-content
+      display: flex
+      align-items: stretch
+      width: 100%
+      height: 100%
+      .list-header-text
+        flex: 1
+        padding: 12px
+      .list-header-icon
+        flex: none
+        width: 44px
+        cursor: pointer
+        text-align: center
+        display: flex
+        align-items: center
+        justify-content: center
+        span,
+        i
+          flex: none
+      .list-header-icon + .list-header-text
+        padding: 12px 4px
   footer
     text-align: left
     padding: 16px 12px
@@ -32,7 +61,6 @@
     display: inline-block
     width: 100%
     border-bottom: solid 1px $color-border
-    cursor: pointer
     font-size: 1rem
     line-height: 1rem
     background: $color-white
