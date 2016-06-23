@@ -33,3 +33,8 @@
 
     .confirm-dialog-cancel-button + .confirm-dialog-accept-button
       margin-left: 24px
+
+.confirm-dialog-interrupt-input
+  // if use 'display: none', can't catch key events
+  position: absolute
+  opacity: 0

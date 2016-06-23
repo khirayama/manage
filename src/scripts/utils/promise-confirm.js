@@ -21,6 +21,8 @@ export const ConfirmDialog = {
       ConfirmDialog._element.querySelector('.confirm-dialog-cancel-button');
     ConfirmDialog._acceptButton =
       ConfirmDialog._element.querySelector('.confirm-dialog-accept-button');
+    ConfirmDialog._interruptInput =
+      ConfirmDialog._element.querySelector('.confirm-dialog-interrupt-input');
 
     ConfirmDialog.setEventHandlers();
     ConfirmDialog.show();
@@ -43,6 +45,20 @@ export const ConfirmDialog = {
       ConfirmDialog.accept();
       ConfirmDialog.hide();
     });
+
+    // stop keybord input
+    ConfirmDialog._interruptInput.addEventListener('keydown', (event) => {
+      event.stopPropagation();
+    });
+
+    ConfirmDialog._interruptInput.addEventListener('keypress', (event) => {
+      event.stopPropagation();
+    });
+
+    ConfirmDialog._interruptInput.addEventListener('keyup', (event) => {
+      event.stopPropagation();
+      // TODO: ENTER & ESCAPE
+    });
   },
   accept: () => {
     ConfirmDialog.resolve();
@@ -52,12 +68,14 @@ export const ConfirmDialog = {
   },
   show: () => {
     ConfirmDialog._container.appendChild(ConfirmDialog._element);
+    ConfirmDialog._interruptInput.focus();
   },
   hide: () => {
     ConfirmDialog._container.removeChild(ConfirmDialog._element);
   },
   template: message => (`
     <div class="confirm-dialog-background">
+      <input class="confirm-dialog-interrupt-input" type="text" />
       <div class="confirm-dialog">
         <div class="confirm-dialog-message">${message}</div>
         <div class="confirm-dialog-buttons-container">
