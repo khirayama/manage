@@ -9,56 +9,53 @@ function stringToElement(template) {
   return container;
 }
 
-export const ConfirmDialog = {
-  constructor: (message, resolve, reject) => {
-    const template = ConfirmDialog.template(message);
+export class ConfirmDialog {
+  constructor(message, resolve, reject) {
+    this._resolve = resolve;
+    this._reject = reject;
+    this._message = message;
+    this._isAccepted = true;
 
-    ConfirmDialog.resolve = resolve;
-    ConfirmDialog.reject = reject;
+    this._container = document.querySelector('body');
 
-    ConfirmDialog._container = document.querySelector('body');
-    ConfirmDialog._element = stringToElement(template);
-    ConfirmDialog._background =
-      ConfirmDialog._element.querySelector('.confirm-dialog-background');
-    ConfirmDialog._cancelButton =
-      ConfirmDialog._element.querySelector('.confirm-dialog-cancel-button');
-    ConfirmDialog._acceptButton =
-      ConfirmDialog._element.querySelector('.confirm-dialog-accept-button');
-    ConfirmDialog._interruptInput =
-      ConfirmDialog._element.querySelector('.confirm-dialog-interrupt-input');
+    this.render();
+  }
 
-    ConfirmDialog.setEventHandlers();
-    ConfirmDialog.show();
-  },
-  setEventHandlers: () => {
-    ConfirmDialog._cancelButton.addEventListener('click', (event) => {
+  componentDidUpdate() {
+    this._interruptInput.focus();
+  }
+
+  _cacheElements() {
+    this._background = this._element.querySelector('.confirm-dialog-background');
+    this._cancelButton = this._element.querySelector('.confirm-dialog-cancel-button');
+    this._acceptButton = this._element.querySelector('.confirm-dialog-accept-button');
+    this._interruptInput = this._element.querySelector('.confirm-dialog-interrupt-input');
+  }
+
+  _setEventHandlers() {
+    this._cancelButton.addEventListener('click', (event) => {
       event.stopPropagation();
-      ConfirmDialog.cancel();
-      ConfirmDialog.hide();
+      this._cancel();
+      this._hide();
     });
 
-    ConfirmDialog._background.addEventListener('click', (event) => {
+    this._background.addEventListener('click', (event) => {
       event.stopPropagation();
-      ConfirmDialog.cancel();
-      ConfirmDialog.hide();
+      this._cancel();
+      this._hide();
     });
 
-    ConfirmDialog._acceptButton.addEventListener('click', (event) => {
+    this._acceptButton.addEventListener('click', (event) => {
       event.stopPropagation();
-      ConfirmDialog.accept();
-      ConfirmDialog.hide();
+      this._accept();
+      this._hide();
     });
 
     // stop keybord input
-    ConfirmDialog._interruptInput.addEventListener('keydown', (event) => {
-      event.stopPropagation();
-    });
+    this._interruptInput.addEventListener('keydown', this._stopPropagation);
+    this._interruptInput.addEventListener('keypress', this._stopPropagation);
 
-    ConfirmDialog._interruptInput.addEventListener('keypress', (event) => {
-      event.stopPropagation();
-    });
-
-    ConfirmDialog._interruptInput.addEventListener('keyup', (event) => {
+    this._interruptInput.addEventListener('keyup', (event) => {
       event.stopPropagation();
       const keyCode = event.keyCode;
       const shift = event.shiftKey;
@@ -66,47 +63,91 @@ export const ConfirmDialog = {
 
       switch (true) {
         case (keyCode === keyCodes.ENTER && !shift && !ctrl):
-          ConfirmDialog.accept();
-          ConfirmDialog.hide();
+          if (this._isAccepted) {
+            this._accept();
+          } else {
+            this._cancel();
+          }
+          this._hide();
           break;
         case (keyCode === keyCodes.ESC && !shift && !ctrl):
-          ConfirmDialog.cancel();
-          ConfirmDialog.hide();
+          this._cancel();
+          this._hide();
+          break;
+        case (keyCode === keyCodes.LEFT && !shift && !ctrl):
+          this._toggle();
+          this.render();
+          break;
+        case (keyCode === keyCodes.RIGHT && !shift && !ctrl):
+          this._toggle();
+          this.render();
           break;
         default:
           break;
       }
     });
-  },
-  accept: () => {
-    ConfirmDialog.resolve();
-  },
-  cancel: () => {
-    ConfirmDialog.reject();
-  },
-  show: () => {
-    ConfirmDialog._container.appendChild(ConfirmDialog._element);
-    ConfirmDialog._interruptInput.focus();
-  },
-  hide: () => {
-    ConfirmDialog._container.removeChild(ConfirmDialog._element);
-  },
-  template: message => (`
-    <div class="confirm-dialog-background">
-      <input class="confirm-dialog-interrupt-input" type="text" />
-      <div class="confirm-dialog">
-        <div class="confirm-dialog-message">${message}</div>
-        <div class="confirm-dialog-buttons-container">
-          <div class="confirm-dialog-button confirm-dialog-cancel-button">Cancel</div>
-          <div class="confirm-dialog-button confirm-dialog-accept-button confirm-dialog-button__selected">OK</div>
+  }
+
+  _toggle() {
+    this._isAccepted = !this._isAccepted;
+  }
+
+  _cancel() {
+    this._reject();
+  }
+
+  _accept() {
+    this._resolve();
+  }
+
+  _hide() {
+    this._element.parentNode.removeChild(this._element);
+  }
+
+  _stopPropagation(event) {
+    event.stopPropagation();
+  }
+
+  _template(message, isAccepted) {
+    let cancelButtonClassName = '';
+    let acceptButtonClassName = '';
+
+    if (isAccepted) {
+      acceptButtonClassName = 'confirm-dialog-button__selected';
+    } else {
+      cancelButtonClassName = 'confirm-dialog-button__selected';
+    }
+
+    return (`
+      <div class="confirm-dialog-background">
+        <input class="confirm-dialog-interrupt-input" type="text" />
+        <div class="confirm-dialog">
+          <div class="confirm-dialog-message">${ message }</div>
+          <div class="confirm-dialog-buttons-container">
+            <div class="confirm-dialog-button confirm-dialog-cancel-button ${ cancelButtonClassName }">Cancel</div>
+            <div class="confirm-dialog-button confirm-dialog-accept-button ${ acceptButtonClassName }">OK</div>
+          </div>
         </div>
       </div>
-    </div>
-  `),
-};
+    `);
+  }
+
+  render() {
+    if (this._element) {
+      this._element.parentNode.removeChild(this._element);
+    }
+
+    const template = this._template(this._message, this._isAccepted);
+    this._element = stringToElement(template);
+    this._cacheElements();
+    this._setEventHandlers();
+    this._container.appendChild(this._element);
+    this.componentDidUpdate();
+  }
+}
 
 export default function promiseConfirm(message) {
   return new Promise((resolve, reject) => {
-    ConfirmDialog.constructor(message, resolve, reject);
+    new ConfirmDialog(message, resolve, reject);
   });
 }
