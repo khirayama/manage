@@ -21,8 +21,7 @@
   .confirm-dialog-buttons-container
     text-align: center
 
-    .confirm-dialog-cancel-button,
-    .confirm-dialog-accept-button
+    .confirm-dialog-button,
       display: inline-block
       text-align: center
       width: 100px
@@ -30,6 +29,11 @@
       line-height: 30px
       border: solid 1px $color-border
       cursor: pointer
+
+    // modifier
+    .confirm-dialog-button__selected
+      background-color: $color-yellow
+      color: $color-white
 
     .confirm-dialog-cancel-button + .confirm-dialog-accept-button
       margin-left: 24px

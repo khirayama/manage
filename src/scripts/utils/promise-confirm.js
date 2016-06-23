@@ -1,3 +1,6 @@
+import { keyCodes } from '../constants/constants';
+
+
 function stringToElement(template) {
   const container = document.createElement('div');
 
@@ -57,7 +60,22 @@ export const ConfirmDialog = {
 
     ConfirmDialog._interruptInput.addEventListener('keyup', (event) => {
       event.stopPropagation();
-      // TODO: ENTER & ESCAPE
+      const keyCode = event.keyCode;
+      const shift = event.shiftKey;
+      const ctrl = event.ctrlKey || event.metaKey;
+
+      switch (true) {
+        case (keyCode === keyCodes.ENTER && !shift && !ctrl):
+          ConfirmDialog.accept();
+          ConfirmDialog.hide();
+          break;
+        case (keyCode === keyCodes.ESC && !shift && !ctrl):
+          ConfirmDialog.cancel();
+          ConfirmDialog.hide();
+          break;
+        default:
+          break;
+      }
     });
   },
   accept: () => {
@@ -79,8 +97,8 @@ export const ConfirmDialog = {
       <div class="confirm-dialog">
         <div class="confirm-dialog-message">${message}</div>
         <div class="confirm-dialog-buttons-container">
-          <div class="confirm-dialog-cancel-button">Cancel</div>
-          <div class="confirm-dialog-accept-button">OK</div>
+          <div class="confirm-dialog-button confirm-dialog-cancel-button">Cancel</div>
+          <div class="confirm-dialog-button confirm-dialog-accept-button confirm-dialog-button__selected">OK</div>
         </div>
       </div>
     </div>
