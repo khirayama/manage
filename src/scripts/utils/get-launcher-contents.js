@@ -4,6 +4,7 @@ import { createTodo } from '../actions/todo-action-creators';
 import { createTodoCategory } from '../actions/todo-category-action-creators';
 import { pages } from '../constants/constants';
 
+
 export function getLauncherContents() {
   const todoCategoryItems = todoCategoryStorage.order('order').get().map(todoCategory => {
     const id = todoCategory.id;
