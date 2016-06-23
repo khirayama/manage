@@ -26,8 +26,8 @@
   },
   "license": "ISC",
   "engines": {
-    "node": ">=4.1.1",
-    "npm": ">=2.14.4"
+    "node": ">=5.1.1",
+    "npm": ">=3.8.6"
   },
   "eslintConfig": {
     "extends": "airbnb"
