@@ -4,10 +4,8 @@ import TodoList from './todo-list';
 import {
   sortTodos,
   moveTodo,
-} from '../actions/todo-action-creators';
-import {
   createTodoCategory,
-} from '../actions/todo-category-action-creators';
+} from '../actions/todo-action-creators';
 
 
 const propTypes = {
@@ -28,7 +26,7 @@ export default class TodosPage extends Component {
   }
 
   onClickAddCategoryButton() {
-    createTodoCategory('New');
+    createTodoCategory('');
   }
 
   _initializeOrder() {

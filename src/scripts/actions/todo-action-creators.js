@@ -15,6 +15,7 @@ export function getTodos() {
     todos.push({
       categoryName: todoCategory.name,
       categoryId: todoCategory.id,
+      isEditing: false,
       todos: todoStorage.where({ categoryId: todoCategory.id }).order('order').get(),
     });
   });
@@ -195,4 +196,32 @@ export function moveTodo(currentCategoryId, from, newCategoryId, to) {
   });
 
   getTodos();
+}
+
+export function editTodoCategory(id) {
+  const entity = todoCategoryStorage.get(id);
+
+  entity.isEditing = true;
+
+  appDispatcher.emit(types.EDIT_TODO_CATEGORY, entity);
+}
+
+export function updateTodoCategory(id, name) {
+  const entity = todoCategoryStorage.update(id, { name });
+
+  entity.isEditing = false;
+
+  appDispatcher.emit(types.UPDATE_TODO_CATEGORY, entity);
+}
+
+export function createTodoCategory(name) {
+  const order = todoCategoryStorage.all().length;
+  const entity = todoCategoryStorage.create({
+    name,
+    order,
+  });
+
+  entity.isEditing = true;
+
+  appDispatcher.emit(types.CREATE_TODO_CATEGORY, entity);
 }

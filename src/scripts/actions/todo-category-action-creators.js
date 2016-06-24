@@ -49,6 +49,7 @@ export function editTodoCategory(id) {
   entity.isEditing = true;
   entity.numberOfTodos = todoStorage.where({ categoryId: entity.id }).get().length;
 
+  getTodos();
   appDispatcher.emit(types.UPDATE_TODO_CATEGORY, entity);
 }
 

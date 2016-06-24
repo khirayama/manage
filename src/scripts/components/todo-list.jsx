@@ -11,6 +11,8 @@ import {
   editPrevTodo,
   updateTodo,
   deleteTodo,
+  editTodoCategory,
+  updateTodoCategory,
 } from '../actions/todo-action-creators';
 import {
   deleteTodoCategory,
@@ -40,9 +42,15 @@ export default class TodoList extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      value: this.props.todoCategory.categoryName,
+    };
+
     this.onClickTitle = this.onClickTitle.bind(this);
     this.onClickAddButton = this.onClickAddButton.bind(this);
     this.onClickDeleteTodoCategoryButton = this.onClickDeleteTodoCategoryButton.bind(this);
+    this.onBlurTodoCategoryInput = this.onBlurTodoCategoryInput.bind(this);
+    this.onChangeTodoCategoryInput = this.onChangeTodoCategoryInput.bind(this);
     this.onDragEnterHeader = this.onDragEnterHeader.bind(this);
     this.onDragEndHeader = this.onDragEndHeader.bind(this);
     this.onDragEnterAddButton = this.onDragEnterAddButton.bind(this);
@@ -50,7 +58,7 @@ export default class TodoList extends Component {
   }
 
   onClickTitle() {
-    changePage(pages.TODO_CATEGORIES);
+    editTodoCategory(this.props.todoCategory.categoryId);
   }
 
   onClickAddButton() {
@@ -65,6 +73,16 @@ export default class TodoList extends Component {
     } else {
       deleteTodoCategory(this.props.todoCategory.categoryId);
     }
+  }
+
+  onBlurTodoCategoryInput() {
+    updateTodoCategory(this.props.todoCategory.categoryId, this.state.value);
+  }
+
+  onChangeTodoCategoryInput(event) {
+    this.setState({
+      value: event.target.value,
+    });
   }
 
   onDragEnterHeader() {
@@ -105,20 +123,33 @@ export default class TodoList extends Component {
       (todo) => this._createTodoListItemElement(todo)
     );
 
+    const titleElement = (this.props.todoCategory.isEditing) ? (
+      <div className="list-header-content">
+        <input
+          autoFocus
+          type="text"
+          value={ this.state.value }
+          onBlur={ this.onBlurTodoCategoryInput }
+          onChange={ this.onChangeTodoCategoryInput }
+        />
+      </div>
+    ) : (
+      <div className="list-header-content">
+        <h3
+          className="list-header-text"
+          onDragEnter={ this.onDragEnterHeader }
+          onDragEnd={ this.onDragEndHeader }
+          onClick={ this.onClickTitle }
+        >
+          {todoCategory.categoryName}
+        </h3>
+        <div className="list-header-icon" onClick={ this.onClickDeleteTodoCategoryButton }><span>D</span></div>
+      </div>
+    );
     return (
       <section className="list">
         <header className="list-header">
-          <div className="list-header-content">
-            <h3
-              className="list-header-text"
-              onDragEnter={ this.onDragEnterHeader }
-              onDragEnd={ this.onDragEndHeader }
-              onClick={ this.onClickTitle }
-            >
-              {todoCategory.categoryName}
-            </h3>
-            <div className="list-header-icon" onClick={ this.onClickDeleteTodoCategoryButton }><span>D</span></div>
-          </div>
+            { titleElement }
         </header>
         <ul>{ todoListItemElements }</ul>
         <footer>

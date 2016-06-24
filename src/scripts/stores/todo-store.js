@@ -26,6 +26,18 @@ export default class TodoStore extends MicroStore {
       this.update(todo);
       this.dispatchChange();
     });
+    this.register(appDispatcher, types.CREATE_TODO_CATEGORY, todoCategory => {
+      this.addTodoCategory(todoCategory);
+      this.dispatchChange();
+    });
+    this.register(appDispatcher, types.EDIT_TODO_CATEGORY, todoCategory => {
+      this.updateTodoCategory(todoCategory);
+      this.dispatchChange();
+    });
+    this.register(appDispatcher, types.UPDATE_TODO_CATEGORY, todoCategory => {
+      this.updateTodoCategory(todoCategory);
+      this.dispatchChange();
+    });
   }
 
   getTodos() {
@@ -70,6 +82,29 @@ export default class TodoStore extends MicroStore {
             todoCategory.todos.splice(index, 1, newTodo);
           }
         });
+      }
+    });
+  }
+
+  _transformTodoCategory(rawTodoCategory) {
+    return {
+      categoryId: rawTodoCategory.id,
+      categoryName: rawTodoCategory.name,
+      isEditing: rawTodoCategory.isEditing,
+      todos: [],
+    }
+  }
+
+  addTodoCategory(todoCategory) {
+    this._todos.push(this._transformTodoCategory(todoCategory));
+  }
+
+  updateTodoCategory(todoCategory) {
+    this._todos.forEach((todoCategory_) => {
+      if (todoCategory_.categoryId === todoCategory.id) {
+        todoCategory_.categoryId = todoCategory.id;
+        todoCategory_.categoryName = todoCategory.name;
+        todoCategory_.isEditing = todoCategory.isEditing;
       }
     });
   }
