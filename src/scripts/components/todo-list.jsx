@@ -13,10 +13,8 @@ import {
   deleteTodo,
   editTodoCategory,
   updateTodoCategory,
-} from '../actions/todo-action-creators';
-import {
   deleteTodoCategory,
-} from '../actions/todo-category-action-creators';
+} from '../actions/todo-action-creators';
 import {
   messages,
   keyCodes,
@@ -55,6 +53,9 @@ export default class TodoList extends Component {
     this.onDragEndHeader = this.onDragEndHeader.bind(this);
     this.onDragEnterAddButton = this.onDragEnterAddButton.bind(this);
     this.onDragEndAddButton = this.onDragEndAddButton.bind(this);
+    this.onDragStartList = this.onDragStartList.bind(this);
+    this.onDragEnterList = this.onDragEnterList.bind(this);
+    this.onDragEndList = this.onDragEndList.bind(this);
   }
 
   onClickTitle() {
@@ -105,11 +106,24 @@ export default class TodoList extends Component {
     this.props.moveTodo();
   }
 
+  onDragStartList() {
+    this.props.setCurrentTodoCategoryOrder(this.props.todoCategory.order);
+  }
+
+  onDragEnterList() {
+    this.props.setNewTodoCategoryOrder(this.props.todoCategory.order);
+  }
+
+  onDragEndList() {
+    this.props.moveTodoCategory();
+  }
+
   _createTodoListItemElement(todo) {
     return (
       <TodoListItem
         key={todo.id}
         todo={todo}
+        setIsItemDragging={ this.props.setIsItemDragging }
         setCurrentOrder={ this.props.setCurrentOrder }
         setNewOrder={ this.props.setNewOrder }
         moveTodo={ this.props.moveTodo }
@@ -147,10 +161,14 @@ export default class TodoList extends Component {
       </div>
     );
     return (
-      <section className="list">
-        <header className="list-header">
-            { titleElement }
-        </header>
+      <section
+        draggable
+        className="list"
+        onDragStart={ this.onDragStartList }
+        onDragEnter={ this.onDragEnterList }
+        onDragEnd={ this.onDragEndList }
+      >
+        <header className="list-header">{ titleElement }</header>
         <ul>{ todoListItemElements }</ul>
         <footer>
           <div
@@ -208,6 +226,7 @@ class TodoListItem extends Component {
   onDragStart() {
     const todo = this.props.todo;
 
+    this.props.setIsItemDragging(true);
     this.props.setCurrentOrder(todo.categoryId, todo.order);
   }
 
@@ -218,6 +237,7 @@ class TodoListItem extends Component {
   }
 
   onDragEnd() {
+    this.props.setIsItemDragging(false);
     this.props.moveTodo();
   }
 

@@ -15,6 +15,7 @@ export function getTodos() {
     todos.push({
       categoryName: todoCategory.name,
       categoryId: todoCategory.id,
+      order: todoCategory.order,
       isEditing: false,
       todos: todoStorage.where({ categoryId: todoCategory.id }).order('order').get(),
     });
@@ -224,4 +225,58 @@ export function createTodoCategory(name) {
   entity.isEditing = true;
 
   appDispatcher.emit(types.CREATE_TODO_CATEGORY, entity);
+}
+
+export function deleteTodoCategory(id) {
+  const todoCategory = todoCategoryStorage.get(id);
+  const todoCategories = todoCategoryStorage.all();
+  const categoryTodos = todoStorage.where({ categoryId: id }).get();
+
+  // update other todo category id
+  todoCategories.forEach(todoCategory_ => {
+    if (todoCategory.order < todoCategory_.order) {
+      todoCategoryStorage.update(todoCategory_.id, {
+        order: todoCategory_.order - 1,
+      });
+    }
+  });
+
+  // remove todo belonged this category
+  categoryTodos.forEach(categoryTodo => {
+    todoStorage.destroy(categoryTodo.id);
+  });
+
+  todoCategoryStorage.destroy(id);
+
+  getTodos();
+}
+
+export function sortTodoCategories(from, to) {
+  const allTodoCategories = todoCategoryStorage.order('order').get();
+
+  if (from < to) {
+    // To move to down.
+    for (let index = from; index <= to; index++) {
+      const todoCategory = allTodoCategories[index];
+
+      if (index === from) {
+        todoCategoryStorage.update(todoCategory.id, { order: to });
+      } else if (index <= to) {
+        todoCategoryStorage.update(todoCategory.id, { order: todoCategory.order - 1 });
+      }
+    }
+  } else if (to < from) {
+    // To move to up.
+    for (let index = to; index <= from; index++) {
+      const todoCategory = allTodoCategories[index];
+
+      if (index === from) {
+        todoCategoryStorage.update(todoCategory.id, { order: to });
+      } else if (index <= from) {
+        todoCategoryStorage.update(todoCategory.id, { order: todoCategory.order + 1 });
+      }
+    }
+  }
+
+  getTodos();
 }

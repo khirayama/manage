@@ -5,6 +5,7 @@ import {
   sortTodos,
   moveTodo,
   createTodoCategory,
+  sortTodoCategories,
 } from '../actions/todo-action-creators';
 
 
@@ -16,17 +17,30 @@ export default class TodosPage extends Component {
   constructor(props) {
     super(props);
 
+    this._isItemDragging = false;
+
     this._initializeOrder();
+    this._initializeTodoCategoryOrder();
+
+    this._setIsItemDragging = this._setIsItemDragging.bind(this);
 
     this._setCurrentOrder = this._setCurrentOrder.bind(this);
     this._setNewOrder = this._setNewOrder.bind(this);
     this._moveTodo = this._moveTodo.bind(this);
+
+    this._setCurrentTodoCategoryOrder = this._setCurrentTodoCategoryOrder.bind(this);
+    this._setNewTodoCategoryOrder = this._setNewTodoCategoryOrder.bind(this)
+    this._moveTodoCategory = this._moveTodoCategory.bind(this);
 
     this.onClickAddCategoryButton = this.onClickAddCategoryButton.bind(this);
   }
 
   onClickAddCategoryButton() {
     createTodoCategory('');
+  }
+
+  _setIsItemDragging(isItemDragging) {
+    this._isItemDragging = isItemDragging;
   }
 
   _initializeOrder() {
@@ -60,6 +74,41 @@ export default class TodosPage extends Component {
       moveTodo(currentCategoryId, from, newCategoryId, to);
     }
     this._initializeOrder();
+    this._setIsItemDragging(false);
+  }
+
+  _initializeTodoCategoryOrder() {
+    this._todoCategoryOrder = {
+      from: null,
+      to: null,
+    };
+  }
+
+  _setCurrentTodoCategoryOrder(from) {
+    if (this._isItemDragging) {
+      return;
+    }
+    this._todoCategoryOrder.from = from;
+  }
+
+  _setNewTodoCategoryOrder(to) {
+    if (this._isItemDragging) {
+      return;
+    }
+    this._todoCategoryOrder.to = to;
+  }
+
+  _moveTodoCategory() {
+    if (this._isItemDragging) {
+      return;
+    }
+    const from = this._todoCategoryOrder.from;
+    const to = this._todoCategoryOrder.to;
+
+    if (from !== null && to !== null && from !== to) {
+      sortTodoCategories(from, to);
+    }
+    this._initializeTodoCategoryOrder();
   }
 
   render() {
@@ -70,10 +119,14 @@ export default class TodosPage extends Component {
         key={todoCategory.categoryId}
       >
         <TodoList
-          todoCategory={todoCategory}
+          todoCategory={ todoCategory }
+          setIsItemDragging={ this._setIsItemDragging }
           setCurrentOrder={ this._setCurrentOrder }
           setNewOrder={ this._setNewOrder }
           moveTodo={ this._moveTodo }
+          setCurrentTodoCategoryOrder={ this._setCurrentTodoCategoryOrder }
+          setNewTodoCategoryOrder={ this._setNewTodoCategoryOrder }
+          moveTodoCategory={ this._moveTodoCategory }
         />
       </section>
     ));
