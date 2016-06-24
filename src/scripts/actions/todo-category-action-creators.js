@@ -85,6 +85,7 @@ export function deleteTodoCategory(id) {
 
   todoCategoryStorage.destroy(id);
 
+  getTodos();
   getTodoCategories();
 }
 

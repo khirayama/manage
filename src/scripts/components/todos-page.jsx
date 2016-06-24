@@ -5,6 +5,9 @@ import {
   sortTodos,
   moveTodo,
 } from '../actions/todo-action-creators';
+import {
+  createTodoCategory,
+} from '../actions/todo-category-action-creators';
 
 
 const propTypes = {
@@ -20,6 +23,12 @@ export default class TodosPage extends Component {
     this._setCurrentOrder = this._setCurrentOrder.bind(this);
     this._setNewOrder = this._setNewOrder.bind(this);
     this._moveTodo = this._moveTodo.bind(this);
+
+    this.onClickAddCategoryButton = this.onClickAddCategoryButton.bind(this);
+  }
+
+  onClickAddCategoryButton() {
+    createTodoCategory('New');
   }
 
   _initializeOrder() {
@@ -77,6 +86,12 @@ export default class TodosPage extends Component {
           <section className="column-container">
             { todoListElements }
           </section>
+          <div
+            className="floating-button"
+            onClick={ this.onClickAddCategoryButton }
+          >
+            +
+          </div>
         </section>
       </section>
     );
