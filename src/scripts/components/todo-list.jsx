@@ -121,8 +121,8 @@ export default class TodoList extends Component {
   _createTodoListItemElement(todo) {
     return (
       <TodoListItem
-        key={todo.id}
-        todo={todo}
+        key={ todo.id }
+        todo={ todo }
         setIsItemDragging={ this.props.setIsItemDragging }
         setCurrentOrder={ this.props.setCurrentOrder }
         setNewOrder={ this.props.setNewOrder }
