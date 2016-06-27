@@ -117,9 +117,7 @@ export default class ManageApp extends Component {
         <ReactCSSTransitionGroup
           transitionName={transitionVariations.slideInOut}
           { ...transitionOptions }
-        >
-          {(false) ? pageElement : null}
-        </ReactCSSTransitionGroup>
+        >{null}</ReactCSSTransitionGroup>
 
         <ReactCSSTransitionGroup
           transitionName={transitionVariations.slideUpDown}
