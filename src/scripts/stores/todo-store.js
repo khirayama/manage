@@ -92,7 +92,7 @@ export default class TodoStore extends MicroStore {
       categoryName: rawTodoCategory.name,
       isEditing: rawTodoCategory.isEditing,
       todos: [],
-    }
+    };
   }
 
   addTodoCategory(todoCategory) {
@@ -100,13 +100,14 @@ export default class TodoStore extends MicroStore {
   }
 
   updateTodoCategory(todoCategory) {
-    this._todos.forEach((todoCategory_) => {
+    for (let todoIndex = 0; todoIndex < this._todos.length; todoIndex++) {
+      const todoCategory_ = this._todos[todoIndex];
       if (todoCategory_.categoryId === todoCategory.id) {
         todoCategory_.categoryId = todoCategory.id;
         todoCategory_.categoryName = todoCategory.name;
         todoCategory_.isEditing = todoCategory.isEditing;
       }
-    });
+    }
   }
 
   static _addSchedule(todo) {

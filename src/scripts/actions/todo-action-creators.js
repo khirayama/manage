@@ -78,7 +78,7 @@ export function editTodo(id) {
 export function editNextTodo(categoryId, currentOrder) {
   const entity = todoStorage.where({ categoryId }).where({ order: currentOrder + 1 }).first();
   if (entity == null) {
-    return true;
+    return;
   }
 
   validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
@@ -91,7 +91,7 @@ export function editNextTodo(categoryId, currentOrder) {
 export function editPrevTodo(categoryId, currentOrder) {
   const entity = todoStorage.where({ categoryId }).where({ order: currentOrder - 1 }).first();
   if (entity == null) {
-    return true;
+    return;
   }
 
   validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
