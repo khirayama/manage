@@ -1,4 +1,4 @@
-export const TASK_RESOURCE_SCHEMA = {
+export const TASK_SCHEMA = {
   type: 'object',
   required: [
     'text',
@@ -23,7 +23,7 @@ export const TASK_RESOURCE_SCHEMA = {
   },
 };
 
-export const TASKS_RESOURCE_SCHEMA = {
+export const TASKS_SCHEMA = {
   type: 'array',
   minItems: 0,
   items: {
@@ -42,7 +42,7 @@ export const TASKS_RESOURCE_SCHEMA = {
       tasks: {
         type: 'array',
         minItems: 0,
-        items: TASK_RESOURCE_SCHEMA,
+        items: TASK_SCHEMA,
       },
     },
   },

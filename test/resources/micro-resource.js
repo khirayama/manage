@@ -6,7 +6,7 @@ describe('MicroResource', () => {
   let taskResource;
 
   beforeEach(() => {
-    class TaskResource extends MicroResource {
+    class Task extends MicroResource {
       constructor(options) {
         super(options);
         this.defaults = {
@@ -15,7 +15,7 @@ describe('MicroResource', () => {
         };
       }
     }
-    taskResource = new TaskResource({ localStorage: false });
+    taskResource = new Task({ localStorage: false });
   });
 
   describe('create', () => {

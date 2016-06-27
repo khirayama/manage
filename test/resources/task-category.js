@@ -1,6 +1,6 @@
 import assert from 'power-assert';
 
-import { TaskCategoryResource } from '../../src/scripts/resources/task-category-resource';
+import { TaskCategoryResource } from '../../src/scripts/resources/task-category';
 import { initialTaskCategoryNames } from '../../src/scripts/constants/constants';
 
 

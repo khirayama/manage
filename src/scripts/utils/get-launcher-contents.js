@@ -1,4 +1,4 @@
-import taskCategoryResouce from '../resources/task-category-resource';
+import TaskCategory from '../resources/task-category';
 import { changePage } from '../actions/app-action-creators';
 import {
   createTask,
@@ -8,7 +8,7 @@ import { pages } from '../constants/constants';
 
 
 export function getLauncherContents() {
-  const taskCategoryItems = taskCategoryResouce.order('order').get().map(taskCategory => {
+  const taskCategoryItems = TaskCategory.order('order').get().map(taskCategory => {
     const id = taskCategory.id;
     const text = `Create a task to ${taskCategory.name}`;
     const callback = () => {

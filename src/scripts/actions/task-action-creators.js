@@ -1,15 +1,15 @@
 import appDispatcher from '../dispatchers/app-dispatcher';
-import taskResource from '../resources/task-resource';
-import taskCategoryResource from '../resources/task-category-resource';
+import Task from '../resources/task';
+import TaskCategory from '../resources/task-category';
 import { actionTypes as types } from '../constants/constants';
 import { validateByJSONSchema } from '../json-schemas/json-schema';
-import { TASK_RESOURCE_SCHEMA, TASKS_RESOURCE_SCHEMA } from '../json-schemas/task-resource';
+import { TASK_SCHEMA, TASKS_SCHEMA } from '../json-schemas/task';
 
 
 export function getTasks() {
   const tasks = [];
 
-  const allTaskCategories = taskCategoryResource.order('order').get();
+  const allTaskCategories = TaskCategory.order('order').get();
 
   allTaskCategories.forEach(taskCategory => {
     tasks.push({
@@ -17,11 +17,11 @@ export function getTasks() {
       categoryId: taskCategory.id,
       order: taskCategory.order,
       isEditing: false,
-      tasks: taskResource.where({ categoryId: taskCategory.id }).order('order').get(),
+      tasks: Task.where({ categoryId: taskCategory.id }).order('order').get(),
     });
   });
 
-  validateByJSONSchema(tasks, TASKS_RESOURCE_SCHEMA);
+  validateByJSONSchema(tasks, TASKS_SCHEMA);
 
   for (let taskCategoryIndex = 0; taskCategoryIndex < tasks.length; taskCategoryIndex++) {
     const taskCategory = tasks[taskCategoryIndex];
@@ -37,15 +37,15 @@ export function getTasks() {
 }
 
 export function createTask(text, categoryId) {
-  const tasks = taskResource.where({ categoryId }).get();
+  const tasks = Task.where({ categoryId }).get();
 
-  const entity = taskResource.create({
+  const entity = Task.create({
     text,
     categoryId,
     order: tasks.length,
   });
 
-  validateByJSONSchema(entity, TASK_RESOURCE_SCHEMA);
+  validateByJSONSchema(entity, TASK_SCHEMA);
 
   entity.isEditing = true;
 
@@ -53,12 +53,12 @@ export function createTask(text, categoryId) {
 }
 
 export function completeTask(id) {
-  const task = taskResource.get(id);
-  const entity = taskResource.update(task.id, {
+  const task = Task.get(id);
+  const entity = Task.update(task.id, {
     completed: !task.completed,
   });
 
-  validateByJSONSchema(entity, TASK_RESOURCE_SCHEMA);
+  validateByJSONSchema(entity, TASK_SCHEMA);
 
   entity.isEditing = false;
 
@@ -66,9 +66,9 @@ export function completeTask(id) {
 }
 
 export function editTask(id) {
-  const entity = taskResource.get(id);
+  const entity = Task.get(id);
 
-  validateByJSONSchema(entity, TASK_RESOURCE_SCHEMA);
+  validateByJSONSchema(entity, TASK_SCHEMA);
 
   entity.isEditing = true;
 
@@ -76,12 +76,12 @@ export function editTask(id) {
 }
 
 export function editNextTask(categoryId, currentOrder) {
-  const entity = taskResource.where({ categoryId }).where({ order: currentOrder + 1 }).first();
+  const entity = Task.where({ categoryId }).where({ order: currentOrder + 1 }).first();
   if (entity == null) {
     return;
   }
 
-  validateByJSONSchema(entity, TASK_RESOURCE_SCHEMA);
+  validateByJSONSchema(entity, TASK_SCHEMA);
 
   entity.isEditing = true;
 
@@ -89,12 +89,12 @@ export function editNextTask(categoryId, currentOrder) {
 }
 
 export function editPrevTask(categoryId, currentOrder) {
-  const entity = taskResource.where({ categoryId }).where({ order: currentOrder - 1 }).first();
+  const entity = Task.where({ categoryId }).where({ order: currentOrder - 1 }).first();
   if (entity == null) {
     return;
   }
 
-  validateByJSONSchema(entity, TASK_RESOURCE_SCHEMA);
+  validateByJSONSchema(entity, TASK_SCHEMA);
 
   entity.isEditing = true;
 
@@ -102,9 +102,9 @@ export function editPrevTask(categoryId, currentOrder) {
 }
 
 export function updateTask(id, text) {
-  const entity = taskResource.update(id, { text });
+  const entity = Task.update(id, { text });
 
-  validateByJSONSchema(entity, TASK_RESOURCE_SCHEMA);
+  validateByJSONSchema(entity, TASK_SCHEMA);
 
   entity.isEditing = false;
 
@@ -112,24 +112,24 @@ export function updateTask(id, text) {
 }
 
 export function deleteTask(categoryId, taskId) {
-  const task = taskResource.get(taskId);
-  const categoryTasks = taskResource.where({ categoryId }).order('order').get();
+  const task = Task.get(taskId);
+  const categoryTasks = Task.where({ categoryId }).order('order').get();
 
   categoryTasks.forEach(categoryTask => {
     if (task.order < categoryTask.order) {
-      taskResource.update(categoryTask.id, {
+      Task.update(categoryTask.id, {
         order: categoryTask.order - 1,
       });
     }
   });
 
-  taskResource.destroy(taskId);
+  Task.destroy(taskId);
 
   getTasks();
 }
 
 export function sortTasks(categoryId, from, to) {
-  const tasks = taskResource.where({ categoryId }).order('order').get();
+  const tasks = Task.where({ categoryId }).order('order').get();
 
   if (from < to) {
     // To move to down.
@@ -137,9 +137,9 @@ export function sortTasks(categoryId, from, to) {
       const task = tasks[index];
 
       if (index === from) {
-        taskResource.update(task.id, { order: to });
+        Task.update(task.id, { order: to });
       } else if (index <= to) {
-        taskResource.update(task.id, { order: task.order - 1 });
+        Task.update(task.id, { order: task.order - 1 });
       }
     }
   } else if (to < from) {
@@ -148,9 +148,9 @@ export function sortTasks(categoryId, from, to) {
       const task = tasks[index];
 
       if (index === from) {
-        taskResource.update(task.id, { order: to });
+        Task.update(task.id, { order: to });
       } else if (index <= from) {
-        taskResource.update(task.id, { order: task.order + 1 });
+        Task.update(task.id, { order: task.order + 1 });
       }
     }
   }
@@ -159,29 +159,29 @@ export function sortTasks(categoryId, from, to) {
 }
 
 export function moveTask(currentCategoryId, from, newCategoryId, to) {
-  const currentTask = taskResource
+  const currentTask = Task
                         .where({ categoryId: currentCategoryId })
                         .where({ order: from })
                         .first();
 
-  const newCategoryTasks = taskResource.where({ categoryId: newCategoryId }).order('order').get();
+  const newCategoryTasks = Task.where({ categoryId: newCategoryId }).order('order').get();
 
   newCategoryTasks.forEach(newCategoryTask => {
     const order = newCategoryTask.order;
 
     if (order >= to) {
-      taskResource.update(newCategoryTask.id, {
+      Task.update(newCategoryTask.id, {
         order: newCategoryTask.order + 1,
       });
     }
   });
 
-  taskResource.update(currentTask.id, {
+  Task.update(currentTask.id, {
     order: to,
     categoryId: newCategoryId,
   });
 
-  const currentCategoryTasks = taskResource
+  const currentCategoryTasks = Task
                                  .where({ categoryId: currentCategoryId })
                                  .order('order')
                                  .get();
@@ -190,7 +190,7 @@ export function moveTask(currentCategoryId, from, newCategoryId, to) {
     const order = currentCategoryTask.order;
 
     if (order >= from) {
-      taskResource.update(currentCategoryTask.id, {
+      Task.update(currentCategoryTask.id, {
         order: currentCategoryTask.order - 1,
       });
     }
@@ -200,7 +200,7 @@ export function moveTask(currentCategoryId, from, newCategoryId, to) {
 }
 
 export function editTaskCategory(id) {
-  const entity = taskCategoryResource.get(id);
+  const entity = TaskCategory.get(id);
 
   entity.isEditing = true;
 
@@ -208,7 +208,7 @@ export function editTaskCategory(id) {
 }
 
 export function updateTaskCategory(id, name) {
-  const entity = taskCategoryResource.update(id, { name });
+  const entity = TaskCategory.update(id, { name });
 
   entity.isEditing = false;
 
@@ -216,8 +216,8 @@ export function updateTaskCategory(id, name) {
 }
 
 export function createTaskCategory(name) {
-  const order = taskCategoryResource.all().length;
-  const entity = taskCategoryResource.create({
+  const order = TaskCategory.all().length;
+  const entity = TaskCategory.create({
     name,
     order,
   });
@@ -228,14 +228,14 @@ export function createTaskCategory(name) {
 }
 
 export function deleteTaskCategory(id) {
-  const taskCategory = taskCategoryResource.get(id);
-  const taskCategories = taskCategoryResource.all();
-  const categoryTasks = taskResource.where({ categoryId: id }).get();
+  const taskCategory = TaskCategory.get(id);
+  const taskCategories = TaskCategory.all();
+  const categoryTasks = Task.where({ categoryId: id }).get();
 
   // update other task category id
   taskCategories.forEach(taskCategory_ => {
     if (taskCategory.order < taskCategory_.order) {
-      taskCategoryResource.update(taskCategory_.id, {
+      TaskCategory.update(taskCategory_.id, {
         order: taskCategory_.order - 1,
       });
     }
@@ -243,16 +243,16 @@ export function deleteTaskCategory(id) {
 
   // remove task belonged this category
   categoryTasks.forEach(categoryTask => {
-    taskResource.destroy(categoryTask.id);
+    Task.destroy(categoryTask.id);
   });
 
-  taskCategoryResource.destroy(id);
+  TaskCategory.destroy(id);
 
   getTasks();
 }
 
 export function sortTaskCategories(from, to) {
-  const allTaskCategories = taskCategoryResource.order('order').get();
+  const allTaskCategories = TaskCategory.order('order').get();
 
   if (from < to) {
     // To move to down.
@@ -260,9 +260,9 @@ export function sortTaskCategories(from, to) {
       const taskCategory = allTaskCategories[index];
 
       if (index === from) {
-        taskCategoryResource.update(taskCategory.id, { order: to });
+        TaskCategory.update(taskCategory.id, { order: to });
       } else if (index <= to) {
-        taskCategoryResource.update(taskCategory.id, { order: taskCategory.order - 1 });
+        TaskCategory.update(taskCategory.id, { order: taskCategory.order - 1 });
       }
     }
   } else if (to < from) {
@@ -271,9 +271,9 @@ export function sortTaskCategories(from, to) {
       const taskCategory = allTaskCategories[index];
 
       if (index === from) {
-        taskCategoryResource.update(taskCategory.id, { order: to });
+        TaskCategory.update(taskCategory.id, { order: to });
       } else if (index <= from) {
-        taskCategoryResource.update(taskCategory.id, { order: taskCategory.order + 1 });
+        TaskCategory.update(taskCategory.id, { order: taskCategory.order + 1 });
       }
     }
   }

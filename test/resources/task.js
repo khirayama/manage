@@ -1,6 +1,6 @@
 import assert from 'power-assert';
 
-import { TaskResource } from '../../src/scripts/resources/task-resource';
+import { TaskResource } from '../../src/scripts/resources/task';
 
 
 describe('TaskResource', () => {

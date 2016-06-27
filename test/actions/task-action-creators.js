@@ -9,8 +9,8 @@ import {
   deleteTask,
   sortTasks,
 } from '../../src/scripts/actions/task-action-creators';
-import taskResource from '../../src/scripts/resources/task-resource';
-import taskCategoryResource from '../../src/scripts/resources/task-category-resource';
+import taskResource from '../../src/scripts/resources/task';
+import taskCategoryResource from '../../src/scripts/resources/task-category';
 import appDispatcher from '../../src/scripts/dispatchers/app-dispatcher';
 import { actionTypes as types, initialTaskCategoryNames } from '../../src/scripts/constants/constants';
 

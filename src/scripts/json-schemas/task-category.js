@@ -1,4 +1,4 @@
-export const TASK_CATEGORY_RESOURCE_SCHEMA = {
+export const TASK_CATEGORY_SCHEMA = {
   type: 'object',
   required: [
     'name',
@@ -15,8 +15,8 @@ export const TASK_CATEGORY_RESOURCE_SCHEMA = {
   },
 };
 
-export const TASK_CATEGORIES_RESOURCE_SCHEMA = {
+export const TASK_CATEGORIES_SCHEMA = {
   type: 'array',
   minItems: 0,
-  items: TASK_CATEGORY_RESOURCE_SCHEMA,
+  items: TASK_CATEGORY_SCHEMA,
 };
