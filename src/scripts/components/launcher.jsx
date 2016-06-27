@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
 
-import {
-  pages,
-  keyCodes,
-  launcherContentTypes,
-} from '../constants/constants';
+import { keyCodes } from '../constants/constants';
+import LauncherItem from './launcher-item';
 
 
 const LauncherPropTypes = {
@@ -13,6 +9,21 @@ const LauncherPropTypes = {
 };
 
 export default class Launcher extends Component {
+  static _filterContents(contents, searchText) {
+    const filteredContents = contents.concat();
+    const searchWords = searchText.split(' ');
+
+    searchWords.forEach(searchWord => {
+      filteredContents.forEach((content, index) => {
+        if (content && content.text.toUpperCase().indexOf(searchWord.toUpperCase()) === -1) {
+          filteredContents.splice(index, 1, false);
+        }
+      });
+    });
+
+    return filteredContents.filter(el => Boolean(el));
+  }
+
   constructor(props) {
     super(props);
 
@@ -121,11 +132,11 @@ export default class Launcher extends Component {
     const isSelected = (this.state.contentIndex === index);
 
     return (
-      <LauncherListItem
-        key={ `content-${index}` }
-        content={ content }
-        isSelected={ isSelected }
-        callAction={ this.callAction }
+      <LauncherItem
+        key={`content-${index}`}
+        content={content}
+        isSelected={isSelected}
+        callAction={this.callAction}
       />
     );
   }
@@ -138,22 +149,7 @@ export default class Launcher extends Component {
       >
         <div className="list-item-text">No results</div>
       </li>
-    ),];
-  }
-
-  static _filterContents(contents, searchText) {
-    const filteredContents = contents.concat();
-    const searchWords = searchText.split(' ');
-
-    searchWords.forEach(searchWord => {
-      filteredContents.forEach((content, index) => {
-        if (content && content.text.toUpperCase().indexOf(searchWord.toUpperCase()) === -1) {
-          filteredContents.splice(index, 1, false);
-        }
-      });
-    });
-
-    return filteredContents.filter(el => Boolean(el));
+    )];
   }
 
   render() {
@@ -171,7 +167,7 @@ export default class Launcher extends Component {
       return (
         <div
           className="launcher-background"
-          onClick={ this.hideLauncher }
+          onClick={this.hideLauncher}
         >
           <div className="launcher-list-container">
             <section className="list">
@@ -180,13 +176,13 @@ export default class Launcher extends Component {
                   autoFocus
                   placeholder="Search shortcut"
                   type="text"
-                  onClick={ this._stopPropagation }
-                  onKeyDown={ this.onKeyDownInput }
-                  onChange={ this.onChangeInput }
-                  value={ this.state.value }
+                  onClick={this._stopPropagation}
+                  onKeyDown={this.onKeyDownInput}
+                  onChange={this.onChangeInput}
+                  value={this.state.value}
                 />
               </header>
-              <ul>{ contentElements }</ul>
+              <ul>{contentElements}</ul>
             </section>
           </div>
         </div>
@@ -197,37 +193,3 @@ export default class Launcher extends Component {
 }
 
 Launcher.propTypes = LauncherPropTypes;
-
-
-const LauncherListItemPropTypes = {
-  content: React.PropTypes.object.isRequired,
-  isSelected: React.PropTypes.bool.isRequired,
-  callAction: React.PropTypes.func.isRequired,
-};
-
-class LauncherListItem extends Component {
-  constructor(props) {
-    super(props);
-
-    this.onClickItem = this.onClickItem.bind(this);
-  }
-
-  onClickItem() {
-    this.props.callAction(this.props.content);
-  }
-
-  render() {
-    return (
-      <li
-        className={ classNames('list-item', { 'list-item__selected': this.props.isSelected }) }
-        onClick={ this.onClickItem }
-      >
-        <div className="list-item-text">
-          { this.props.content.text }
-        </div>
-      </li>
-    );
-  }
-}
-
-LauncherListItem.propTypes = LauncherListItemPropTypes;

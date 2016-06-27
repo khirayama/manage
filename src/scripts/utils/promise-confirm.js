@@ -9,6 +9,7 @@ function stringToElement(template) {
   return container;
 }
 
+
 export class ConfirmDialog {
   constructor(message, resolve, reject) {
     this._resolve = resolve;
@@ -18,7 +19,7 @@ export class ConfirmDialog {
 
     this._container = document.querySelector('body');
 
-    this.render();
+    this._render();
   }
 
   componentDidUpdate() {
@@ -76,11 +77,11 @@ export class ConfirmDialog {
           break;
         case (keyCode === keyCodes.LEFT && !shift && !ctrl):
           this._toggle();
-          this.render();
+          this._render();
           break;
         case (keyCode === keyCodes.RIGHT && !shift && !ctrl):
           this._toggle();
-          this.render();
+          this._render();
           break;
         default:
           break;
@@ -122,17 +123,25 @@ export class ConfirmDialog {
       <div class="confirm-dialog-background">
         <input class="confirm-dialog-interrupt-input" type="text" />
         <div class="confirm-dialog">
-          <div class="confirm-dialog-message">${ message }</div>
+          <div class="confirm-dialog-message">${message}</div>
           <div class="confirm-dialog-buttons-container">
-            <div class="confirm-dialog-button confirm-dialog-cancel-button ${ cancelButtonClassName }">Cancel</div>
-            <div class="confirm-dialog-button confirm-dialog-accept-button ${ acceptButtonClassName }">OK</div>
+            <div
+              class="confirm-dialog-button confirm-dialog-cancel-button ${cancelButtonClassName}"
+            >
+              Cancel
+            </div>
+            <div
+              class="confirm-dialog-button confirm-dialog-accept-button ${acceptButtonClassName}"
+            >
+              OK
+            </div>
           </div>
         </div>
       </div>
     `);
   }
 
-  render() {
+  _render() {
     if (this._element) {
       this._element.parentNode.removeChild(this._element);
     }

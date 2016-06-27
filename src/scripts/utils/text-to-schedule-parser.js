@@ -88,9 +88,6 @@ export function getScheduleItem(date) {
 
 export function splitTextToDateAndText(text) {
   let result;
-  let datePart;
-  let textPart;
-  let item;
 
   const resultToday = text.match(/^today\s/i);
   const resultTomorrow = text.match(/^tomorrow\s/i);
@@ -114,9 +111,10 @@ export function splitTextToDateAndText(text) {
   } else {
     result = [''];
   }
-  datePart = result[0];
-  textPart = text.replace(datePart, '').trim();
-  item = {
+
+  const datePart = result[0];
+  const textPart = text.replace(datePart, '').trim();
+  const item = {
     date: datePart,
     text: textPart,
   };

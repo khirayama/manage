@@ -29,7 +29,7 @@ export default class TodosPage extends Component {
     this._moveTodo = this._moveTodo.bind(this);
 
     this._setCurrentTodoCategoryOrder = this._setCurrentTodoCategoryOrder.bind(this);
-    this._setNewTodoCategoryOrder = this._setNewTodoCategoryOrder.bind(this)
+    this._setNewTodoCategoryOrder = this._setNewTodoCategoryOrder.bind(this);
     this._moveTodoCategory = this._moveTodoCategory.bind(this);
 
     this.onClickAddCategoryButton = this.onClickAddCategoryButton.bind(this);
@@ -119,14 +119,14 @@ export default class TodosPage extends Component {
         key={todoCategory.categoryId}
       >
         <TodoList
-          todoCategory={ todoCategory }
-          setIsItemDragging={ this._setIsItemDragging }
-          setCurrentOrder={ this._setCurrentOrder }
-          setNewOrder={ this._setNewOrder }
-          moveTodo={ this._moveTodo }
-          setCurrentTodoCategoryOrder={ this._setCurrentTodoCategoryOrder }
-          setNewTodoCategoryOrder={ this._setNewTodoCategoryOrder }
-          moveTodoCategory={ this._moveTodoCategory }
+          todoCategory={todoCategory}
+          setIsItemDragging={this._setIsItemDragging}
+          setCurrentOrder={this._setCurrentOrder}
+          setNewOrder={this._setNewOrder}
+          moveTodo={this._moveTodo}
+          setCurrentTodoCategoryOrder={this._setCurrentTodoCategoryOrder}
+          setNewTodoCategoryOrder={this._setNewTodoCategoryOrder}
+          moveTodoCategory={this._moveTodoCategory}
         />
       </section>
     ));
@@ -135,11 +135,11 @@ export default class TodosPage extends Component {
       <section className="page todos-page">
         <section className="page-content">
           <section className="column-container">
-            { todoListElements }
+            {todoListElements}
           </section>
           <div
             className="floating-button"
-            onClick={ this.onClickAddCategoryButton }
+            onClick={this.onClickAddCategoryButton}
           >
             +
           </div>

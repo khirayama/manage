@@ -10,8 +10,7 @@ import { pages } from '../constants/constants';
 export function getLauncherContents() {
   const todoCategoryItems = todoCategoryStorage.order('order').get().map(todoCategory => {
     const id = todoCategory.id;
-    const name = todoCategory.name;
-    const text = `Create a todo to ${ todoCategory.name }`;
+    const text = `Create a todo to ${todoCategory.name}`;
     const callback = () => {
       changePage(pages.TODOS);
       createTodo('', id);
@@ -25,7 +24,7 @@ export function getLauncherContents() {
     callback: () => {
       changePage(pages.TODO_CATEGORIES);
       createTodoCategory('');
-    }
+    },
   };
 
   const pageItems = Object.keys(pages).map(key => {
