@@ -1,26 +1,26 @@
 import assert from 'power-assert';
 
-import { TodoResource } from '../../src/scripts/resources/todo-resource';
+import { TaskResource } from '../../src/scripts/resources/task-resource';
 
 
-describe('TodoResource', () => {
-  let todoResource;
+describe('TaskResource', () => {
+  let taskResource;
 
   beforeEach(() => {
-    todoResource = new TodoResource({ localStorage: false });
+    taskResource = new TaskResource({ localStorage: false });
   });
 
   describe('create', () => {
     it('an item with order', () => {
-      let tasks = todoResource.all();
+      let tasks = taskResource.all();
 
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World',
         completed: false,
         order: tasks.length,
       });
 
-      tasks = todoResource.all();
+      tasks = taskResource.all();
 
       assert(tasks.length === 1);
 
@@ -31,23 +31,23 @@ describe('TodoResource', () => {
     });
 
     it('2 items with order', () => {
-      let tasks = todoResource.all();
+      let tasks = taskResource.all();
 
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World',
         completed: false,
         order: tasks.length,
       });
 
-      tasks = todoResource.all();
+      tasks = taskResource.all();
 
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World 2',
         completed: false,
         order: tasks.length,
       });
 
-      tasks = todoResource.all();
+      tasks = taskResource.all();
 
       assert(tasks.length === 2);
 

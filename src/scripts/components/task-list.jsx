@@ -1,40 +1,40 @@
 import React, { Component } from 'react';
 
 import {
-  createTodo,
-  editTodoCategory,
-  updateTodoCategory,
-  deleteTodoCategory,
+  createTask,
+  editTaskCategory,
+  updateTaskCategory,
+  deleteTaskCategory,
 } from '../actions/task-action-creators';
 import { messages } from '../constants/constants';
 import promiseConfirm from '../utils/promise-confirm';
 import TaskListItem from './task-list-item';
 
 
-const todoListPropTypes = {
-  todoCategory: React.PropTypes.object,
+const taskListPropTypes = {
+  taskCategory: React.PropTypes.object,
   setCurrentOrder: React.PropTypes.func.isRequired,
   setNewOrder: React.PropTypes.func.isRequired,
-  moveTodo: React.PropTypes.func.isRequired,
-  setCurrentTodoCategoryOrder: React.PropTypes.func.isRequired,
-  setNewTodoCategoryOrder: React.PropTypes.func.isRequired,
-  moveTodoCategory: React.PropTypes.func.isRequired,
+  moveTask: React.PropTypes.func.isRequired,
+  setCurrentTaskCategoryOrder: React.PropTypes.func.isRequired,
+  setNewTaskCategoryOrder: React.PropTypes.func.isRequired,
+  moveTaskCategory: React.PropTypes.func.isRequired,
   setIsItemDragging: React.PropTypes.func.isRequired,
 };
 
-export default class TodoList extends Component {
+export default class TaskList extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      value: this.props.todoCategory.categoryName,
+      value: this.props.taskCategory.categoryName,
     };
 
     this.onClickTitle = this.onClickTitle.bind(this);
     this.onClickAddButton = this.onClickAddButton.bind(this);
-    this.onClickDeleteTodoCategoryButton = this.onClickDeleteTodoCategoryButton.bind(this);
-    this.onBlurTodoCategoryInput = this.onBlurTodoCategoryInput.bind(this);
-    this.onChangeTodoCategoryInput = this.onChangeTodoCategoryInput.bind(this);
+    this.onClickDeleteTaskCategoryButton = this.onClickDeleteTaskCategoryButton.bind(this);
+    this.onBlurTaskCategoryInput = this.onBlurTaskCategoryInput.bind(this);
+    this.onChangeTaskCategoryInput = this.onChangeTaskCategoryInput.bind(this);
     this.onDragEnterHeader = this.onDragEnterHeader.bind(this);
     this.onDragEndHeader = this.onDragEndHeader.bind(this);
     this.onDragEnterAddButton = this.onDragEnterAddButton.bind(this);
@@ -45,92 +45,92 @@ export default class TodoList extends Component {
   }
 
   onClickTitle() {
-    editTodoCategory(this.props.todoCategory.categoryId);
+    editTaskCategory(this.props.taskCategory.categoryId);
   }
 
   onClickAddButton() {
-    createTodo('', this.props.todoCategory.categoryId);
+    createTask('', this.props.taskCategory.categoryId);
   }
 
-  onClickDeleteTodoCategoryButton() {
-    if (this.props.todoCategory.tasks.length) {
-      promiseConfirm(messages.CONFIRM_DELETE_TODO_CATEGORY).then(() => {
-        deleteTodoCategory(this.props.todoCategory.categoryId);
+  onClickDeleteTaskCategoryButton() {
+    if (this.props.taskCategory.tasks.length) {
+      promiseConfirm(messages.CONFIRM_DELETE_TASK_CATEGORY).then(() => {
+        deleteTaskCategory(this.props.taskCategory.categoryId);
       }).catch(error => error);
     } else {
-      deleteTodoCategory(this.props.todoCategory.categoryId);
+      deleteTaskCategory(this.props.taskCategory.categoryId);
     }
   }
 
-  onBlurTodoCategoryInput() {
-    updateTodoCategory(this.props.todoCategory.categoryId, this.state.value);
+  onBlurTaskCategoryInput() {
+    updateTaskCategory(this.props.taskCategory.categoryId, this.state.value);
   }
 
-  onChangeTodoCategoryInput(event) {
+  onChangeTaskCategoryInput(event) {
     this.setState({
       value: event.target.value,
     });
   }
 
   onDragEnterHeader() {
-    const todoCategory = this.props.todoCategory;
+    const taskCategory = this.props.taskCategory;
 
-    this.props.setNewOrder(todoCategory.categoryId, 0);
+    this.props.setNewOrder(taskCategory.categoryId, 0);
   }
 
   onDragEndHeader() {
-    this.props.moveTodo();
+    this.props.moveTask();
   }
 
   onDragEnterAddButton() {
-    const todoCategory = this.props.todoCategory;
+    const taskCategory = this.props.taskCategory;
 
-    this.props.setNewOrder(todoCategory.categoryId, todoCategory.tasks.length);
+    this.props.setNewOrder(taskCategory.categoryId, taskCategory.tasks.length);
   }
 
   onDragEndAddButton() {
-    this.props.moveTodo();
+    this.props.moveTask();
   }
 
   onDragStartList() {
-    this.props.setCurrentTodoCategoryOrder(this.props.todoCategory.order);
+    this.props.setCurrentTaskCategoryOrder(this.props.taskCategory.order);
   }
 
   onDragEnterList() {
-    this.props.setNewTodoCategoryOrder(this.props.todoCategory.order);
+    this.props.setNewTaskCategoryOrder(this.props.taskCategory.order);
   }
 
   onDragEndList() {
-    this.props.moveTodoCategory();
+    this.props.moveTaskCategory();
   }
 
-  _createTodoListItemElement(todo) {
+  _createTaskListItemElement(task) {
     return (
       <TaskListItem
-        key={todo.id}
-        todo={todo}
+        key={task.id}
+        task={task}
         setIsItemDragging={this.props.setIsItemDragging}
         setCurrentOrder={this.props.setCurrentOrder}
         setNewOrder={this.props.setNewOrder}
-        moveTodo={this.props.moveTodo}
+        moveTask={this.props.moveTask}
       />
     );
   }
 
   render() {
-    const todoCategory = this.props.todoCategory;
-    const todoListItemElements = todoCategory.tasks.map(
-      (todo) => this._createTodoListItemElement(todo)
+    const taskCategory = this.props.taskCategory;
+    const taskListItemElements = taskCategory.tasks.map(
+      (task) => this._createTaskListItemElement(task)
     );
 
-    const titleElement = (this.props.todoCategory.isEditing) ? (
+    const titleElement = (this.props.taskCategory.isEditing) ? (
       <div className="list-header-content">
         <input
           autoFocus
           type="text"
           value={this.state.value}
-          onBlur={this.onBlurTodoCategoryInput}
-          onChange={this.onChangeTodoCategoryInput}
+          onBlur={this.onBlurTaskCategoryInput}
+          onChange={this.onChangeTaskCategoryInput}
         />
       </div>
     ) : (
@@ -141,11 +141,11 @@ export default class TodoList extends Component {
           onDragEnd={this.onDragEndHeader}
           onClick={this.onClickTitle}
         >
-          {todoCategory.categoryName}
+          {taskCategory.categoryName}
         </h3>
         <div
           className="list-header-icon"
-          onClick={this.onClickDeleteTodoCategoryButton}
+          onClick={this.onClickDeleteTaskCategoryButton}
         >
           <span>D</span>
         </div>
@@ -160,7 +160,7 @@ export default class TodoList extends Component {
         onDragEnd={this.onDragEndList}
       >
         <header className="list-header">{titleElement}</header>
-        <ul>{todoListItemElements}</ul>
+        <ul>{taskListItemElements}</ul>
         <footer>
           <div
             onClick={this.onClickAddButton}
@@ -175,4 +175,4 @@ export default class TodoList extends Component {
   }
 }
 
-TodoList.propTypes = todoListPropTypes;
+TaskList.propTypes = taskListPropTypes;

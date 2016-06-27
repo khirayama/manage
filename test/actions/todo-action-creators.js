@@ -2,145 +2,145 @@ import assert from 'power-assert';
 
 import {
   getTasks,
-  createTodo,
-  completeTodo,
-  editTodo,
-  updateTodo,
-  deleteTodo,
+  createTask,
+  completeTask,
+  editTask,
+  updateTask,
+  deleteTask,
   sortTasks,
 } from '../../src/scripts/actions/task-action-creators';
-import todoResource from '../../src/scripts/resources/todo-resource';
-import todoCategoryResource from '../../src/scripts/resources/todo-category-resource';
+import taskResource from '../../src/scripts/resources/task-resource';
+import taskCategoryResource from '../../src/scripts/resources/task-category-resource';
 import appDispatcher from '../../src/scripts/dispatchers/app-dispatcher';
-import { actionTypes as types, initialTodoCategoryNames } from '../../src/scripts/constants/constants';
+import { actionTypes as types, initialTaskCategoryNames } from '../../src/scripts/constants/constants';
 
 
-describe('TodoActionCreators', () => {
-  let todoCategoryId;
+describe('TaskActionCreators', () => {
+  let taskCategoryId;
 
   beforeEach(() => {
-    todoResource.drop();
-    todoCategoryResource.drop();
-    todoCategoryResource.init();
-    todoCategoryId = todoCategoryResource.all()[0].id;
+    taskResource.drop();
+    taskCategoryResource.drop();
+    taskCategoryResource.init();
+    taskCategoryId = taskCategoryResource.all()[0].id;
     appDispatcher._listeners = {};
   });
 
   describe('getTasks', () => {
     it('get all tasks', (done) => {
-      appDispatcher.on(types.GET_ALL_TODOS, (tasks) => {
-        assert(tasks[0].categoryName === initialTodoCategoryNames.TODAY);
-        assert(tasks[1].categoryName === initialTodoCategoryNames.LATER);
-        assert(tasks[2].categoryName === initialTodoCategoryNames.SCHEDULE);
+      appDispatcher.on(types.GET_ALL_TASKS, (tasks) => {
+        assert(tasks[0].categoryName === initialTaskCategoryNames.TODAY);
+        assert(tasks[1].categoryName === initialTaskCategoryNames.LATER);
+        assert(tasks[2].categoryName === initialTaskCategoryNames.SCHEDULE);
         done();
       });
       getTasks();
     });
   });
 
-  describe('createTodo', () => {
+  describe('createTask', () => {
     it('an item', (done) => {
-      appDispatcher.on(types.CREATE_TODO, (todo) => {
-        assert(todo.id !== undefined);
-        assert(todo.text === 'Hello World');
-        assert(todo.completed === false);
+      appDispatcher.on(types.CREATE_TASK, (task) => {
+        assert(task.id !== undefined);
+        assert(task.text === 'Hello World');
+        assert(task.completed === false);
         done();
       });
-      createTodo('Hello World', todoCategoryId);
+      createTask('Hello World', taskCategoryId);
     });
   });
 
-  describe('editTodo', () => {
+  describe('editTask', () => {
     it('an item', (done) => {
-      appDispatcher.on(types.UPDATE_TODO, (id) => {
+      appDispatcher.on(types.UPDATE_TASK, (id) => {
         assert(id !== undefined);
         done();
       });
-      createTodo('Hello World', todoCategoryId);
+      createTask('Hello World', taskCategoryId);
 
-      const tasks = todoResource.all();
-      const todo_ = tasks[0];
+      const tasks = taskResource.all();
+      const task_ = tasks[0];
 
-      editTodo(todo_.id);
+      editTask(task_.id);
     });
   });
 
-  describe('updateTodo', () => {
+  describe('updateTask', () => {
     it('an item', (done) => {
-      appDispatcher.on(types.UPDATE_TODO, (todo) => {
-        assert(todo.id !== undefined);
-        assert(todo.text === 'Hello New World');
-        assert(todo.completed === false);
+      appDispatcher.on(types.UPDATE_TASK, (task) => {
+        assert(task.id !== undefined);
+        assert(task.text === 'Hello New World');
+        assert(task.completed === false);
         done();
       });
-      createTodo('Hello World', todoCategoryId);
+      createTask('Hello World', taskCategoryId);
 
-      const tasks = todoResource.all();
-      const todo_ = tasks[0];
+      const tasks = taskResource.all();
+      const task_ = tasks[0];
 
-      updateTodo(todo_.id, 'Hello New World');
+      updateTask(task_.id, 'Hello New World');
     });
   });
 
-  describe('completeTodo', () => {
+  describe('completeTask', () => {
     it('an item', (done) => {
-      appDispatcher.on(types.UPDATE_TODO, (todo) => {
-        assert(todo.id !== undefined);
-        assert(todo.text === 'Hello World');
-        assert(todo.completed === true);
+      appDispatcher.on(types.UPDATE_TASK, (task) => {
+        assert(task.id !== undefined);
+        assert(task.text === 'Hello World');
+        assert(task.completed === true);
         done();
       });
-      createTodo('Hello World', todoCategoryId);
+      createTask('Hello World', taskCategoryId);
 
-      const tasks = todoResource.all();
-      const todo_ = tasks[0];
+      const tasks = taskResource.all();
+      const task_ = tasks[0];
 
-      completeTodo(todo_.id);
+      completeTask(task_.id);
     });
   });
 
-  describe('deleteTodo', () => {
+  describe('deleteTask', () => {
     it('an item', (done) => {
-      appDispatcher.on(types.GET_ALL_TODOS, (tasks_) => {
-        // num of todo categories is 3
+      appDispatcher.on(types.GET_ALL_TASKS, (tasks_) => {
+        // num of task categories is 3
         assert(tasks_[0].tasks.length === 0);
         assert(tasks_[1].tasks.length === 0);
         assert(tasks_[2].tasks.length === 0);
         done();
       });
-      createTodo('Hello World', todoCategoryId);
+      createTask('Hello World', taskCategoryId);
 
-      const tasks = todoResource.all();
-      const todo_ = tasks[0];
+      const tasks = taskResource.all();
+      const task_ = tasks[0];
 
-      deleteTodo(todo_.categoryId, todo_.id);
+      deleteTask(task_.categoryId, task_.id);
     });
   });
 
   describe('sortTasks', () => {
     it('from < to', (done) => {
-      appDispatcher.on(types.GET_ALL_TODOS, (tasks) => {
+      appDispatcher.on(types.GET_ALL_TASKS, (tasks) => {
         assert(tasks[0].tasks.length === 3);
         assert(tasks[0].tasks[0].text === 'Hello World 1');
         assert(tasks[0].tasks[1].text === 'Hello World 0');
         done();
       });
-      createTodo('Hello World 0', todoCategoryId);
-      createTodo('Hello World 1', todoCategoryId);
-      createTodo('Hello World 2', todoCategoryId);
-      sortTasks(todoCategoryId, 0, 1);
+      createTask('Hello World 0', taskCategoryId);
+      createTask('Hello World 1', taskCategoryId);
+      createTask('Hello World 2', taskCategoryId);
+      sortTasks(taskCategoryId, 0, 1);
     });
     it('to < from', (done) => {
-      appDispatcher.on(types.GET_ALL_TODOS, (tasks) => {
+      appDispatcher.on(types.GET_ALL_TASKS, (tasks) => {
         assert(tasks[0].tasks.length === 3);
         assert(tasks[0].tasks[0].text === 'Hello World 1');
         assert(tasks[0].tasks[1].text === 'Hello World 0');
         done();
       });
-      createTodo('Hello World 0', todoCategoryId);
-      createTodo('Hello World 1', todoCategoryId);
-      createTodo('Hello World 2', todoCategoryId);
-      sortTasks(todoCategoryId, 1, 0);
+      createTask('Hello World 0', taskCategoryId);
+      createTask('Hello World 1', taskCategoryId);
+      createTask('Hello World 2', taskCategoryId);
+      sortTasks(taskCategoryId, 1, 0);
     });
   });
 });

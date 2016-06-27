@@ -52,8 +52,8 @@ export default class ManageApp extends Component {
     this._changeTitle(title);
 
     switch (page) {
-      case (pages.TODOS):
-        tasks = this.state.appStore.todoStore.getTasks();
+      case (pages.TASKS):
+        tasks = this.state.appStore.taskStore.getTasks();
 
         return (
           <section key={page} className="page-container">
@@ -124,7 +124,7 @@ export default class ManageApp extends Component {
           { ...transitionOptions }
         >
           {(
-            page === pages.TODOS
+            page === pages.TASKS
           ) ? pageElement : null}
         </ReactCSSTransitionGroup>
 

@@ -3,10 +3,10 @@ import MicroResource from '../../src/scripts/resources/micro-resource';
 
 
 describe('MicroResource', () => {
-  let todoResource;
+  let taskResource;
 
   beforeEach(() => {
-    class TodoResource extends MicroResource {
+    class TaskResource extends MicroResource {
       constructor(options) {
         super(options);
         this.defaults = {
@@ -15,151 +15,151 @@ describe('MicroResource', () => {
         };
       }
     }
-    todoResource = new TodoResource({ localStorage: false });
+    taskResource = new TaskResource({ localStorage: false });
   });
 
   describe('create', () => {
     it('an item', () => {
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World',
         completed: false,
       });
 
-      const tasks = todoResource.all();
-      const todo = tasks[0];
+      const tasks = taskResource.all();
+      const task = tasks[0];
 
       assert(1 === tasks.length);
-      assert('Hello World' === todo.text);
-      assert(false === todo.completed);
-      assert(undefined !== todo.id);
+      assert('Hello World' === task.text);
+      assert(false === task.completed);
+      assert(undefined !== task.id);
     });
   });
 
   describe('update', () => {
     let tasks;
-    let todo;
+    let task;
 
     beforeEach(() => {
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World',
         completed: true,
       });
 
-      tasks = todoResource.all();
-      todo = tasks[0];
+      tasks = taskResource.all();
+      task = tasks[0];
     });
 
     it('all', () => {
-      todo = todoResource.update(todo.id, {
+      task = taskResource.update(task.id, {
         text: 'Hello New World',
         completed: true,
       });
 
-      assert(todo.text === 'Hello New World');
-      assert(todo.completed === true);
+      assert(task.text === 'Hello New World');
+      assert(task.completed === true);
     });
 
     it('text', () => {
-      todo = todoResource.update(todo.id, {
+      task = taskResource.update(task.id, {
         text: 'Hello New World',
       });
 
-      assert(todo.text === 'Hello New World');
+      assert(task.text === 'Hello New World');
     });
   });
 
   describe('destroy', () => {
     let tasks;
-    let todo;
+    let task;
 
     beforeEach(() => {
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World',
         completed: true,
       });
 
-      tasks = todoResource.all();
-      todo = tasks[0];
+      tasks = taskResource.all();
+      task = tasks[0];
     });
 
     it('an item', () => {
-      todoResource.destroy(todo.id);
+      taskResource.destroy(task.id);
 
-      tasks = todoResource.all();
+      tasks = taskResource.all();
       assert(tasks.length === 0);
     });
   });
 
   describe('drop', () => {
     let tasks;
-    let todo;
+    let task;
 
     beforeEach(() => {
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World',
         completed: true,
       });
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World 2',
         completed: true,
       });
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World 3',
         completed: true,
       });
 
-      tasks = todoResource.all();
-      todo = tasks[0];
+      tasks = taskResource.all();
+      task = tasks[0];
     });
 
     it('all item', () => {
       assert(tasks.length === 3);
 
-      todoResource.drop();
+      taskResource.drop();
 
-      tasks = todoResource.all();
+      tasks = taskResource.all();
       assert(tasks.length === 0);
     });
   });
 
   describe('get', () => {
     let tasks;
-    let todo;
+    let task;
 
     beforeEach(() => {
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World',
         completed: true,
       });
 
-      tasks = todoResource.all();
-      todo = tasks[0];
+      tasks = taskResource.all();
+      task = tasks[0];
     });
 
     it('an item', () => {
-      todo = todoResource.get(todo.id);
+      task = taskResource.get(task.id);
 
-      assert(todo.text === 'Hello World');
-      assert(todo.completed === true);
+      assert(task.text === 'Hello World');
+      assert(task.completed === true);
     });
   });
 
   describe('all', () => {
     let tasks;
-    let todo;
+    let task;
 
     beforeEach(() => {
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World',
         completed: true,
       });
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World 2',
         completed: true,
       });
 
-      tasks = todoResource.all();
-      todo = tasks[0];
+      tasks = taskResource.all();
+      task = tasks[0];
     });
 
     it('all item', () => {
@@ -169,32 +169,32 @@ describe('MicroResource', () => {
 
   describe('where', () => {
     let tasks;
-    let todo;
+    let task;
 
     beforeEach(() => {
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World',
         completed: true,
       });
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World 2',
         completed: true,
       });
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World 3',
         completed: false,
       });
     });
 
     it('text', () => {
-      tasks = todoResource.where({ text: 'Hello World' }).get();
+      tasks = taskResource.where({ text: 'Hello World' }).get();
 
       assert(tasks.length === 1);
       assert(tasks[0].text === 'Hello World');
     });
 
     it('bool', () => {
-      tasks = todoResource.where({ completed: true }).get();
+      tasks = taskResource.where({ completed: true }).get();
 
       assert(tasks.length === 2);
       assert(tasks[0].text === 'Hello World');
@@ -204,18 +204,18 @@ describe('MicroResource', () => {
 
   describe('order', () => {
     let tasks;
-    let todo;
+    let task;
 
     beforeEach(() => {
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World',
         completed: true,
       });
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World 2',
         completed: true,
       });
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World 3',
         completed: false,
       });
@@ -223,7 +223,7 @@ describe('MicroResource', () => {
 
     describe('text', () => {
       it('normal', () => {
-        tasks = todoResource.order('text').get();
+        tasks = taskResource.order('text').get();
 
         assert(tasks.length === 3);
         assert(tasks[0].text === 'Hello World');
@@ -232,7 +232,7 @@ describe('MicroResource', () => {
       });
 
       it('reserse', () => {
-        tasks = todoResource.order('text', true).get();
+        tasks = taskResource.order('text', true).get();
 
         assert(tasks.length === 3);
         assert(tasks[0].text === 'Hello World 3');
@@ -243,7 +243,7 @@ describe('MicroResource', () => {
 
     describe('bool', () => {
       it('normal', () => {
-        tasks = todoResource.order('completed').get();
+        tasks = taskResource.order('completed').get();
 
         assert(tasks.length === 3);
         assert(tasks[0].text === 'Hello World 3');
@@ -252,7 +252,7 @@ describe('MicroResource', () => {
       });
 
       it('reserse', () => {
-        tasks = todoResource.order('completed', true).get();
+        tasks = taskResource.order('completed', true).get();
 
         assert(tasks.length === 3);
         assert(tasks[0].text === 'Hello World');
@@ -264,25 +264,25 @@ describe('MicroResource', () => {
 
   describe('limit', () => {
     let tasks;
-    let todo;
+    let task;
 
     beforeEach(() => {
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World',
         completed: true,
       });
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World 2',
         completed: true,
       });
-      todoResource.create({
+      taskResource.create({
         text: 'Hello World 3',
         completed: false,
       });
     });
 
     it('top 2', () => {
-      tasks = todoResource.limit(2).get();
+      tasks = taskResource.limit(2).get();
 
       assert(tasks.length === 2);
       assert(tasks[0].text === 'Hello World');

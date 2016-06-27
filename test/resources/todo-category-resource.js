@@ -1,94 +1,94 @@
 import assert from 'power-assert';
 
-import { TodoCategoryResource } from '../../src/scripts/resources/todo-category-resource';
-import { initialTodoCategoryNames } from '../../src/scripts/constants/constants';
+import { TaskCategoryResource } from '../../src/scripts/resources/task-category-resource';
+import { initialTaskCategoryNames } from '../../src/scripts/constants/constants';
 
 
-describe('TodoCategoryResource', () => {
-  let todoCategoryResource;
+describe('TaskCategoryResource', () => {
+  let taskCategoryResource;
 
   beforeEach(() => {
-    todoCategoryResource = new TodoCategoryResource({ localStorage: false });
+    taskCategoryResource = new TaskCategoryResource({ localStorage: false });
   });
 
   describe('init', () => {
-    let todoCategories;
+    let taskCategories;
     afterEach(() => {
-      assert(todoCategories.length === 3);
-      assert(todoCategories[0].name === initialTodoCategoryNames.TODAY);
-      assert(todoCategories[0].order === 0);
+      assert(taskCategories.length === 3);
+      assert(taskCategories[0].name === initialTaskCategoryNames.TODAY);
+      assert(taskCategories[0].order === 0);
 
-      assert(todoCategories[1].name === initialTodoCategoryNames.LATER);
-      assert(todoCategories[1].order === 1);
+      assert(taskCategories[1].name === initialTaskCategoryNames.LATER);
+      assert(taskCategories[1].order === 1);
 
-      assert(todoCategories[2].name === initialTodoCategoryNames.SCHEDULE);
-      assert(todoCategories[2].order === 2);
+      assert(taskCategories[2].name === initialTaskCategoryNames.SCHEDULE);
+      assert(taskCategories[2].order === 2);
     });
 
     it('init', () => {
-      todoCategoryResource.drop();
+      taskCategoryResource.drop();
 
-      todoCategories = todoCategoryResource.all();
+      taskCategories = taskCategoryResource.all();
 
-      assert(todoCategories.length === 0);
+      assert(taskCategories.length === 0);
 
-      todoCategoryResource.init();
-      todoCategories = todoCategoryResource.all();
+      taskCategoryResource.init();
+      taskCategories = taskCategoryResource.all();
     });
 
     it('constructor', () => {
-      todoCategories = todoCategoryResource.all();
+      taskCategories = taskCategoryResource.all();
     });
   });
 
   describe('create', () => {
     it('an item with order', () => {
-      todoCategoryResource.drop();
+      taskCategoryResource.drop();
 
-      let todoCategories = todoCategoryResource.all();
+      let taskCategories = taskCategoryResource.all();
 
-      todoCategoryResource.create({
+      taskCategoryResource.create({
         name: 'Hello World',
-        order: todoCategories.length,
+        order: taskCategories.length,
       });
 
-      todoCategories = todoCategoryResource.all();
+      taskCategories = taskCategoryResource.all();
 
-      assert(todoCategories.length === 1);
+      assert(taskCategories.length === 1);
 
-      assert(todoCategories[0].id !== undefined);
-      assert(todoCategories[0].name === 'Hello World');
-      assert(todoCategories[0].order === 0);
+      assert(taskCategories[0].id !== undefined);
+      assert(taskCategories[0].name === 'Hello World');
+      assert(taskCategories[0].order === 0);
     });
 
     it('2 items with order', () => {
-      todoCategoryResource.drop();
+      taskCategoryResource.drop();
 
-      let todoCategories = todoCategoryResource.all();
+      let taskCategories = taskCategoryResource.all();
 
-      todoCategoryResource.create({
+      taskCategoryResource.create({
         name: 'Hello World',
-        order: todoCategories.length,
+        order: taskCategories.length,
       });
 
-      todoCategories = todoCategoryResource.all();
+      taskCategories = taskCategoryResource.all();
 
-      todoCategoryResource.create({
+      taskCategoryResource.create({
         name: 'Hello World 2',
-        order: todoCategories.length,
+        order: taskCategories.length,
       });
 
-      todoCategories = todoCategoryResource.all();
+      taskCategories = taskCategoryResource.all();
 
-      assert(todoCategories.length === 2);
+      assert(taskCategories.length === 2);
 
-      assert(todoCategories[0].id !== undefined);
-      assert(todoCategories[0].name === 'Hello World');
-      assert(todoCategories[0].order === 0);
+      assert(taskCategories[0].id !== undefined);
+      assert(taskCategories[0].name === 'Hello World');
+      assert(taskCategories[0].order === 0);
 
-      assert(todoCategories[1].id !== undefined);
-      assert(todoCategories[1].name === 'Hello World 2');
-      assert(todoCategories[1].order === 1);
+      assert(taskCategories[1].id !== undefined);
+      assert(taskCategories[1].name === 'Hello World 2');
+      assert(taskCategories[1].order === 1);
     });
   });
 });

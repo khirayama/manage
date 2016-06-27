@@ -2,31 +2,31 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 
 import {
-  createTodo,
-  completeTodo,
-  editTodo,
-  editNextTodo,
-  editPrevTodo,
-  updateTodo,
-  deleteTodo,
+  createTask,
+  completeTask,
+  editTask,
+  editNextTask,
+  editPrevTask,
+  updateTask,
+  deleteTask,
 } from '../actions/task-action-creators';
 import { keyCodes } from '../constants/constants';
 
 
-const todoListItemPropTypes = {
-  todo: React.PropTypes.object.isRequired,
+const taskListItemPropTypes = {
+  task: React.PropTypes.object.isRequired,
   setCurrentOrder: React.PropTypes.func,
   setNewOrder: React.PropTypes.func,
-  moveTodo: React.PropTypes.func,
+  moveTask: React.PropTypes.func,
   setIsItemDragging: React.PropTypes.func,
 };
 
-export default class TodoListItem extends Component {
+export default class TaskListItem extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      value: this.props.todo.text,
+      value: this.props.task.text,
     };
 
     this.onClickLabel = this.onClickLabel.bind(this);
@@ -41,41 +41,41 @@ export default class TodoListItem extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.todo.isEditing && this.props.todo.isEditing) {
+    if (!prevProps.task.isEditing && this.props.task.isEditing) {
       this.selectInputValue();
     }
   }
 
   onClickLabel() {
-    if (!this.props.todo.completed) {
-      editTodo(this.props.todo.id);
+    if (!this.props.task.completed) {
+      editTask(this.props.task.id);
     }
   }
 
   onClickDoneButton() {
-    completeTodo(this.props.todo.id);
+    completeTask(this.props.task.id);
   }
 
   onClickDeleteButton() {
-    deleteTodo(this.props.todo.categoryId, this.props.todo.id);
+    deleteTask(this.props.task.categoryId, this.props.task.id);
   }
 
   onDragStart() {
-    const todo = this.props.todo;
+    const task = this.props.task;
 
     this.props.setIsItemDragging(true);
-    this.props.setCurrentOrder(todo.categoryId, todo.order);
+    this.props.setCurrentOrder(task.categoryId, task.order);
   }
 
   onDragEnter() {
-    const todo = this.props.todo;
+    const task = this.props.task;
 
-    this.props.setNewOrder(todo.categoryId, todo.order);
+    this.props.setNewOrder(task.categoryId, task.order);
   }
 
   onDragEnd() {
     this.props.setIsItemDragging(false);
-    this.props.moveTodo();
+    this.props.moveTask();
   }
 
   onChangeInput(event) {
@@ -95,20 +95,20 @@ export default class TodoListItem extends Component {
         break;
       case (keyCode === keyCodes.ENTER && !shift && ctrl):
         if (this.state.value === '') {
-          deleteTodo(this.props.todo.categoryId, this.props.todo.id);
+          deleteTask(this.props.task.categoryId, this.props.task.id);
         }
-        createTodo('', this.props.todo.categoryId);
+        createTask('', this.props.task.categoryId);
         break;
       case (keyCode === keyCodes.ESC && !shift && !ctrl):
         this.save();
         break;
       case (keyCode === keyCodes.TAB && !shift && !ctrl):
         event.preventDefault();
-        editNextTodo(this.props.todo.categoryId, this.props.todo.order);
+        editNextTask(this.props.task.categoryId, this.props.task.order);
         break;
       case (keyCode === keyCodes.TAB && shift && !ctrl):
         event.preventDefault();
-        editPrevTodo(this.props.todo.categoryId, this.props.todo.order);
+        editPrevTask(this.props.task.categoryId, this.props.task.order);
         break;
       default:
         break;
@@ -120,13 +120,13 @@ export default class TodoListItem extends Component {
   }
 
   save() {
-    const todo = this.props.todo;
+    const task = this.props.task;
     const text = this.state.value.trim();
 
     if (text !== '') {
-      updateTodo(todo.id, text);
+      updateTask(task.id, text);
     } else {
-      deleteTodo(todo.categoryId, todo.id);
+      deleteTask(task.categoryId, task.id);
     }
   }
 
@@ -135,16 +135,16 @@ export default class TodoListItem extends Component {
   }
 
   render() {
-    const todo = this.props.todo;
+    const task = this.props.task;
     let itemContent;
 
-    if (todo.isEditing) {
+    if (task.isEditing) {
       itemContent = (
         <div className="list-item-text">
           <input
             autoFocus
             ref="input"
-            placeholder={'Add a todo'}
+            placeholder={'Add a task'}
             value={this.state.value}
             onChange={this.onChangeInput}
             onKeyDown={this.onKeyDownInput}
@@ -162,25 +162,25 @@ export default class TodoListItem extends Component {
         onDragEnd: this.onDragEnd,
       };
 
-      if (todo.schedule) {
-        const schedule = todo.schedule;
+      if (task.schedule) {
+        const schedule = task.schedule;
         itemContent = (
           <div {...itemContentProps} >
-            {todo.scheduleText}
+            {task.scheduleText}
             <div className="list-item-note">
               {schedule.year}/{schedule.month}/{schedule.date}({schedule.shortDayName}.)
             </div>
           </div>
         );
       } else {
-        itemContent = <div {...itemContentProps} >{todo.text}</div>;
+        itemContent = <div {...itemContentProps} >{task.text}</div>;
       }
     }
 
     return (
       <li
-        key={todo.id}
-        className={classNames('list-item', { 'list-item__disabled': todo.completed })}
+        key={task.id}
+        className={classNames('list-item', { 'list-item__disabled': task.completed })}
       >
         <div className="list-item-content">
           <div className="list-item-icon" onClick={this.onClickDoneButton}><span>D</span></div>
@@ -192,4 +192,4 @@ export default class TodoListItem extends Component {
   }
 }
 
-TodoListItem.propTypes = todoListItemPropTypes;
+TaskListItem.propTypes = taskListItemPropTypes;

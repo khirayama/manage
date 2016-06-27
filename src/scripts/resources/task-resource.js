@@ -1,6 +1,6 @@
 import MicroResource from './micro-resource';
 
-export class TodoResource extends MicroResource {
+export class TaskResource extends MicroResource {
   constructor(options) {
     super(options);
     this.defaults = {
@@ -11,4 +11,4 @@ export class TodoResource extends MicroResource {
     };
   }
 }
-export default new TodoResource();
+export default new TaskResource();

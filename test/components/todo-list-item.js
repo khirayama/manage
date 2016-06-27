@@ -11,8 +11,8 @@ global.document = jsdom('<html><<body></body></html>');
 global.window = document.defaultView;
 global.navigator = window.navigator;
 
-const todoListItemElement = ReactTestUtils.renderIntoDocument(React.createElement(TaskListItem, {
-  todo: {
+const taskListItemElement = ReactTestUtils.renderIntoDocument(React.createElement(TaskListItem, {
+  task: {
     id: 'dummy-id',
     text: 'AAA',
     completed: false,
@@ -22,7 +22,7 @@ const todoListItemElement = ReactTestUtils.renderIntoDocument(React.createElemen
 
 describe('TaskListItem', () => {
   it('click done button', () => {
-    let doneButton = ReactDOM.findDOMNode(todoListItemElement).querySelector('.done-button');
+    let doneButton = ReactDOM.findDOMNode(taskListItemElement).querySelector('.done-button');
     // ReactTestUtils.Simulate.click(doneButton);
   });
 });

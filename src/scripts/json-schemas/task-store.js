@@ -49,7 +49,7 @@ export const SCHEDULE_SCHEMA = {
   },
 };
 
-export const TODO_STORE_SCHEMA = {
+export const TASK_STORE_SCHEMA = {
   type: 'object',
   required: [
     'text',
@@ -84,7 +84,7 @@ export const TODO_STORE_SCHEMA = {
   },
 };
 
-export const TODOS_SCHEMA = {
+export const TASKS_SCHEMA = {
   type: 'array',
   minItems: 0,
   items: {

@@ -19,7 +19,7 @@ export default class Header extends Component {
   }
 
   onClickSettings() {
-    const HOME = pages.TODOS;
+    const HOME = pages.TASKS;
     let leftHref = HOME;
 
     if (this.props.page === HOME) {

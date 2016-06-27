@@ -1,19 +1,19 @@
-import todoCategoryResouce from '../resources/todo-category-resource';
+import taskCategoryResouce from '../resources/task-category-resource';
 import { changePage } from '../actions/app-action-creators';
 import {
-  createTodo,
-  createTodoCategory,
+  createTask,
+  createTaskCategory,
 } from '../actions/task-action-creators';
 import { pages } from '../constants/constants';
 
 
 export function getLauncherContents() {
-  const todoCategoryItems = todoCategoryResouce.order('order').get().map(todoCategory => {
-    const id = todoCategory.id;
-    const text = `Create a todo to ${todoCategory.name}`;
+  const taskCategoryItems = taskCategoryResouce.order('order').get().map(taskCategory => {
+    const id = taskCategory.id;
+    const text = `Create a task to ${taskCategory.name}`;
     const callback = () => {
-      changePage(pages.TODOS);
-      createTodo('', id);
+      changePage(pages.TASKS);
+      createTask('', id);
     };
 
     return { text, callback };
@@ -22,8 +22,8 @@ export function getLauncherContents() {
   const createCategoryItem = {
     text: 'Create a category',
     callback: () => {
-      changePage(pages.TODO_CATEGORIES);
-      createTodoCategory('');
+      changePage(pages.TASK_CATEGORIES);
+      createTaskCategory('');
     },
   };
 
@@ -39,5 +39,5 @@ export function getLauncherContents() {
     return { text, callback };
   });
 
-  return [...todoCategoryItems, createCategoryItem, ...pageItems];
+  return [...taskCategoryItems, createCategoryItem, ...pageItems];
 }

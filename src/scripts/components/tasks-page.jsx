@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import TaskList from './task-list';
 import {
   sortTasks,
-  moveTodo,
-  createTodoCategory,
-  sortTodoCategories,
+  moveTask,
+  createTaskCategory,
+  sortTaskCategories,
 } from '../actions/task-action-creators';
 
 
@@ -20,23 +20,23 @@ export default class TasksPage extends Component {
     this._isItemDragging = false;
 
     this._initializeOrder();
-    this._initializeTodoCategoryOrder();
+    this._initializeTaskCategoryOrder();
 
     this._setIsItemDragging = this._setIsItemDragging.bind(this);
 
     this._setCurrentOrder = this._setCurrentOrder.bind(this);
     this._setNewOrder = this._setNewOrder.bind(this);
-    this._moveTodo = this._moveTodo.bind(this);
+    this._moveTask = this._moveTask.bind(this);
 
-    this._setCurrentTodoCategoryOrder = this._setCurrentTodoCategoryOrder.bind(this);
-    this._setNewTodoCategoryOrder = this._setNewTodoCategoryOrder.bind(this);
-    this._moveTodoCategory = this._moveTodoCategory.bind(this);
+    this._setCurrentTaskCategoryOrder = this._setCurrentTaskCategoryOrder.bind(this);
+    this._setNewTaskCategoryOrder = this._setNewTaskCategoryOrder.bind(this);
+    this._moveTaskCategory = this._moveTaskCategory.bind(this);
 
     this.onClickAddCategoryButton = this.onClickAddCategoryButton.bind(this);
   }
 
   onClickAddCategoryButton() {
-    createTodoCategory('');
+    createTaskCategory('');
   }
 
   _setIsItemDragging(isItemDragging) {
@@ -62,7 +62,7 @@ export default class TasksPage extends Component {
     this._order.newCategoryId = categoryId;
   }
 
-  _moveTodo() {
+  _moveTask() {
     const currentCategoryId = this._order.currentCategoryId;
     const from = this._order.from;
     const newCategoryId = this._order.newCategoryId;
@@ -71,62 +71,62 @@ export default class TasksPage extends Component {
     if (currentCategoryId === newCategoryId) {
       sortTasks(currentCategoryId, from, to);
     } else {
-      moveTodo(currentCategoryId, from, newCategoryId, to);
+      moveTask(currentCategoryId, from, newCategoryId, to);
     }
     this._initializeOrder();
     this._setIsItemDragging(false);
   }
 
-  _initializeTodoCategoryOrder() {
-    this._todoCategoryOrder = {
+  _initializeTaskCategoryOrder() {
+    this._taskCategoryOrder = {
       from: null,
       to: null,
     };
   }
 
-  _setCurrentTodoCategoryOrder(from) {
+  _setCurrentTaskCategoryOrder(from) {
     if (this._isItemDragging) {
       return;
     }
-    this._todoCategoryOrder.from = from;
+    this._taskCategoryOrder.from = from;
   }
 
-  _setNewTodoCategoryOrder(to) {
+  _setNewTaskCategoryOrder(to) {
     if (this._isItemDragging) {
       return;
     }
-    this._todoCategoryOrder.to = to;
+    this._taskCategoryOrder.to = to;
   }
 
-  _moveTodoCategory() {
+  _moveTaskCategory() {
     if (this._isItemDragging) {
       return;
     }
-    const from = this._todoCategoryOrder.from;
-    const to = this._todoCategoryOrder.to;
+    const from = this._taskCategoryOrder.from;
+    const to = this._taskCategoryOrder.to;
 
     if (from !== null && to !== null && from !== to) {
-      sortTodoCategories(from, to);
+      sortTaskCategories(from, to);
     }
-    this._initializeTodoCategoryOrder();
+    this._initializeTaskCategoryOrder();
   }
 
   render() {
     const tasks = this.props.tasks;
-    const todoListElements = tasks.map(todoCategory => (
+    const taskListElements = tasks.map(taskCategory => (
       <section
         className="column task-list-column"
-        key={todoCategory.categoryId}
+        key={taskCategory.categoryId}
       >
         <TaskList
-          todoCategory={todoCategory}
+          taskCategory={taskCategory}
           setIsItemDragging={this._setIsItemDragging}
           setCurrentOrder={this._setCurrentOrder}
           setNewOrder={this._setNewOrder}
-          moveTodo={this._moveTodo}
-          setCurrentTodoCategoryOrder={this._setCurrentTodoCategoryOrder}
-          setNewTodoCategoryOrder={this._setNewTodoCategoryOrder}
-          moveTodoCategory={this._moveTodoCategory}
+          moveTask={this._moveTask}
+          setCurrentTaskCategoryOrder={this._setCurrentTaskCategoryOrder}
+          setNewTaskCategoryOrder={this._setNewTaskCategoryOrder}
+          moveTaskCategory={this._moveTaskCategory}
         />
       </section>
     ));
@@ -135,7 +135,7 @@ export default class TasksPage extends Component {
       <section className="page tasks-page">
         <section className="page-content">
           <section className="column-container">
-            {todoListElements}
+            {taskListElements}
           </section>
           <div
             className="floating-button"

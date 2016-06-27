@@ -1,15 +1,15 @@
 import assert from 'power-assert';
 
-import TodoStore from '../../src/scripts/stores/todo-store';
+import TaskStore from '../../src/scripts/stores/task-store';
 
 
-describe('TodoStore', () => {
-  let todoStore;
+describe('TaskStore', () => {
+  let taskStore;
   let tasks;
 
   beforeEach(() => {
-    todoStore = new TodoStore();
-    todoStore.setTasks([{
+    taskStore = new TaskStore();
+    taskStore.setTasks([{
       categoryName: 'AAA',
       categoryId: 'id-AAA',
       otherCategories: [],
@@ -60,7 +60,7 @@ describe('TodoStore', () => {
 
   describe('setTasks', () => {
     it('initial', () => {
-      tasks = todoStore._tasks;
+      tasks = taskStore._tasks;
 
       assert(tasks[0].tasks[2].schedule !== null);
       assert(tasks[0].tasks[2].schedule.dayName === 'Friday');
@@ -69,7 +69,7 @@ describe('TodoStore', () => {
 
   describe('create', () => {
     it('an item', () => {
-      todoStore.create({
+      taskStore.create({
         categoryId: 'id-BBB',
         id: 'id-BBB-1',
         text: 'Hello World B 2',
@@ -80,7 +80,7 @@ describe('TodoStore', () => {
         isEditing: false,
       });
 
-      tasks = todoStore._tasks;
+      tasks = taskStore._tasks;
 
       assert(tasks[1].tasks.length === 2);
       assert(tasks[1].tasks[1].text === 'Hello World B 2');
@@ -90,7 +90,7 @@ describe('TodoStore', () => {
 
   describe('update', () => {
     it('an item', () => {
-      todoStore.update({
+      taskStore.update({
         categoryId: 'id-BBB',
         id: 'id-BBB-0',
         text: 'Hello New World B',
@@ -101,7 +101,7 @@ describe('TodoStore', () => {
         isEditing: false,
       });
 
-      tasks = todoStore._tasks;
+      tasks = taskStore._tasks;
 
       assert(tasks[1].tasks.length === 1);
       assert(tasks[1].tasks[0].text === 'Hello New World B');
@@ -111,7 +111,7 @@ describe('TodoStore', () => {
 
   describe('apply parseTextToItem', () => {
     it('fri meets my friends', () => {
-      todoStore.create({
+      taskStore.create({
         categoryId: 'id-BBB',
         id: 'id-BBB-1',
         text: 'fri meets my friends',
@@ -122,7 +122,7 @@ describe('TodoStore', () => {
         isEditing: false,
       });
 
-      tasks = todoStore._tasks;
+      tasks = taskStore._tasks;
 
       assert(tasks[1].tasks.length === 2);
       assert(tasks[1].tasks[1].text === 'fri meets my friends');
