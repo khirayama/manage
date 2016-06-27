@@ -1,3 +1,12 @@
+if (global) {
+  global.localStorage = {
+    setItem: () => {
+    },
+    getItem: () => {
+    },
+  };
+}
+
 function _o2a(obj) {
   const arr = [];
 
@@ -16,7 +25,7 @@ function _o2a(obj) {
 export default class MicroStorage {
   constructor(options = { localStorage: true }) {
     this._localStorage = options.localStorage;
-    this._data = (this._localStorage) ? this._load() || {} : {};
+    this._data = (this._localStorage) ? this._load() : {};
     this._filteredData = [];
     this._filtering = false;
     this.defaults = {};
@@ -86,8 +95,9 @@ export default class MicroStorage {
 
   _load() {
     const key = this.constructor.name;
+    const value = localStorage.getItem(key);
 
-    return JSON.parse(localStorage.getItem(key));
+    return (value) ? JSON.parse(value) : {};
   }
 
   where(statement, except) {

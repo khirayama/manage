@@ -42,15 +42,4 @@ describe('validateByJSONSchema', () => {
 
     assert(result.errors.length === 0);
   });
-
-  it('todoCategoryStore', () => {
-    const result = validateByJSONSchema({
-      name: '',
-      order: 1,
-      isEditing: false,
-      numberOfTodos: 2,
-    }, TODO_CATEGORY_STORE_SCHEMA);
-
-    assert(result.errors.length === 0);
-  });
 });
