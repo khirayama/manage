@@ -10,7 +10,7 @@ import {
 
 
 const propTypes = {
-  todos: React.PropTypes.array.isRequired,
+  tasks: React.PropTypes.array.isRequired,
 };
 
 export default class TasksPage extends Component {
@@ -112,8 +112,8 @@ export default class TasksPage extends Component {
   }
 
   render() {
-    const todos = this.props.todos;
-    const todoListElements = todos.map(todoCategory => (
+    const tasks = this.props.tasks;
+    const todoListElements = tasks.map(todoCategory => (
       <section
         className="column task-list-column"
         key={todoCategory.categoryId}
@@ -132,7 +132,7 @@ export default class TasksPage extends Component {
     ));
 
     return (
-      <section className="page todos-page">
+      <section className="page tasks-page">
         <section className="page-content">
           <section className="column-container">
             {todoListElements}

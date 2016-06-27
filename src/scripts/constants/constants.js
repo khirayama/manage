@@ -44,5 +44,5 @@ export const launcherContentTypes = {
 };
 
 export const messages = {
-  CONFIRM_DELETE_TODO_CATEGORY: 'This category has todos. Delete this category?',
+  CONFIRM_DELETE_TODO_CATEGORY: 'This category has tasks. Delete this category?',
 };

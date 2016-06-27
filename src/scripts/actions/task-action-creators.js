@@ -7,42 +7,42 @@ import { TODO_RESOURCE_SCHEMA, TODOS_RESOURCE_SCHEMA } from '../json-schemas/tod
 
 
 export function getTasks() {
-  const todos = [];
+  const tasks = [];
 
   const allTodoCategories = todoCategoryResource.order('order').get();
 
   allTodoCategories.forEach(todoCategory => {
-    todos.push({
+    tasks.push({
       categoryName: todoCategory.name,
       categoryId: todoCategory.id,
       order: todoCategory.order,
       isEditing: false,
-      todos: todoResource.where({ categoryId: todoCategory.id }).order('order').get(),
+      tasks: todoResource.where({ categoryId: todoCategory.id }).order('order').get(),
     });
   });
 
-  validateByJSONSchema(todos, TODOS_RESOURCE_SCHEMA);
+  validateByJSONSchema(tasks, TODOS_RESOURCE_SCHEMA);
 
-  for (let todoCategoryIndex = 0; todoCategoryIndex < todos.length; todoCategoryIndex++) {
-    const todoCategory = todos[todoCategoryIndex];
+  for (let todoCategoryIndex = 0; todoCategoryIndex < tasks.length; todoCategoryIndex++) {
+    const todoCategory = tasks[todoCategoryIndex];
 
-    for (let todoIndex = 0; todoIndex < todoCategory.todos.length; todoIndex++) {
-      const todo = todoCategory.todos[todoIndex];
+    for (let todoIndex = 0; todoIndex < todoCategory.tasks.length; todoIndex++) {
+      const todo = todoCategory.tasks[todoIndex];
 
       todo.isEditing = false;
     }
   }
 
-  appDispatcher.emit(types.GET_ALL_TODOS, todos);
+  appDispatcher.emit(types.GET_ALL_TODOS, tasks);
 }
 
 export function createTodo(text, categoryId) {
-  const todos = todoResource.where({ categoryId }).get();
+  const tasks = todoResource.where({ categoryId }).get();
 
   const entity = todoResource.create({
     text,
     categoryId,
-    order: todos.length,
+    order: tasks.length,
   });
 
   validateByJSONSchema(entity, TODO_RESOURCE_SCHEMA);
@@ -129,12 +129,12 @@ export function deleteTodo(categoryId, todoId) {
 }
 
 export function sortTasks(categoryId, from, to) {
-  const todos = todoResource.where({ categoryId }).order('order').get();
+  const tasks = todoResource.where({ categoryId }).order('order').get();
 
   if (from < to) {
     // To move to down.
     for (let index = from; index <= to; index++) {
-      const todo = todos[index];
+      const todo = tasks[index];
 
       if (index === from) {
         todoResource.update(todo.id, { order: to });
@@ -145,7 +145,7 @@ export function sortTasks(categoryId, from, to) {
   } else if (to < from) {
     // To move to up.
     for (let index = to; index <= from; index++) {
-      const todo = todos[index];
+      const todo = tasks[index];
 
       if (index === from) {
         todoResource.update(todo.id, { order: to });

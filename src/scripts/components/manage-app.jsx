@@ -47,18 +47,18 @@ export default class ManageApp extends Component {
     const page = this.state.appStore.getPage();
     const title = this.state.appStore.getTitle();
 
-    let todos = [];
+    let tasks = [];
 
     this._changeTitle(title);
 
     switch (page) {
       case (pages.TODOS):
-        todos = this.state.appStore.todoStore.getTasks();
+        tasks = this.state.appStore.todoStore.getTasks();
 
         return (
           <section key={page} className="page-container">
             <Header page={page} />
-            <TasksPage page={page} todos={todos} />
+            <TasksPage page={page} tasks={tasks} />
           </section>
         );
       case (pages.SETTINGS):

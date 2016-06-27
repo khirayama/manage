@@ -30,7 +30,7 @@ export const TODOS_RESOURCE_SCHEMA = {
     required: [
       'categoryId',
       'categoryName',
-      'todos',
+      'tasks',
     ],
     properties: {
       categoryId: {
@@ -39,7 +39,7 @@ export const TODOS_RESOURCE_SCHEMA = {
       categoryName: {
         type: 'string',
       },
-      todos: {
+      tasks: {
         type: 'array',
         minItems: 0,
         items: TODO_RESOURCE_SCHEMA,

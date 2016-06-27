@@ -12,10 +12,10 @@ export default class TodoStore extends MicroStore {
   constructor() {
     super();
 
-    this._todos = [];
+    this._tasks = [];
 
-    this.register(appDispatcher, types.GET_ALL_TODOS, todos => {
-      this.setTasks(todos);
+    this.register(appDispatcher, types.GET_ALL_TODOS, tasks => {
+      this.setTasks(tasks);
       this.dispatchChange();
     });
     this.register(appDispatcher, types.CREATE_TODO, todo => {
@@ -41,32 +41,32 @@ export default class TodoStore extends MicroStore {
   }
 
   getTasks() {
-    return this._todos;
+    return this._tasks;
   }
 
-  setTasks(todos = []) {
-    const newTasks = todos.splice(0);
+  setTasks(tasks = []) {
+    const newTasks = tasks.splice(0);
 
     newTasks.forEach(todoCategory => {
-      todoCategory.todos.forEach((todo, index) => {
+      todoCategory.tasks.forEach((todo, index) => {
         const newTodo = TodoStore._addSchedule(todo);
 
-        todoCategory.todos.splice(index, 1, newTodo);
+        todoCategory.tasks.splice(index, 1, newTodo);
       });
     });
 
     validateByJSONSchema(newTasks, TODOS_SCHEMA);
     TodoStore._checkOrder(newTasks);
-    this._todos = newTasks;
+    this._tasks = newTasks;
   }
 
   create(todo) {
     const newTodo = TodoStore._addSchedule(todo);
 
     validateByJSONSchema(newTodo, TODO_STORE_SCHEMA);
-    this._todos.forEach(todoCategory => {
+    this._tasks.forEach(todoCategory => {
       if (todoCategory.categoryId === todo.categoryId) {
-        todoCategory.todos.push(newTodo);
+        todoCategory.tasks.push(newTodo);
       }
     });
   }
@@ -75,11 +75,11 @@ export default class TodoStore extends MicroStore {
     const newTodo = TodoStore._addSchedule(todo);
 
     validateByJSONSchema(newTodo, TODO_STORE_SCHEMA);
-    this._todos.forEach((todoCategory) => {
+    this._tasks.forEach((todoCategory) => {
       if (todoCategory.categoryId === todo.categoryId) {
-        todoCategory.todos.forEach((todo_, index) => {
+        todoCategory.tasks.forEach((todo_, index) => {
           if (todo_.id === todo.id) {
-            todoCategory.todos.splice(index, 1, newTodo);
+            todoCategory.tasks.splice(index, 1, newTodo);
           }
         });
       }
@@ -91,17 +91,17 @@ export default class TodoStore extends MicroStore {
       categoryId: rawTodoCategory.id,
       categoryName: rawTodoCategory.name,
       isEditing: rawTodoCategory.isEditing,
-      todos: [],
+      tasks: [],
     };
   }
 
   addTodoCategory(todoCategory) {
-    this._todos.push(this._transformTodoCategory(todoCategory));
+    this._tasks.push(this._transformTodoCategory(todoCategory));
   }
 
   updateTodoCategory(todoCategory) {
-    for (let todoIndex = 0; todoIndex < this._todos.length; todoIndex++) {
-      const todoCategory_ = this._todos[todoIndex];
+    for (let todoIndex = 0; todoIndex < this._tasks.length; todoIndex++) {
+      const todoCategory_ = this._tasks[todoIndex];
       if (todoCategory_.categoryId === todoCategory.id) {
         todoCategory_.categoryId = todoCategory.id;
         todoCategory_.categoryName = todoCategory.name;
@@ -120,9 +120,9 @@ export default class TodoStore extends MicroStore {
     return newTodo;
   }
 
-  static _checkOrder(todos) {
-    todos.forEach(todoCategory => {
-      todoCategory.todos.forEach((todo, todoIndex) => {
+  static _checkOrder(tasks) {
+    tasks.forEach(todoCategory => {
+      todoCategory.tasks.forEach((todo, todoIndex) => {
         if (todo.order !== todoIndex) {
           logger.error({ error: 'Wrong order.', item: todo });
         }

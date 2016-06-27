@@ -5,7 +5,7 @@ import TodoStore from '../../src/scripts/stores/todo-store';
 
 describe('TodoStore', () => {
   let todoStore;
-  let todos;
+  let tasks;
 
   beforeEach(() => {
     todoStore = new TodoStore();
@@ -13,7 +13,7 @@ describe('TodoStore', () => {
       categoryName: 'AAA',
       categoryId: 'id-AAA',
       otherCategories: [],
-      todos: [{
+      tasks: [{
         categoryId: 'category-id-AAA-0',
         id: 'id-AAA-0',
         text: 'Hello World A',
@@ -45,7 +45,7 @@ describe('TodoStore', () => {
       categoryName: 'BBB',
       categoryId: 'id-BBB',
       otherCategories: [],
-      todos: [{
+      tasks: [{
         categoryId: 'category-id-BBB-0',
         id: 'id-BBB-0',
         text: 'Hello World B',
@@ -60,10 +60,10 @@ describe('TodoStore', () => {
 
   describe('setTasks', () => {
     it('initial', () => {
-      todos = todoStore._todos;
+      tasks = todoStore._tasks;
 
-      assert(todos[0].todos[2].schedule !== null);
-      assert(todos[0].todos[2].schedule.dayName === 'Friday');
+      assert(tasks[0].tasks[2].schedule !== null);
+      assert(tasks[0].tasks[2].schedule.dayName === 'Friday');
     });
   });
 
@@ -80,11 +80,11 @@ describe('TodoStore', () => {
         isEditing: false,
       });
 
-      todos = todoStore._todos;
+      tasks = todoStore._tasks;
 
-      assert(todos[1].todos.length === 2);
-      assert(todos[1].todos[1].text === 'Hello World B 2');
-      assert(todos[1].todos[1].schedule === null);
+      assert(tasks[1].tasks.length === 2);
+      assert(tasks[1].tasks[1].text === 'Hello World B 2');
+      assert(tasks[1].tasks[1].schedule === null);
     });
   });
 
@@ -101,11 +101,11 @@ describe('TodoStore', () => {
         isEditing: false,
       });
 
-      todos = todoStore._todos;
+      tasks = todoStore._tasks;
 
-      assert(todos[1].todos.length === 1);
-      assert(todos[1].todos[0].text === 'Hello New World B');
-      assert(todos[1].todos[0].schedule === null);
+      assert(tasks[1].tasks.length === 1);
+      assert(tasks[1].tasks[0].text === 'Hello New World B');
+      assert(tasks[1].tasks[0].schedule === null);
     });
   });
 
@@ -122,12 +122,12 @@ describe('TodoStore', () => {
         isEditing: false,
       });
 
-      todos = todoStore._todos;
+      tasks = todoStore._tasks;
 
-      assert(todos[1].todos.length === 2);
-      assert(todos[1].todos[1].text === 'fri meets my friends');
-      assert(todos[1].todos[1].scheduleText === 'meets my friends');
-      assert(todos[1].todos[1].schedule.year !== undefined);
+      assert(tasks[1].tasks.length === 2);
+      assert(tasks[1].tasks[1].text === 'fri meets my friends');
+      assert(tasks[1].tasks[1].scheduleText === 'meets my friends');
+      assert(tasks[1].tasks[1].schedule.year !== undefined);
     });
   });
 });

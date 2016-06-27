@@ -53,7 +53,7 @@ export default class TodoList extends Component {
   }
 
   onClickDeleteTodoCategoryButton() {
-    if (this.props.todoCategory.todos.length) {
+    if (this.props.todoCategory.tasks.length) {
       promiseConfirm(messages.CONFIRM_DELETE_TODO_CATEGORY).then(() => {
         deleteTodoCategory(this.props.todoCategory.categoryId);
       }).catch(error => error);
@@ -85,7 +85,7 @@ export default class TodoList extends Component {
   onDragEnterAddButton() {
     const todoCategory = this.props.todoCategory;
 
-    this.props.setNewOrder(todoCategory.categoryId, todoCategory.todos.length);
+    this.props.setNewOrder(todoCategory.categoryId, todoCategory.tasks.length);
   }
 
   onDragEndAddButton() {
@@ -119,7 +119,7 @@ export default class TodoList extends Component {
 
   render() {
     const todoCategory = this.props.todoCategory;
-    const todoListItemElements = todoCategory.todos.map(
+    const todoListItemElements = todoCategory.tasks.map(
       (todo) => this._createTodoListItemElement(todo)
     );
 

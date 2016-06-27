@@ -12,54 +12,54 @@ describe('TodoResource', () => {
 
   describe('create', () => {
     it('an item with order', () => {
-      let todos = todoResource.all();
+      let tasks = todoResource.all();
 
       todoResource.create({
         text: 'Hello World',
         completed: false,
-        order: todos.length,
+        order: tasks.length,
       });
 
-      todos = todoResource.all();
+      tasks = todoResource.all();
 
-      assert(todos.length === 1);
+      assert(tasks.length === 1);
 
-      assert(todos[0].id !== undefined);
-      assert(todos[0].text === 'Hello World');
-      assert(todos[0].completed === false);
-      assert(todos[0].order === 0);
+      assert(tasks[0].id !== undefined);
+      assert(tasks[0].text === 'Hello World');
+      assert(tasks[0].completed === false);
+      assert(tasks[0].order === 0);
     });
 
     it('2 items with order', () => {
-      let todos = todoResource.all();
+      let tasks = todoResource.all();
 
       todoResource.create({
         text: 'Hello World',
         completed: false,
-        order: todos.length,
+        order: tasks.length,
       });
 
-      todos = todoResource.all();
+      tasks = todoResource.all();
 
       todoResource.create({
         text: 'Hello World 2',
         completed: false,
-        order: todos.length,
+        order: tasks.length,
       });
 
-      todos = todoResource.all();
+      tasks = todoResource.all();
 
-      assert(todos.length === 2);
+      assert(tasks.length === 2);
 
-      assert(todos[0].id !== undefined);
-      assert(todos[0].text === 'Hello World');
-      assert(todos[0].completed === false);
-      assert(todos[0].order === 0);
+      assert(tasks[0].id !== undefined);
+      assert(tasks[0].text === 'Hello World');
+      assert(tasks[0].completed === false);
+      assert(tasks[0].order === 0);
 
-      assert(todos[1].id !== undefined);
-      assert(todos[1].text === 'Hello World 2');
-      assert(todos[1].completed === false);
-      assert(todos[1].order === 1);
+      assert(tasks[1].id !== undefined);
+      assert(tasks[1].text === 'Hello World 2');
+      assert(tasks[1].completed === false);
+      assert(tasks[1].order === 1);
     });
   });
 });

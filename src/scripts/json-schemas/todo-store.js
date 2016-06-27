@@ -91,7 +91,7 @@ export const TODOS_SCHEMA = {
     required: [
       'categoryId',
       'categoryName',
-      'todos',
+      'tasks',
     ],
     properties: {
       categoryId: {
