@@ -9,8 +9,6 @@ import {
 import Header from './header';
 import Launcher from './launcher';
 import TodosPage from './todos-page';
-import MenuPage from './menu-page';
-import TodoCategoriesPage from './todo-categories-page';
 import { getLauncherContents } from '../utils/get-launcher-contents';
 import SettingsPage from './settings-page';
 
@@ -67,22 +65,6 @@ export default class ManageApp extends Component {
             <TodosPage page={ page } todos={todos} />
           </section>
         );
-      case (pages.MENU):
-        return (
-          <section key={ page } className="page-container">
-            <Header page={ page } position="bottom" />
-            <MenuPage page={page} />
-          </section>
-        );
-      case (pages.TODO_CATEGORIES):
-        todoCategories = this.props.appStore.todoCategoryStore.getTodoCategories();
-
-        return (
-          <section key={ page } className="page-container">
-            <Header page={ page } position="bottom" />
-            <TodoCategoriesPage page={page} todoCategories={todoCategories} />
-          </section>
-        );
       case (pages.SETTINGS):
         return (
           <section key={ page } className="page-container">
@@ -132,7 +114,7 @@ export default class ManageApp extends Component {
           { ...transitionOptions }
         >
           { (
-            page === pages.MENU
+            page === pages.SETTINGS
           ) ? pageElement : null }
         </ReactCSSTransitionGroup>
 
@@ -140,10 +122,7 @@ export default class ManageApp extends Component {
           transitionName={ transitionVariations.slideInOut }
           { ...transitionOptions }
         >
-          { (
-            page === pages.TODO_CATEGORIES ||
-            page === pages.SETTINGS
-          ) ? pageElement : null }
+          { (false) ? pageElement : null }
         </ReactCSSTransitionGroup>
 
         <ReactCSSTransitionGroup

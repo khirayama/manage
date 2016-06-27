@@ -4,7 +4,6 @@ import { validateByJSONSchema } from '../../src/scripts/json-schemas/json-schema
 import { TODO_STORAGE_SCHEMA } from '../../src/scripts/json-schemas/todo-storage';
 import { TODO_CATEGORY_STORAGE_SCHEMA } from '../../src/scripts/json-schemas/todo-category-storage';
 import { TODO_STORE_SCHEMA } from '../../src/scripts/json-schemas/todo-store';
-import { TODO_CATEGORY_STORE_SCHEMA } from '../../src/scripts/json-schemas/todo-category-store';
 
 
 describe('validateByJSONSchema', () => {

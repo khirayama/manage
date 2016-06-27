@@ -15,30 +15,18 @@ export default class Header extends Component {
   constructor(props) {
     super(props);
 
-    this.onClickMenu = this.onClickMenu.bind(this);
     this.onClickSettings = this.onClickSettings.bind(this);
-  }
-
-  onClickMenu() {
-    const HOME = pages.TODOS;
-    let menuHref = HOME;
-
-    if (this.props.page === HOME) {
-      menuHref = pages.MENU;
-    }
-
-    changePage(menuHref);
   }
 
   onClickSettings() {
     const HOME = pages.TODOS;
-    let settingsHref = pages.SETTINGS;
+    let leftHref = HOME;
 
-    if (this.props.page === pages.SETTINGS) {
-      settingsHref = HOME;
+    if (this.props.page === HOME) {
+      leftHref = pages.SETTINGS;
     }
 
-    changePage(settingsHref);
+    changePage(leftHref);
   }
 
   render() {
@@ -47,9 +35,8 @@ export default class Header extends Component {
         key="header"
         className={ classNames('app-header', { 'is-bottom': (this.props.position === 'bottom') })}
       >
-        <div className="menu-button" onClick={ this.onClickMenu }><span>M</span></div>
-        <h1 className="app-title"><span>{ config.name }</span></h1>
         <div className="settings-button" onClick={ this.onClickSettings }><span>S</span></div>
+        <h1 className="app-title"><span>{ config.name }</span></h1>
       </header>
     );
   }

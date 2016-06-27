@@ -1,10 +1,8 @@
 import { pages, actionTypes as types } from '../constants/constants';
 import { getTodos } from '../actions/todo-action-creators';
-import { getTodoCategories } from '../actions/todo-category-action-creators';
 import appDispatcher from '../dispatchers/app-dispatcher';
 import MicroStore from './micro-store';
 import TodoStore from './todo-store';
-import TodoCategoryStore from './todo-category-store';
 
 
 export default class AppStore extends MicroStore {
@@ -37,14 +35,6 @@ export default class AppStore extends MicroStore {
       this.createTodosPage();
     });
 
-    this.on(pages.MENU, () => {
-      this.createMenuPage();
-    });
-
-    this.on(pages.TODO_CATEGORIES, () => {
-      this.createTodoCategoriesPage();
-    });
-
     this.on(pages.SETTINGS, () => {
       this.createSettingsPage();
     });
@@ -73,25 +63,6 @@ export default class AppStore extends MicroStore {
     getTodos();
 
     this.todoStore.addChangeListener(() => {
-      this.dispatchChange();
-    });
-  }
-
-  createMenuPage() {
-    this._title = 'Menu';
-
-    this._changePage(pages.MENU);
-  }
-
-  createTodoCategoriesPage() {
-    this._title = 'Todo categories';
-
-    this._changePage(pages.TODO_CATEGORIES);
-    this.todoCategoryStore = this.todoCategoryStore || new TodoCategoryStore();
-
-    getTodoCategories();
-
-    this.todoCategoryStore.addChangeListener(() => {
       this.dispatchChange();
     });
   }

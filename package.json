@@ -30,7 +30,7 @@
     "npm": ">=3.8.6"
   },
   "eslintConfig": {
-    "extends": "airbnb"
+    "extends": "xo"
   },
   "babel": {
     "presets": [
@@ -51,7 +51,7 @@
     "browserify": "^13.0.0",
     "classnames": "^2.2.3",
     "eslint": "^2.3.0",
-    "eslint-config-airbnb": "^6.1.0",
+    "eslint-config-xo": "^0.15.2",
     "eslint-plugin-react": "^4.2.1",
     "gulp": "^3.9.1",
     "gulp-jade": "^1.1.0",

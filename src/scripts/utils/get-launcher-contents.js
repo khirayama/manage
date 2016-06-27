@@ -1,7 +1,9 @@
 import todoCategoryStorage from '../storages/todo-category-storage';
 import { changePage } from '../actions/app-action-creators';
-import { createTodo } from '../actions/todo-action-creators';
-import { createTodoCategory } from '../actions/todo-category-action-creators';
+import {
+  createTodo,
+  createTodoCategory,
+} from '../actions/todo-action-creators';
 import { pages } from '../constants/constants';
 
 

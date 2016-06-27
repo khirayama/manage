@@ -11,8 +11,6 @@ export const keyCodes = {
 
 export const pages = {
   TODOS: 'TODO_PAGE',
-  TODO_CATEGORIES: 'TODO_CATEGORIES_PAGE',
-  MENU: 'MENU_PAGE',
   SETTINGS: 'SETTINGS_PAGE',
 };
 
