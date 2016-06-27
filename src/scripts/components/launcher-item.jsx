@@ -8,7 +8,7 @@ const LauncherListItemPropTypes = {
   callAction: React.PropTypes.func.isRequired,
 };
 
-export class LauncherListItem extends Component {
+export default class LauncherListItem extends Component {
   constructor(props) {
     super(props);
 

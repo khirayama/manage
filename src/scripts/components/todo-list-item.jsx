@@ -18,10 +18,10 @@ const todoListItemPropTypes = {
   setCurrentOrder: React.PropTypes.func,
   setNewOrder: React.PropTypes.func,
   moveTodo: React.PropTypes.func,
-  setIsItemDragging: React.PropTypes.func.isRequired,
+  setIsItemDragging: React.PropTypes.func,
 };
 
-class TodoListItem extends Component {
+export default class TodoListItem extends Component {
   constructor(props) {
     super(props);
 
