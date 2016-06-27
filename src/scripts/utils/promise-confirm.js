@@ -156,7 +156,5 @@ export class ConfirmDialog {
 }
 
 export default function promiseConfirm(message) {
-  return new Promise((resolve, reject) => {
-    new ConfirmDialog(message, resolve, reject);
-  });
+  return new Promise((resolve, reject) => new ConfirmDialog(message, resolve, reject));
 }
