@@ -1,6 +1,6 @@
-import MicroStorage from './micro-storage';
+import MicroResource from './micro-resource';
 
-export class TodoStorage extends MicroStorage {
+export class TodoResource extends MicroResource {
   constructor(options) {
     super(options);
     this.defaults = {
@@ -11,4 +11,4 @@ export class TodoStorage extends MicroStorage {
     };
   }
 }
-export default new TodoStorage();
+export default new TodoResource();

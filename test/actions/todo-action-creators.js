@@ -9,8 +9,8 @@ import {
   deleteTodo,
   sortTodos,
 } from '../../src/scripts/actions/todo-action-creators';
-import todoStorage from '../../src/scripts/storages/todo-storage';
-import todoCategoryStorage from '../../src/scripts/storages/todo-category-storage';
+import todoResource from '../../src/scripts/resources/todo-resource';
+import todoCategoryResource from '../../src/scripts/resources/todo-category-resource';
 import appDispatcher from '../../src/scripts/dispatchers/app-dispatcher';
 import { actionTypes as types, initialTodoCategoryNames } from '../../src/scripts/constants/constants';
 
@@ -19,10 +19,10 @@ describe('TodoActionCreators', () => {
   let todoCategoryId;
 
   beforeEach(() => {
-    todoStorage.drop();
-    todoCategoryStorage.drop();
-    todoCategoryStorage.init();
-    todoCategoryId = todoCategoryStorage.all()[0].id;
+    todoResource.drop();
+    todoCategoryResource.drop();
+    todoCategoryResource.init();
+    todoCategoryId = todoCategoryResource.all()[0].id;
     appDispatcher._listeners = {};
   });
 
@@ -58,7 +58,7 @@ describe('TodoActionCreators', () => {
       });
       createTodo('Hello World', todoCategoryId);
 
-      const todos = todoStorage.all();
+      const todos = todoResource.all();
       const todo_ = todos[0];
 
       editTodo(todo_.id);
@@ -75,7 +75,7 @@ describe('TodoActionCreators', () => {
       });
       createTodo('Hello World', todoCategoryId);
 
-      const todos = todoStorage.all();
+      const todos = todoResource.all();
       const todo_ = todos[0];
 
       updateTodo(todo_.id, 'Hello New World');
@@ -92,7 +92,7 @@ describe('TodoActionCreators', () => {
       });
       createTodo('Hello World', todoCategoryId);
 
-      const todos = todoStorage.all();
+      const todos = todoResource.all();
       const todo_ = todos[0];
 
       completeTodo(todo_.id);
@@ -110,7 +110,7 @@ describe('TodoActionCreators', () => {
       });
       createTodo('Hello World', todoCategoryId);
 
-      const todos = todoStorage.all();
+      const todos = todoResource.all();
       const todo_ = todos[0];
 
       deleteTodo(todo_.categoryId, todo_.id);

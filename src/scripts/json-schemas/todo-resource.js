@@ -1,4 +1,4 @@
-export const TODO_STORAGE_SCHEMA = {
+export const TODO_RESOURCE_SCHEMA = {
   type: 'object',
   required: [
     'text',
@@ -23,7 +23,7 @@ export const TODO_STORAGE_SCHEMA = {
   },
 };
 
-export const TODOS_STORAGE_SCHEMA = {
+export const TODOS_RESOURCE_SCHEMA = {
   type: 'array',
   minItems: 0,
   items: {
@@ -42,7 +42,7 @@ export const TODOS_STORAGE_SCHEMA = {
       todos: {
         type: 'array',
         minItems: 0,
-        items: TODO_STORAGE_SCHEMA,
+        items: TODO_RESOURCE_SCHEMA,
       },
     },
   },

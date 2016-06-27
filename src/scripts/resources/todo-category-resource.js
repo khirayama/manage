@@ -1,8 +1,8 @@
-import MicroStorage from './micro-storage';
+import MicroResource from './micro-resource';
 import { initialTodoCategoryNames } from '../constants/constants';
 
 
-export class TodoCategoryStorage extends MicroStorage {
+export class TodoCategoryResource extends MicroResource {
   constructor() {
     super();
     this.defaults = {
@@ -22,4 +22,4 @@ export class TodoCategoryStorage extends MicroStorage {
     }
   }
 }
-export default new TodoCategoryStorage();
+export default new TodoCategoryResource();

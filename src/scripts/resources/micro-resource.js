@@ -21,7 +21,7 @@ function _o2a(obj) {
   return arr;
 }
 
-export default class MicroStorage {
+export default class MicroResource {
   constructor(options = { localStorage: true }) {
     this._localStorage = options.localStorage;
     this._data = (this._localStorage) ? this._load() : {};

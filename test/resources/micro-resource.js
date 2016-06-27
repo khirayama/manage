@@ -1,12 +1,12 @@
 import assert from 'power-assert';
-import MicroStorage from '../../src/scripts/storages/micro-storage';
+import MicroResource from '../../src/scripts/resources/micro-resource';
 
 
-describe('MicroStorage', () => {
-  let todoStorage;
+describe('MicroResource', () => {
+  let todoResource;
 
   beforeEach(() => {
-    class TodoStorage extends MicroStorage {
+    class TodoResource extends MicroResource {
       constructor(options) {
         super(options);
         this.defaults = {
@@ -15,17 +15,17 @@ describe('MicroStorage', () => {
         };
       }
     }
-    todoStorage = new TodoStorage({ localStorage: false });
+    todoResource = new TodoResource({ localStorage: false });
   });
 
   describe('create', () => {
     it('an item', () => {
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World',
         completed: false,
       });
 
-      const todos = todoStorage.all();
+      const todos = todoResource.all();
       const todo = todos[0];
 
       assert(1 === todos.length);
@@ -40,17 +40,17 @@ describe('MicroStorage', () => {
     let todo;
 
     beforeEach(() => {
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World',
         completed: true,
       });
 
-      todos = todoStorage.all();
+      todos = todoResource.all();
       todo = todos[0];
     });
 
     it('all', () => {
-      todo = todoStorage.update(todo.id, {
+      todo = todoResource.update(todo.id, {
         text: 'Hello New World',
         completed: true,
       });
@@ -60,7 +60,7 @@ describe('MicroStorage', () => {
     });
 
     it('text', () => {
-      todo = todoStorage.update(todo.id, {
+      todo = todoResource.update(todo.id, {
         text: 'Hello New World',
       });
 
@@ -73,19 +73,19 @@ describe('MicroStorage', () => {
     let todo;
 
     beforeEach(() => {
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World',
         completed: true,
       });
 
-      todos = todoStorage.all();
+      todos = todoResource.all();
       todo = todos[0];
     });
 
     it('an item', () => {
-      todoStorage.destroy(todo.id);
+      todoResource.destroy(todo.id);
 
-      todos = todoStorage.all();
+      todos = todoResource.all();
       assert(todos.length === 0);
     });
   });
@@ -95,29 +95,29 @@ describe('MicroStorage', () => {
     let todo;
 
     beforeEach(() => {
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World',
         completed: true,
       });
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World 2',
         completed: true,
       });
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World 3',
         completed: true,
       });
 
-      todos = todoStorage.all();
+      todos = todoResource.all();
       todo = todos[0];
     });
 
     it('all item', () => {
       assert(todos.length === 3);
 
-      todoStorage.drop();
+      todoResource.drop();
 
-      todos = todoStorage.all();
+      todos = todoResource.all();
       assert(todos.length === 0);
     });
   });
@@ -127,17 +127,17 @@ describe('MicroStorage', () => {
     let todo;
 
     beforeEach(() => {
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World',
         completed: true,
       });
 
-      todos = todoStorage.all();
+      todos = todoResource.all();
       todo = todos[0];
     });
 
     it('an item', () => {
-      todo = todoStorage.get(todo.id);
+      todo = todoResource.get(todo.id);
 
       assert(todo.text === 'Hello World');
       assert(todo.completed === true);
@@ -149,16 +149,16 @@ describe('MicroStorage', () => {
     let todo;
 
     beforeEach(() => {
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World',
         completed: true,
       });
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World 2',
         completed: true,
       });
 
-      todos = todoStorage.all();
+      todos = todoResource.all();
       todo = todos[0];
     });
 
@@ -172,29 +172,29 @@ describe('MicroStorage', () => {
     let todo;
 
     beforeEach(() => {
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World',
         completed: true,
       });
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World 2',
         completed: true,
       });
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World 3',
         completed: false,
       });
     });
 
     it('text', () => {
-      todos = todoStorage.where({ text: 'Hello World' }).get();
+      todos = todoResource.where({ text: 'Hello World' }).get();
 
       assert(todos.length === 1);
       assert(todos[0].text === 'Hello World');
     });
 
     it('bool', () => {
-      todos = todoStorage.where({ completed: true }).get();
+      todos = todoResource.where({ completed: true }).get();
 
       assert(todos.length === 2);
       assert(todos[0].text === 'Hello World');
@@ -207,15 +207,15 @@ describe('MicroStorage', () => {
     let todo;
 
     beforeEach(() => {
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World',
         completed: true,
       });
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World 2',
         completed: true,
       });
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World 3',
         completed: false,
       });
@@ -223,7 +223,7 @@ describe('MicroStorage', () => {
 
     describe('text', () => {
       it('normal', () => {
-        todos = todoStorage.order('text').get();
+        todos = todoResource.order('text').get();
 
         assert(todos.length === 3);
         assert(todos[0].text === 'Hello World');
@@ -232,7 +232,7 @@ describe('MicroStorage', () => {
       });
 
       it('reserse', () => {
-        todos = todoStorage.order('text', true).get();
+        todos = todoResource.order('text', true).get();
 
         assert(todos.length === 3);
         assert(todos[0].text === 'Hello World 3');
@@ -243,7 +243,7 @@ describe('MicroStorage', () => {
 
     describe('bool', () => {
       it('normal', () => {
-        todos = todoStorage.order('completed').get();
+        todos = todoResource.order('completed').get();
 
         assert(todos.length === 3);
         assert(todos[0].text === 'Hello World 3');
@@ -252,7 +252,7 @@ describe('MicroStorage', () => {
       });
 
       it('reserse', () => {
-        todos = todoStorage.order('completed', true).get();
+        todos = todoResource.order('completed', true).get();
 
         assert(todos.length === 3);
         assert(todos[0].text === 'Hello World');
@@ -267,22 +267,22 @@ describe('MicroStorage', () => {
     let todo;
 
     beforeEach(() => {
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World',
         completed: true,
       });
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World 2',
         completed: true,
       });
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World 3',
         completed: false,
       });
     });
 
     it('top 2', () => {
-      todos = todoStorage.limit(2).get();
+      todos = todoResource.limit(2).get();
 
       assert(todos.length === 2);
       assert(todos[0].text === 'Hello World');

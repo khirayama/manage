@@ -1,14 +1,14 @@
 import assert from 'power-assert';
 
-import { TodoCategoryStorage } from '../../src/scripts/storages/todo-category-storage';
+import { TodoCategoryResource } from '../../src/scripts/resources/todo-category-resource';
 import { initialTodoCategoryNames } from '../../src/scripts/constants/constants';
 
 
-describe('TodoCategoryStorage', () => {
-  let todoCategoryStorage;
+describe('TodoCategoryResource', () => {
+  let todoCategoryResource;
 
   beforeEach(() => {
-    todoCategoryStorage = new TodoCategoryStorage({ localStorage: false });
+    todoCategoryResource = new TodoCategoryResource({ localStorage: false });
   });
 
   describe('init', () => {
@@ -26,33 +26,33 @@ describe('TodoCategoryStorage', () => {
     });
 
     it('init', () => {
-      todoCategoryStorage.drop();
+      todoCategoryResource.drop();
 
-      todoCategories = todoCategoryStorage.all();
+      todoCategories = todoCategoryResource.all();
 
       assert(todoCategories.length === 0);
 
-      todoCategoryStorage.init();
-      todoCategories = todoCategoryStorage.all();
+      todoCategoryResource.init();
+      todoCategories = todoCategoryResource.all();
     });
 
     it('constructor', () => {
-      todoCategories = todoCategoryStorage.all();
+      todoCategories = todoCategoryResource.all();
     });
   });
 
   describe('create', () => {
     it('an item with order', () => {
-      todoCategoryStorage.drop();
+      todoCategoryResource.drop();
 
-      let todoCategories = todoCategoryStorage.all();
+      let todoCategories = todoCategoryResource.all();
 
-      todoCategoryStorage.create({
+      todoCategoryResource.create({
         name: 'Hello World',
         order: todoCategories.length,
       });
 
-      todoCategories = todoCategoryStorage.all();
+      todoCategories = todoCategoryResource.all();
 
       assert(todoCategories.length === 1);
 
@@ -62,23 +62,23 @@ describe('TodoCategoryStorage', () => {
     });
 
     it('2 items with order', () => {
-      todoCategoryStorage.drop();
+      todoCategoryResource.drop();
 
-      let todoCategories = todoCategoryStorage.all();
+      let todoCategories = todoCategoryResource.all();
 
-      todoCategoryStorage.create({
+      todoCategoryResource.create({
         name: 'Hello World',
         order: todoCategories.length,
       });
 
-      todoCategories = todoCategoryStorage.all();
+      todoCategories = todoCategoryResource.all();
 
-      todoCategoryStorage.create({
+      todoCategoryResource.create({
         name: 'Hello World 2',
         order: todoCategories.length,
       });
 
-      todoCategories = todoCategoryStorage.all();
+      todoCategories = todoCategoryResource.all();
 
       assert(todoCategories.length === 2);
 

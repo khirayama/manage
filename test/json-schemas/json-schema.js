@@ -1,29 +1,28 @@
 import assert from 'power-assert';
 
 import { validateByJSONSchema } from '../../src/scripts/json-schemas/json-schema';
-import { TODO_STORAGE_SCHEMA } from '../../src/scripts/json-schemas/todo-storage';
-import { TODO_CATEGORY_STORAGE_SCHEMA } from '../../src/scripts/json-schemas/todo-category-storage';
+import { TODO_RESOURCE_SCHEMA } from '../../src/scripts/json-schemas/todo-resource';
+import { TODO_CATEGORY_RESOURCE_SCHEMA } from '../../src/scripts/json-schemas/todo-category-resource';
 import { TODO_STORE_SCHEMA } from '../../src/scripts/json-schemas/todo-store';
 
 
 describe('validateByJSONSchema', () => {
-  // Storage
-  it('todoStorage', () => {
+  it('todoResource', () => {
     const result = validateByJSONSchema({
       text: '',
       completed: false,
       categoryId: 'category-id',
       order: 1,
-    }, TODO_STORAGE_SCHEMA);
+    }, TODO_RESOURCE_SCHEMA);
 
     assert(result.errors.length === 0);
   });
 
-  it('todoCategoryStorage', () => {
+  it('todoCategoryResource', () => {
     const result = validateByJSONSchema({
       name: '',
       order: 1,
-    }, TODO_CATEGORY_STORAGE_SCHEMA);
+    }, TODO_CATEGORY_RESOURCE_SCHEMA);
 
     assert(result.errors.length === 0);
   });

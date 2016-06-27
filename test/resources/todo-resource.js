@@ -1,26 +1,26 @@
 import assert from 'power-assert';
 
-import { TodoStorage } from '../../src/scripts/storages/todo-storage';
+import { TodoResource } from '../../src/scripts/resources/todo-resource';
 
 
-describe('TodoStorage', () => {
-  let todoStorage;
+describe('TodoResource', () => {
+  let todoResource;
 
   beforeEach(() => {
-    todoStorage = new TodoStorage({ localStorage: false });
+    todoResource = new TodoResource({ localStorage: false });
   });
 
   describe('create', () => {
     it('an item with order', () => {
-      let todos = todoStorage.all();
+      let todos = todoResource.all();
 
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World',
         completed: false,
         order: todos.length,
       });
 
-      todos = todoStorage.all();
+      todos = todoResource.all();
 
       assert(todos.length === 1);
 
@@ -31,23 +31,23 @@ describe('TodoStorage', () => {
     });
 
     it('2 items with order', () => {
-      let todos = todoStorage.all();
+      let todos = todoResource.all();
 
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World',
         completed: false,
         order: todos.length,
       });
 
-      todos = todoStorage.all();
+      todos = todoResource.all();
 
-      todoStorage.create({
+      todoResource.create({
         text: 'Hello World 2',
         completed: false,
         order: todos.length,
       });
 
-      todos = todoStorage.all();
+      todos = todoResource.all();
 
       assert(todos.length === 2);
 

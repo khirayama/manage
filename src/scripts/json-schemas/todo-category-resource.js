@@ -1,4 +1,4 @@
-export const TODO_CATEGORY_STORAGE_SCHEMA = {
+export const TODO_CATEGORY_RESOURCE_SCHEMA = {
   type: 'object',
   required: [
     'name',
@@ -15,8 +15,8 @@ export const TODO_CATEGORY_STORAGE_SCHEMA = {
   },
 };
 
-export const TODO_CATEGORIES_STORAGE_SCHEMA = {
+export const TODO_CATEGORIES_RESOURCE_SCHEMA = {
   type: 'array',
   minItems: 0,
-  items: TODO_CATEGORY_STORAGE_SCHEMA,
+  items: TODO_CATEGORY_RESOURCE_SCHEMA,
 };

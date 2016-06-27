@@ -1,15 +1,15 @@
 import appDispatcher from '../dispatchers/app-dispatcher';
-import todoStorage from '../storages/todo-storage';
-import todoCategoryStorage from '../storages/todo-category-storage';
+import todoResource from '../resources/todo-resource';
+import todoCategoryResource from '../resources/todo-category-resource';
 import { actionTypes as types } from '../constants/constants';
 import { validateByJSONSchema } from '../json-schemas/json-schema';
-import { TODO_STORAGE_SCHEMA, TODOS_STORAGE_SCHEMA } from '../json-schemas/todo-storage';
+import { TODO_RESOURCE_SCHEMA, TODOS_RESOURCE_SCHEMA } from '../json-schemas/todo-resource';
 
 
 export function getTodos() {
   const todos = [];
 
-  const allTodoCategories = todoCategoryStorage.order('order').get();
+  const allTodoCategories = todoCategoryResource.order('order').get();
 
   allTodoCategories.forEach(todoCategory => {
     todos.push({
@@ -17,11 +17,11 @@ export function getTodos() {
       categoryId: todoCategory.id,
       order: todoCategory.order,
       isEditing: false,
-      todos: todoStorage.where({ categoryId: todoCategory.id }).order('order').get(),
+      todos: todoResource.where({ categoryId: todoCategory.id }).order('order').get(),
     });
   });
 
-  validateByJSONSchema(todos, TODOS_STORAGE_SCHEMA);
+  validateByJSONSchema(todos, TODOS_RESOURCE_SCHEMA);
 
   for (let todoCategoryIndex = 0; todoCategoryIndex < todos.length; todoCategoryIndex++) {
     const todoCategory = todos[todoCategoryIndex];
@@ -37,15 +37,15 @@ export function getTodos() {
 }
 
 export function createTodo(text, categoryId) {
-  const todos = todoStorage.where({ categoryId }).get();
+  const todos = todoResource.where({ categoryId }).get();
 
-  const entity = todoStorage.create({
+  const entity = todoResource.create({
     text,
     categoryId,
     order: todos.length,
   });
 
-  validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
+  validateByJSONSchema(entity, TODO_RESOURCE_SCHEMA);
 
   entity.isEditing = true;
 
@@ -53,12 +53,12 @@ export function createTodo(text, categoryId) {
 }
 
 export function completeTodo(id) {
-  const todo = todoStorage.get(id);
-  const entity = todoStorage.update(todo.id, {
+  const todo = todoResource.get(id);
+  const entity = todoResource.update(todo.id, {
     completed: !todo.completed,
   });
 
-  validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
+  validateByJSONSchema(entity, TODO_RESOURCE_SCHEMA);
 
   entity.isEditing = false;
 
@@ -66,9 +66,9 @@ export function completeTodo(id) {
 }
 
 export function editTodo(id) {
-  const entity = todoStorage.get(id);
+  const entity = todoResource.get(id);
 
-  validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
+  validateByJSONSchema(entity, TODO_RESOURCE_SCHEMA);
 
   entity.isEditing = true;
 
@@ -76,12 +76,12 @@ export function editTodo(id) {
 }
 
 export function editNextTodo(categoryId, currentOrder) {
-  const entity = todoStorage.where({ categoryId }).where({ order: currentOrder + 1 }).first();
+  const entity = todoResource.where({ categoryId }).where({ order: currentOrder + 1 }).first();
   if (entity == null) {
     return;
   }
 
-  validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
+  validateByJSONSchema(entity, TODO_RESOURCE_SCHEMA);
 
   entity.isEditing = true;
 
@@ -89,12 +89,12 @@ export function editNextTodo(categoryId, currentOrder) {
 }
 
 export function editPrevTodo(categoryId, currentOrder) {
-  const entity = todoStorage.where({ categoryId }).where({ order: currentOrder - 1 }).first();
+  const entity = todoResource.where({ categoryId }).where({ order: currentOrder - 1 }).first();
   if (entity == null) {
     return;
   }
 
-  validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
+  validateByJSONSchema(entity, TODO_RESOURCE_SCHEMA);
 
   entity.isEditing = true;
 
@@ -102,9 +102,9 @@ export function editPrevTodo(categoryId, currentOrder) {
 }
 
 export function updateTodo(id, text) {
-  const entity = todoStorage.update(id, { text });
+  const entity = todoResource.update(id, { text });
 
-  validateByJSONSchema(entity, TODO_STORAGE_SCHEMA);
+  validateByJSONSchema(entity, TODO_RESOURCE_SCHEMA);
 
   entity.isEditing = false;
 
@@ -112,24 +112,24 @@ export function updateTodo(id, text) {
 }
 
 export function deleteTodo(categoryId, todoId) {
-  const todo = todoStorage.get(todoId);
-  const categoryTodos = todoStorage.where({ categoryId }).order('order').get();
+  const todo = todoResource.get(todoId);
+  const categoryTodos = todoResource.where({ categoryId }).order('order').get();
 
   categoryTodos.forEach(categoryTodo => {
     if (todo.order < categoryTodo.order) {
-      todoStorage.update(categoryTodo.id, {
+      todoResource.update(categoryTodo.id, {
         order: categoryTodo.order - 1,
       });
     }
   });
 
-  todoStorage.destroy(todoId);
+  todoResource.destroy(todoId);
 
   getTodos();
 }
 
 export function sortTodos(categoryId, from, to) {
-  const todos = todoStorage.where({ categoryId }).order('order').get();
+  const todos = todoResource.where({ categoryId }).order('order').get();
 
   if (from < to) {
     // To move to down.
@@ -137,9 +137,9 @@ export function sortTodos(categoryId, from, to) {
       const todo = todos[index];
 
       if (index === from) {
-        todoStorage.update(todo.id, { order: to });
+        todoResource.update(todo.id, { order: to });
       } else if (index <= to) {
-        todoStorage.update(todo.id, { order: todo.order - 1 });
+        todoResource.update(todo.id, { order: todo.order - 1 });
       }
     }
   } else if (to < from) {
@@ -148,9 +148,9 @@ export function sortTodos(categoryId, from, to) {
       const todo = todos[index];
 
       if (index === from) {
-        todoStorage.update(todo.id, { order: to });
+        todoResource.update(todo.id, { order: to });
       } else if (index <= from) {
-        todoStorage.update(todo.id, { order: todo.order + 1 });
+        todoResource.update(todo.id, { order: todo.order + 1 });
       }
     }
   }
@@ -159,29 +159,29 @@ export function sortTodos(categoryId, from, to) {
 }
 
 export function moveTodo(currentCategoryId, from, newCategoryId, to) {
-  const currentTodo = todoStorage
+  const currentTodo = todoResource
                         .where({ categoryId: currentCategoryId })
                         .where({ order: from })
                         .first();
 
-  const newCategoryTodos = todoStorage.where({ categoryId: newCategoryId }).order('order').get();
+  const newCategoryTodos = todoResource.where({ categoryId: newCategoryId }).order('order').get();
 
   newCategoryTodos.forEach(newCategoryTodo => {
     const order = newCategoryTodo.order;
 
     if (order >= to) {
-      todoStorage.update(newCategoryTodo.id, {
+      todoResource.update(newCategoryTodo.id, {
         order: newCategoryTodo.order + 1,
       });
     }
   });
 
-  todoStorage.update(currentTodo.id, {
+  todoResource.update(currentTodo.id, {
     order: to,
     categoryId: newCategoryId,
   });
 
-  const currentCategoryTodos = todoStorage
+  const currentCategoryTodos = todoResource
                                  .where({ categoryId: currentCategoryId })
                                  .order('order')
                                  .get();
@@ -190,7 +190,7 @@ export function moveTodo(currentCategoryId, from, newCategoryId, to) {
     const order = currentCategoryTodo.order;
 
     if (order >= from) {
-      todoStorage.update(currentCategoryTodo.id, {
+      todoResource.update(currentCategoryTodo.id, {
         order: currentCategoryTodo.order - 1,
       });
     }
@@ -200,7 +200,7 @@ export function moveTodo(currentCategoryId, from, newCategoryId, to) {
 }
 
 export function editTodoCategory(id) {
-  const entity = todoCategoryStorage.get(id);
+  const entity = todoCategoryResource.get(id);
 
   entity.isEditing = true;
 
@@ -208,7 +208,7 @@ export function editTodoCategory(id) {
 }
 
 export function updateTodoCategory(id, name) {
-  const entity = todoCategoryStorage.update(id, { name });
+  const entity = todoCategoryResource.update(id, { name });
 
   entity.isEditing = false;
 
@@ -216,8 +216,8 @@ export function updateTodoCategory(id, name) {
 }
 
 export function createTodoCategory(name) {
-  const order = todoCategoryStorage.all().length;
-  const entity = todoCategoryStorage.create({
+  const order = todoCategoryResource.all().length;
+  const entity = todoCategoryResource.create({
     name,
     order,
   });
@@ -228,14 +228,14 @@ export function createTodoCategory(name) {
 }
 
 export function deleteTodoCategory(id) {
-  const todoCategory = todoCategoryStorage.get(id);
-  const todoCategories = todoCategoryStorage.all();
-  const categoryTodos = todoStorage.where({ categoryId: id }).get();
+  const todoCategory = todoCategoryResource.get(id);
+  const todoCategories = todoCategoryResource.all();
+  const categoryTodos = todoResource.where({ categoryId: id }).get();
 
   // update other todo category id
   todoCategories.forEach(todoCategory_ => {
     if (todoCategory.order < todoCategory_.order) {
-      todoCategoryStorage.update(todoCategory_.id, {
+      todoCategoryResource.update(todoCategory_.id, {
         order: todoCategory_.order - 1,
       });
     }
@@ -243,16 +243,16 @@ export function deleteTodoCategory(id) {
 
   // remove todo belonged this category
   categoryTodos.forEach(categoryTodo => {
-    todoStorage.destroy(categoryTodo.id);
+    todoResource.destroy(categoryTodo.id);
   });
 
-  todoCategoryStorage.destroy(id);
+  todoCategoryResource.destroy(id);
 
   getTodos();
 }
 
 export function sortTodoCategories(from, to) {
-  const allTodoCategories = todoCategoryStorage.order('order').get();
+  const allTodoCategories = todoCategoryResource.order('order').get();
 
   if (from < to) {
     // To move to down.
@@ -260,9 +260,9 @@ export function sortTodoCategories(from, to) {
       const todoCategory = allTodoCategories[index];
 
       if (index === from) {
-        todoCategoryStorage.update(todoCategory.id, { order: to });
+        todoCategoryResource.update(todoCategory.id, { order: to });
       } else if (index <= to) {
-        todoCategoryStorage.update(todoCategory.id, { order: todoCategory.order - 1 });
+        todoCategoryResource.update(todoCategory.id, { order: todoCategory.order - 1 });
       }
     }
   } else if (to < from) {
@@ -271,9 +271,9 @@ export function sortTodoCategories(from, to) {
       const todoCategory = allTodoCategories[index];
 
       if (index === from) {
-        todoCategoryStorage.update(todoCategory.id, { order: to });
+        todoCategoryResource.update(todoCategory.id, { order: to });
       } else if (index <= from) {
-        todoCategoryStorage.update(todoCategory.id, { order: todoCategory.order + 1 });
+        todoCategoryResource.update(todoCategory.id, { order: todoCategory.order + 1 });
       }
     }
   }

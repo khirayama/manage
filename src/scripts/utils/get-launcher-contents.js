@@ -1,4 +1,4 @@
-import todoCategoryStorage from '../storages/todo-category-storage';
+import todoCategoryResouce from '../resources/todo-category-resource';
 import { changePage } from '../actions/app-action-creators';
 import {
   createTodo,
@@ -8,7 +8,7 @@ import { pages } from '../constants/constants';
 
 
 export function getLauncherContents() {
-  const todoCategoryItems = todoCategoryStorage.order('order').get().map(todoCategory => {
+  const todoCategoryItems = todoCategoryResouce.order('order').get().map(todoCategory => {
     const id = todoCategory.id;
     const text = `Create a todo to ${todoCategory.name}`;
     const callback = () => {
