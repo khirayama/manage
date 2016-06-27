@@ -1,8 +1,13 @@
 function _o2a(obj) {
   const arr = [];
 
-  for (const key in obj) {
-    if (!key) break;
+  const keys = Object.keys(obj);
+  for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+    const key = keys[keyIndex];
+
+    if (!key) {
+      break;
+    }
     arr.push(Object.assign({}, obj[key]));
   }
   return arr;
@@ -63,11 +68,10 @@ export default class MicroStorage {
     this._filtering = false;
 
     const data = _o2a(this._filteredData);
-    if (data.length != 0) {
+    if (data.length !== 0) {
       return data[0];
-    } else {
-      return null;
     }
+    return null;
   }
 
   all() {
@@ -93,12 +97,20 @@ export default class MicroStorage {
     }
 
     const data = [];
-    for (const id in this._filteredData) {
-      if (!id) break;
+    const ids = Object.keys(this._filteredData);
+    for (let idIndex = 0; idIndex < ids.length; idIndex++) {
+      const id = ids[idIndex];
+      if (!id) {
+        break;
+      }
       const _data = this._filteredData[id];
 
-      for (const key in statement) {
-        if (!key) break;
+      const keys = Object.keys(statement);
+      for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+        const key = keys[keyIndex];
+        if (!key) {
+          break;
+        }
         const value = statement[key];
         if (except) {
           if (_data[key] !== value) data.push(_data);
