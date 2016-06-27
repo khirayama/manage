@@ -4,14 +4,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-addons-test-utils';
 
-import TodoListItem from '../../src/scripts/components/todo-list-item';
+import TaskListItem from '../../src/scripts/components/task-list-item';
 
 
 global.document = jsdom('<html><<body></body></html>');
 global.window = document.defaultView;
 global.navigator = window.navigator;
 
-const todoListItemElement = ReactTestUtils.renderIntoDocument(React.createElement(TodoListItem, {
+const todoListItemElement = ReactTestUtils.renderIntoDocument(React.createElement(TaskListItem, {
   todo: {
     id: 'dummy-id',
     text: 'AAA',
@@ -20,7 +20,7 @@ const todoListItemElement = ReactTestUtils.renderIntoDocument(React.createElemen
   otherCategories: [],
 }));
 
-describe('TodoListItem', () => {
+describe('TaskListItem', () => {
   it('click done button', () => {
     let doneButton = ReactDOM.findDOMNode(todoListItemElement).querySelector('.done-button');
     // ReactTestUtils.Simulate.click(doneButton);

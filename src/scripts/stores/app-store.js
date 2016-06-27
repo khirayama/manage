@@ -1,5 +1,5 @@
 import { pages, actionTypes as types } from '../constants/constants';
-import { getTodos } from '../actions/todo-action-creators';
+import { getTasks } from '../actions/task-action-creators';
 import appDispatcher from '../dispatchers/app-dispatcher';
 import MicroStore from './micro-store';
 import TodoStore from './todo-store';
@@ -14,7 +14,7 @@ export default class AppStore extends MicroStore {
     this._history = [];
 
     this.routes();
-    this.createTodosPage();
+    this.createTasksPage();
 
     this.register(appDispatcher, types.BACK_PAGE, () => {
       const page = this._history[this._history.length - 2];
@@ -32,7 +32,7 @@ export default class AppStore extends MicroStore {
 
   routes() {
     this.on(pages.TODOS, () => {
-      this.createTodosPage();
+      this.createTasksPage();
     });
 
     this.on(pages.SETTINGS, () => {
@@ -54,13 +54,13 @@ export default class AppStore extends MicroStore {
   }
 
   // create page element methods
-  createTodosPage() {
+  createTasksPage() {
     this._title = 'Todo';
 
     this._changePage(pages.TODOS);
     this.todoStore = this.todoStore || new TodoStore();
 
-    getTodos();
+    getTasks();
 
     this.todoStore.addChangeListener(() => {
       this.dispatchChange();

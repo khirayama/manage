@@ -5,7 +5,7 @@ import config from '../../config';
 import { pages } from '../constants/constants';
 import Header from './header';
 import Launcher from './launcher';
-import TodosPage from './todos-page';
+import TasksPage from './tasks-page';
 import { getLauncherContents } from '../utils/get-launcher-contents';
 import SettingsPage from './settings-page';
 
@@ -53,12 +53,12 @@ export default class ManageApp extends Component {
 
     switch (page) {
       case (pages.TODOS):
-        todos = this.state.appStore.todoStore.getTodos();
+        todos = this.state.appStore.todoStore.getTasks();
 
         return (
           <section key={page} className="page-container">
             <Header page={page} />
-            <TodosPage page={page} todos={todos} />
+            <TasksPage page={page} todos={todos} />
           </section>
         );
       case (pages.SETTINGS):

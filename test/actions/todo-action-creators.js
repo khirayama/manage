@@ -1,14 +1,14 @@
 import assert from 'power-assert';
 
 import {
-  getTodos,
+  getTasks,
   createTodo,
   completeTodo,
   editTodo,
   updateTodo,
   deleteTodo,
-  sortTodos,
-} from '../../src/scripts/actions/todo-action-creators';
+  sortTasks,
+} from '../../src/scripts/actions/task-action-creators';
 import todoResource from '../../src/scripts/resources/todo-resource';
 import todoCategoryResource from '../../src/scripts/resources/todo-category-resource';
 import appDispatcher from '../../src/scripts/dispatchers/app-dispatcher';
@@ -26,7 +26,7 @@ describe('TodoActionCreators', () => {
     appDispatcher._listeners = {};
   });
 
-  describe('getTodos', () => {
+  describe('getTasks', () => {
     it('get all todos', (done) => {
       appDispatcher.on(types.GET_ALL_TODOS, (todos) => {
         assert(todos[0].categoryName === initialTodoCategoryNames.TODAY);
@@ -34,7 +34,7 @@ describe('TodoActionCreators', () => {
         assert(todos[2].categoryName === initialTodoCategoryNames.SCHEDULE);
         done();
       });
-      getTodos();
+      getTasks();
     });
   });
 
@@ -117,7 +117,7 @@ describe('TodoActionCreators', () => {
     });
   });
 
-  describe('sortTodos', () => {
+  describe('sortTasks', () => {
     it('from < to', (done) => {
       appDispatcher.on(types.GET_ALL_TODOS, (todos) => {
         assert(todos[0].todos.length === 3);
@@ -128,7 +128,7 @@ describe('TodoActionCreators', () => {
       createTodo('Hello World 0', todoCategoryId);
       createTodo('Hello World 1', todoCategoryId);
       createTodo('Hello World 2', todoCategoryId);
-      sortTodos(todoCategoryId, 0, 1);
+      sortTasks(todoCategoryId, 0, 1);
     });
     it('to < from', (done) => {
       appDispatcher.on(types.GET_ALL_TODOS, (todos) => {
@@ -140,7 +140,7 @@ describe('TodoActionCreators', () => {
       createTodo('Hello World 0', todoCategoryId);
       createTodo('Hello World 1', todoCategoryId);
       createTodo('Hello World 2', todoCategoryId);
-      sortTodos(todoCategoryId, 1, 0);
+      sortTasks(todoCategoryId, 1, 0);
     });
   });
 });

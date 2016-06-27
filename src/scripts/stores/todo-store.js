@@ -15,7 +15,7 @@ export default class TodoStore extends MicroStore {
     this._todos = [];
 
     this.register(appDispatcher, types.GET_ALL_TODOS, todos => {
-      this.setTodos(todos);
+      this.setTasks(todos);
       this.dispatchChange();
     });
     this.register(appDispatcher, types.CREATE_TODO, todo => {
@@ -40,14 +40,14 @@ export default class TodoStore extends MicroStore {
     });
   }
 
-  getTodos() {
+  getTasks() {
     return this._todos;
   }
 
-  setTodos(todos = []) {
-    const newTodos = todos.splice(0);
+  setTasks(todos = []) {
+    const newTasks = todos.splice(0);
 
-    newTodos.forEach(todoCategory => {
+    newTasks.forEach(todoCategory => {
       todoCategory.todos.forEach((todo, index) => {
         const newTodo = TodoStore._addSchedule(todo);
 
@@ -55,9 +55,9 @@ export default class TodoStore extends MicroStore {
       });
     });
 
-    validateByJSONSchema(newTodos, TODOS_SCHEMA);
-    TodoStore._checkOrder(newTodos);
-    this._todos = newTodos;
+    validateByJSONSchema(newTasks, TODOS_SCHEMA);
+    TodoStore._checkOrder(newTasks);
+    this._todos = newTasks;
   }
 
   create(todo) {

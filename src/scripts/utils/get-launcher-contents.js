@@ -3,7 +3,7 @@ import { changePage } from '../actions/app-action-creators';
 import {
   createTodo,
   createTodoCategory,
-} from '../actions/todo-action-creators';
+} from '../actions/task-action-creators';
 import { pages } from '../constants/constants';
 
 

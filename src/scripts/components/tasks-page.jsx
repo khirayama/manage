@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 
-import TodoList from './todo-list';
+import TaskList from './task-list';
 import {
-  sortTodos,
+  sortTasks,
   moveTodo,
   createTodoCategory,
   sortTodoCategories,
-} from '../actions/todo-action-creators';
+} from '../actions/task-action-creators';
 
 
 const propTypes = {
   todos: React.PropTypes.array.isRequired,
 };
 
-export default class TodosPage extends Component {
+export default class TasksPage extends Component {
   constructor(props) {
     super(props);
 
@@ -69,7 +69,7 @@ export default class TodosPage extends Component {
     const to = this._order.to;
 
     if (currentCategoryId === newCategoryId) {
-      sortTodos(currentCategoryId, from, to);
+      sortTasks(currentCategoryId, from, to);
     } else {
       moveTodo(currentCategoryId, from, newCategoryId, to);
     }
@@ -115,10 +115,10 @@ export default class TodosPage extends Component {
     const todos = this.props.todos;
     const todoListElements = todos.map(todoCategory => (
       <section
-        className="column todo-list-column"
+        className="column task-list-column"
         key={todoCategory.categoryId}
       >
-        <TodoList
+        <TaskList
           todoCategory={todoCategory}
           setIsItemDragging={this._setIsItemDragging}
           setCurrentOrder={this._setCurrentOrder}
@@ -149,4 +149,4 @@ export default class TodosPage extends Component {
   }
 }
 
-TodosPage.propTypes = propTypes;
+TasksPage.propTypes = propTypes;

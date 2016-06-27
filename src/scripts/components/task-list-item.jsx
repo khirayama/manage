@@ -9,7 +9,7 @@ import {
   editPrevTodo,
   updateTodo,
   deleteTodo,
-} from '../actions/todo-action-creators';
+} from '../actions/task-action-creators';
 import { keyCodes } from '../constants/constants';
 
 

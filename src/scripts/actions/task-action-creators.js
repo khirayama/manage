@@ -6,7 +6,7 @@ import { validateByJSONSchema } from '../json-schemas/json-schema';
 import { TODO_RESOURCE_SCHEMA, TODOS_RESOURCE_SCHEMA } from '../json-schemas/todo-resource';
 
 
-export function getTodos() {
+export function getTasks() {
   const todos = [];
 
   const allTodoCategories = todoCategoryResource.order('order').get();
@@ -113,9 +113,9 @@ export function updateTodo(id, text) {
 
 export function deleteTodo(categoryId, todoId) {
   const todo = todoResource.get(todoId);
-  const categoryTodos = todoResource.where({ categoryId }).order('order').get();
+  const categoryTasks = todoResource.where({ categoryId }).order('order').get();
 
-  categoryTodos.forEach(categoryTodo => {
+  categoryTasks.forEach(categoryTodo => {
     if (todo.order < categoryTodo.order) {
       todoResource.update(categoryTodo.id, {
         order: categoryTodo.order - 1,
@@ -125,10 +125,10 @@ export function deleteTodo(categoryId, todoId) {
 
   todoResource.destroy(todoId);
 
-  getTodos();
+  getTasks();
 }
 
-export function sortTodos(categoryId, from, to) {
+export function sortTasks(categoryId, from, to) {
   const todos = todoResource.where({ categoryId }).order('order').get();
 
   if (from < to) {
@@ -155,7 +155,7 @@ export function sortTodos(categoryId, from, to) {
     }
   }
 
-  getTodos();
+  getTasks();
 }
 
 export function moveTodo(currentCategoryId, from, newCategoryId, to) {
@@ -164,9 +164,9 @@ export function moveTodo(currentCategoryId, from, newCategoryId, to) {
                         .where({ order: from })
                         .first();
 
-  const newCategoryTodos = todoResource.where({ categoryId: newCategoryId }).order('order').get();
+  const newCategoryTasks = todoResource.where({ categoryId: newCategoryId }).order('order').get();
 
-  newCategoryTodos.forEach(newCategoryTodo => {
+  newCategoryTasks.forEach(newCategoryTodo => {
     const order = newCategoryTodo.order;
 
     if (order >= to) {
@@ -181,12 +181,12 @@ export function moveTodo(currentCategoryId, from, newCategoryId, to) {
     categoryId: newCategoryId,
   });
 
-  const currentCategoryTodos = todoResource
+  const currentCategoryTasks = todoResource
                                  .where({ categoryId: currentCategoryId })
                                  .order('order')
                                  .get();
 
-  currentCategoryTodos.forEach(currentCategoryTodo => {
+  currentCategoryTasks.forEach(currentCategoryTodo => {
     const order = currentCategoryTodo.order;
 
     if (order >= from) {
@@ -196,7 +196,7 @@ export function moveTodo(currentCategoryId, from, newCategoryId, to) {
     }
   });
 
-  getTodos();
+  getTasks();
 }
 
 export function editTodoCategory(id) {
@@ -230,7 +230,7 @@ export function createTodoCategory(name) {
 export function deleteTodoCategory(id) {
   const todoCategory = todoCategoryResource.get(id);
   const todoCategories = todoCategoryResource.all();
-  const categoryTodos = todoResource.where({ categoryId: id }).get();
+  const categoryTasks = todoResource.where({ categoryId: id }).get();
 
   // update other todo category id
   todoCategories.forEach(todoCategory_ => {
@@ -242,13 +242,13 @@ export function deleteTodoCategory(id) {
   });
 
   // remove todo belonged this category
-  categoryTodos.forEach(categoryTodo => {
+  categoryTasks.forEach(categoryTodo => {
     todoResource.destroy(categoryTodo.id);
   });
 
   todoCategoryResource.destroy(id);
 
-  getTodos();
+  getTasks();
 }
 
 export function sortTodoCategories(from, to) {
@@ -278,5 +278,5 @@ export function sortTodoCategories(from, to) {
     }
   }
 
-  getTodos();
+  getTasks();
 }

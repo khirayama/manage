@@ -9,7 +9,7 @@ describe('TodoStore', () => {
 
   beforeEach(() => {
     todoStore = new TodoStore();
-    todoStore.setTodos([{
+    todoStore.setTasks([{
       categoryName: 'AAA',
       categoryId: 'id-AAA',
       otherCategories: [],
@@ -58,7 +58,7 @@ describe('TodoStore', () => {
     }]);
   });
 
-  describe('setTodos', () => {
+  describe('setTasks', () => {
     it('initial', () => {
       todos = todoStore._todos;
 

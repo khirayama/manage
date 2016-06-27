@@ -5,10 +5,10 @@ import {
   editTodoCategory,
   updateTodoCategory,
   deleteTodoCategory,
-} from '../actions/todo-action-creators';
+} from '../actions/task-action-creators';
 import { messages } from '../constants/constants';
 import promiseConfirm from '../utils/promise-confirm';
-import TodoListItem from './todo-list-item';
+import TaskListItem from './task-list-item';
 
 
 const todoListPropTypes = {
@@ -106,7 +106,7 @@ export default class TodoList extends Component {
 
   _createTodoListItemElement(todo) {
     return (
-      <TodoListItem
+      <TaskListItem
         key={todo.id}
         todo={todo}
         setIsItemDragging={this.props.setIsItemDragging}
