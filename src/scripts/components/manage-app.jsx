@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import config from '../../config';
-import {
-  pages,
-  keyCodes,
-} from '../constants/constants';
+import { pages } from '../constants/constants';
 import Header from './header';
 import Launcher from './launcher';
 import TodosPage from './todos-page';
@@ -51,7 +48,6 @@ export default class ManageApp extends Component {
     const title = this.state.appStore.getTitle();
 
     let todos = [];
-    let todoCategories = [];
 
     this._changeTitle(title);
 
@@ -60,22 +56,22 @@ export default class ManageApp extends Component {
         todos = this.state.appStore.todoStore.getTodos();
 
         return (
-          <section key={ page } className="page-container">
-            <Header page={ page } />
-            <TodosPage page={ page } todos={todos} />
+          <section key={page} className="page-container">
+            <Header page={page} />
+            <TodosPage page={page} todos={todos} />
           </section>
         );
       case (pages.SETTINGS):
         return (
-          <section key={ page } className="page-container">
-            <Header page={ page } position="bottom" />
+          <section key={page} className="page-container">
+            <Header page={page} position="bottom" />
             <SettingsPage page={page} />
           </section>
         );
       default:
         return (
-          <section key={ page } className="page-container">
-            <Header page={ page } position="bottom" />
+          <section key={page} className="page-container">
+            <Header page={page} position="bottom" />
             <div>404</div>
           </section>
         );
@@ -110,32 +106,32 @@ export default class ManageApp extends Component {
     return (
       <div>
         <ReactCSSTransitionGroup
-          transitionName={ transitionVariations.fadeInOut }
+          transitionName={transitionVariations.fadeInOut}
           { ...transitionOptions }
         >
-          { (
+          {(
             page === pages.SETTINGS
-          ) ? pageElement : null }
+          ) ? pageElement : null}
         </ReactCSSTransitionGroup>
 
         <ReactCSSTransitionGroup
-          transitionName={ transitionVariations.slideInOut }
+          transitionName={transitionVariations.slideInOut}
           { ...transitionOptions }
         >
-          { (false) ? pageElement : null }
+          {(false) ? pageElement : null}
         </ReactCSSTransitionGroup>
 
         <ReactCSSTransitionGroup
-          transitionName={ transitionVariations.slideUpDown }
+          transitionName={transitionVariations.slideUpDown}
           { ...transitionOptions }
         >
-          { (
+          {(
             page === pages.TODOS
-          ) ? pageElement : null }
+          ) ? pageElement : null}
         </ReactCSSTransitionGroup>
 
         <Launcher
-          contents={ getLauncherContents() }
+          contents={getLauncherContents()}
         />
       </div>
     );

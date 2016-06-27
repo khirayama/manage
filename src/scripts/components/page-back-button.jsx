@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { backPage } from '../actions/app-action-creators';
 
 
-export default class PageBackButton extends Component {
-  render() {
-    return <div className="page-back-button" onClick={ backPage }>←</div>;
-  }
+export default function PageBackButton() {
+  return <div className="page-back-button" onClick={backPage}>←</div>;
 }
