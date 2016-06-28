@@ -14,7 +14,7 @@
     "watch": "rm -rf dist && gulp watch",
     "server": "gulp server",
     "develop": "rm -rf dist && gulp develop",
-    "lint": "eslint --ext=js",
+    "lint": "eslint -c=package.json",
     "test": "mocha --require=babel-core/register test/**/*.js",
     "watch:test": "npm test -- --watch",
     "start": "npm run develop"
