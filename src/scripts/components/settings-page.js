@@ -8,11 +8,13 @@ export default function SettingsPage() {
   return (
     <section className="page settings-page">
       <section className="page-content">
-        <PageBackButton />
+        <PageBackButton text="[x]" />
         <div className="setting-list-container">
           <section className="list">
-            <header>
-              <h2>Settings</h2>
+            <header className="list-header">
+              <div className="list-header-content">
+                <h3 className="list-header-text" >Settings</h3>
+              </div>
             </header>
             <ul>
               <li className="list-item">
