@@ -6,7 +6,10 @@ import {
   updateTaskCategory,
   deleteTaskCategory,
 } from '../actions/task-action-creators';
-import { messages } from '../constants/constants';
+import {
+  messages,
+  keyCodes,
+} from '../constants/constants';
 import promiseConfirm from '../utils/promise-confirm';
 import TaskListItem from './task-list-item';
 
@@ -34,6 +37,7 @@ export default class TaskList extends Component {
     this.onClickAddButton = this.onClickAddButton.bind(this);
     this.onClickDeleteTaskCategoryButton = this.onClickDeleteTaskCategoryButton.bind(this);
     this.onBlurTaskCategoryInput = this.onBlurTaskCategoryInput.bind(this);
+    this.onKeyDownTaskCategoryInput = this.onKeyDownTaskCategoryInput.bind(this);
     this.onChangeTaskCategoryInput = this.onChangeTaskCategoryInput.bind(this);
     this.onDragEnterHeader = this.onDragEnterHeader.bind(this);
     this.onDragEndHeader = this.onDragEndHeader.bind(this);
@@ -62,8 +66,25 @@ export default class TaskList extends Component {
     }
   }
 
+  onKeyDownTaskCategoryInput(event) {
+    const keyCode = event.keyCode;
+    const shift = event.shiftKey;
+    const ctrl = event.ctrlKey || event.metaKey;
+
+    switch (true) {
+      case (keyCode === keyCodes.ENTER && !shift && !ctrl):
+        this._saveTaskCategory();
+        break;
+      case (keyCode === keyCodes.ESC && !shift && !ctrl):
+        this._saveTaskCategory();
+        break;
+      default:
+        break;
+    }
+  }
+
   onBlurTaskCategoryInput() {
-    updateTaskCategory(this.props.taskCategory.categoryId, this.state.value);
+    this._saveTaskCategory();
   }
 
   onChangeTaskCategoryInput(event) {
@@ -104,6 +125,10 @@ export default class TaskList extends Component {
     this.props.moveTaskCategory();
   }
 
+  _saveTaskCategory() {
+    updateTaskCategory(this.props.taskCategory.categoryId, this.state.value);
+  }
+
   _createTaskListItemElement(task) {
     return (
       <TaskListItem
@@ -130,8 +155,9 @@ export default class TaskList extends Component {
             autoFocus
             type="text"
             value={this.state.value}
-            onBlur={this.onBlurTaskCategoryInput}
             onChange={this.onChangeTaskCategoryInput}
+            onKeyDown={this.onKeyDownTaskCategoryInput}
+            onBlur={this.onBlurTaskCategoryInput}
           />
         </h3>
       </div>
