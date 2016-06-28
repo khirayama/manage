@@ -6,28 +6,48 @@ import TaskStore from './task-store';
 
 
 export default class AppStore extends MicroStore {
+  _getStartPage() {
+    const page = location.hash.replace('#', '');
+    const keys = Object.keys(pages);
+    for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+      const key = keys[keyIndex];
+      const page_ = pages[key];
+      if (page_ == page) {
+        return page_;
+      }
+    }
+    return this._homePage;
+  }
+
   constructor() {
     super();
 
-    this._page = null;
+    this._homePage = pages.TASKS;
+    this._page = this._getStartPage();
     this._title = '';
     this._history = [];
 
+    location.hash = this._page;
+
     this.routes();
-    this.createTasksPage();
 
     this.register(appDispatcher, types.BACK_PAGE, () => {
-      const page = this._history[this._history.length - 2];
+      const page = this._history[this._history.length - 2] || this._homePage;
 
+      location.hash = page;
       this._history.splice(this._history.length - 2, 2);
       this.emit(page);
       this.dispatchChange();
     });
 
     this.register(appDispatcher, types.CHANGE_PAGE, page => {
+      location.hash = page;
       this.emit(page);
       this.dispatchChange();
     });
+
+    this.emit(this._page);
+    this.dispatchChange();
   }
 
   routes() {
