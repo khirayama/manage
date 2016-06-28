@@ -171,16 +171,20 @@ export default class Launcher extends Component {
         >
           <div className="launcher-list-container">
             <section className="list">
-              <header>
-                <input
-                  autoFocus
-                  placeholder="Search shortcut"
-                  type="text"
-                  onClick={this._stopPropagation}
-                  onKeyDown={this.onKeyDownInput}
-                  onChange={this.onChangeInput}
-                  value={this.state.value}
-                />
+              <header className="list-header">
+                <div className="list-header-content">
+                  <div className="list-header-text" >
+                    <input
+                      autoFocus
+                      placeholder="Search shortcut"
+                      type="text"
+                      onClick={this._stopPropagation}
+                      onKeyDown={this.onKeyDownInput}
+                      onChange={this.onChangeInput}
+                      value={this.state.value}
+                    />
+                  </div>
+                </div>
               </header>
               <ul>{contentElements}</ul>
             </section>

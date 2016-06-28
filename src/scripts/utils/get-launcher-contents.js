@@ -22,7 +22,7 @@ export function getLauncherContents() {
   const createCategoryItem = {
     text: 'Create a category',
     callback: () => {
-      changePage(pages.TASK_CATEGORIES);
+      changePage(pages.TASKS);
       createTaskCategory('');
     },
   };

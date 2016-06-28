@@ -125,13 +125,15 @@ export default class TaskList extends Component {
 
     const titleElement = (this.props.taskCategory.isEditing) ? (
       <div className="list-header-content">
-        <input
-          autoFocus
-          type="text"
-          value={this.state.value}
-          onBlur={this.onBlurTaskCategoryInput}
-          onChange={this.onChangeTaskCategoryInput}
-        />
+        <h3 className="list-header-text" >
+          <input
+            autoFocus
+            type="text"
+            value={this.state.value}
+            onBlur={this.onBlurTaskCategoryInput}
+            onChange={this.onChangeTaskCategoryInput}
+          />
+        </h3>
       </div>
     ) : (
       <div className="list-header-content">
