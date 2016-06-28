@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import logger from './utils/logger';
 import AppStore from './stores/app-store';
-import ManageApp from './components/manage-app';
+import App from './components/app';
 
 
 window.addEventListener('load', () => {
@@ -11,5 +11,5 @@ window.addEventListener('load', () => {
 
   const appStore = new AppStore();
 
-  ReactDOM.render(<ManageApp appStore={appStore} />, document.querySelector('#manage-app'));
+  ReactDOM.render(<App appStore={appStore} />, document.querySelector('#app'));
 });
