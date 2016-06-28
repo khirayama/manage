@@ -93,7 +93,7 @@ export function splitTextToDateAndText(text) {
   const resultTomorrow = text.match(/^tomorrow\s/i);
   const resultThis = text.match(/^this ([A-Z]{3}|[A-Z]{3,6}day)\s/i);
   const resultNext = text.match(/^next ([A-Z]{3}|[A-Z]{3,6}day)\s/i);
-  const resultDate = text.match(/^([0-9]{1,2}\/[0-9]{1,2}|[0-9]{2,4}\/[0-9]{1,2}\/[0-9]{2,4})\s/);
+  const resultDate = text.match(/^([0-9]{1,2}\/[0-9]{1,2}|[0-9]{2,4}\/[0-9]{1,2}\/[0-9]{2,4}|[0-9]{4})\s/);
   const resultDay = text.match(/^([A-Z]{3}|[A-Z]{3,6}day)\s/i);
 
   if (resultToday) {
@@ -145,6 +145,16 @@ export function textToSchedule(dateText, referenceDate) {
     } else if (dateText.match(/\//)) {
       // date
       _date = dateText.split('/');
+      if (_date.length === 2) {
+        _date.unshift(moment(referenceDate).year());
+      }
+      _date[1] = +_date[1] - 1;
+      date = moment(_date);
+      if (date.isBefore(referenceDate.subtract(1, 'days'))) {
+        date = moment(_date).add(1, 'years');
+      }
+    } else if (dateText.match(/([0-9]{4})/)) {
+      _date = [dateText.substr(0, 2), dateText.substr(2, 2)];
       if (_date.length === 2) {
         _date.unshift(moment(referenceDate).year());
       }

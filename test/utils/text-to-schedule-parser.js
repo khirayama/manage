@@ -247,6 +247,19 @@ describe('TextToScheduleParser', () => {
 
       assert(item.schedule.completed === moment(schedule).isBefore());
     })
+    it('0206 meets my friend', () => {
+      item = parseTextToItem('0206 meets my friend', createdAt);
+
+      assert(item.text === answerText);
+      assert(item.schedule.year === 2016);
+      assert(item.schedule.month === 2);
+      assert(item.schedule.date === 6);
+      assert(item.schedule.day === 6);
+
+      const schedule = [item.schedule.year, item.schedule.month - 1, item.schedule.date];
+
+      assert(item.schedule.completed === moment(schedule).isBefore());
+    })
     it('2015/10/22 meets my friend', () => {
       item = parseTextToItem('2015/10/22 meets my friend', createdAt);
 
