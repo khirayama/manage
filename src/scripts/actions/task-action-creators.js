@@ -77,7 +77,7 @@ export function editTask(id) {
 
 export function editNextTask(categoryId, currentOrder) {
   const entity = Task.where({ categoryId }).where({ order: currentOrder + 1 }).first();
-  if (entity == null) {
+  if (entity === null) {
     return;
   }
 
@@ -90,7 +90,7 @@ export function editNextTask(categoryId, currentOrder) {
 
 export function editPrevTask(categoryId, currentOrder) {
   const entity = Task.where({ categoryId }).where({ order: currentOrder - 1 }).first();
-  if (entity == null) {
+  if (entity === null) {
     return;
   }
 

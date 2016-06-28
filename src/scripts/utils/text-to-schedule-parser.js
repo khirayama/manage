@@ -93,7 +93,9 @@ export function splitTextToDateAndText(text) {
   const resultTomorrow = text.match(/^tomorrow\s/i);
   const resultThis = text.match(/^this ([A-Z]{3}|[A-Z]{3,6}day)\s/i);
   const resultNext = text.match(/^next ([A-Z]{3}|[A-Z]{3,6}day)\s/i);
-  const resultDate = text.match(/^([0-9]{1,2}\/[0-9]{1,2}|[0-9]{2,4}\/[0-9]{1,2}\/[0-9]{2,4}|[0-9]{4})\s/);
+  const resultDate = text.match(
+    /^([0-9]{1,2}\/[0-9]{1,2}|[0-9]{2,4}\/[0-9]{1,2}\/[0-9]{2,4}|[0-9]{4})\s/
+  );
   const resultDay = text.match(/^([A-Z]{3}|[A-Z]{3,6}day)\s/i);
 
   if (resultToday) {

@@ -12,7 +12,7 @@ export default class AppStore extends MicroStore {
     for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
       const key = keys[keyIndex];
       const page_ = pages[key];
-      if (page_ == page) {
+      if (page_ === page) {
         return page_;
       }
     }
