@@ -162,7 +162,7 @@ export default class TaskList extends Component {
         </h3>
       </div>
     ) : (
-      <div className="list-header-content">
+      <div className="list-header-content list-header-content__hovering-show-right-icon">
         <h3
           className="list-header-text cursor-pointer"
           onDragEnter={this.onDragEnterHeader}
