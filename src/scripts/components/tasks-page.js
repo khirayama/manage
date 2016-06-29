@@ -141,7 +141,7 @@ export default class TasksPage extends Component {
             className="floating-button"
             onClick={this.onClickAddCategoryButton}
           >
-            +
+            <i className="icon">add</i>
           </div>
         </section>
       </section>

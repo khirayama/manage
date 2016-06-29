@@ -8,7 +8,7 @@ export default function SettingsPage() {
   return (
     <section className="page settings-page">
       <section className="page-content">
-        <PageBackButton text="[x]" />
+        <PageBackButton icon text="close" />
         <div className="setting-list-container">
           <section className="list">
             <header className="list-header">

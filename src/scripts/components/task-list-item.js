@@ -183,9 +183,9 @@ export default class TaskListItem extends Component {
         className={classNames('list-item', { 'list-item__disabled': task.completed })}
       >
         <div className="list-item-content">
-          <div className="list-item-icon" onClick={this.onClickDoneButton}><span>D</span></div>
+          <div className="list-item-icon" onClick={this.onClickDoneButton}><i className="icon">done</i></div>
           {itemContent}
-          <div className="list-item-icon" onClick={this.onClickDeleteButton}><span>[D]</span></div>
+          <div className="list-item-icon" onClick={this.onClickDeleteButton}><i className="icon">remove_circle_outline</i></div>
         </div>
       </li>
     );

@@ -175,7 +175,7 @@ export default class TaskList extends Component {
           className="list-header-icon"
           onClick={this.onClickDeleteTaskCategoryButton}
         >
-          <span>D</span>
+          <i className="icon">clear</i>
         </div>
       </div>
     );
@@ -195,7 +195,7 @@ export default class TaskList extends Component {
             onDragEnter={this.onDragEnterAddButton}
             onDragEnd={this.onDragEndAddButton}
           >
-            [Add]
+            <i className="icon">add</i>
           </div>
         </footer>
       </section>
