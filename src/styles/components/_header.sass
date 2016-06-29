@@ -6,17 +6,20 @@
   background: $color-white
   border-bottom: solid 1px $color-border
   box-shadow: 0 1px 1px 0 rgba($color-black, .1)
-  .settings-button
+  .settings-button-container
+    display: inline-block
+    margin-left: 16px
     flex: none
     display: flex
     align-items: center
     justify-content: center
     flex: none
-    width: 44px
-    text-align: center
-    cursor: pointer
-    span
-      flex: none
+    .settings-button
+      width: 44px
+      text-align: center
+      cursor: pointer
+      i
+        flex: none
   .app-title
     flex: 1
     display: flex

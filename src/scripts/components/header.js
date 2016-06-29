@@ -35,7 +35,9 @@ export default class Header extends Component {
         key="header"
         className={classNames('app-header', { 'is-bottom': (this.props.position === 'bottom') })}
       >
-        <div className="settings-button" onClick={this.onClickSettings}><i className="icon">menu</i></div>
+        <div className="settings-button-container">
+          <div className="settings-button" onClick={this.onClickSettings}><i className="icon">menu</i></div>
+        </div>
         <h1 className="app-title"><span>{config.name}</span></h1>
       </header>
     );
