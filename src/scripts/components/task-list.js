@@ -189,13 +189,21 @@ export default class TaskList extends Component {
       >
         <header className="list-header">{titleElement}</header>
         <ul>{taskListItemElements}</ul>
-        <footer>
+        <footer className="list-footer">
           <div
+            className="list-footer-content"
             onClick={this.onClickAddButton}
             onDragEnter={this.onDragEnterAddButton}
             onDragEnd={this.onDragEndAddButton}
           >
-            <i className="icon">add</i>
+            <div
+              className="list-footer-icon"
+            >
+              <i className="icon">add</i>
+            </div>
+            <div className="list-footer-text color-middle-gray cursor-pointer">
+            Add task to {this.props.taskCategory.categoryName}
+            </div>
           </div>
         </footer>
       </section>

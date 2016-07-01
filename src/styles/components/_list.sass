@@ -14,20 +14,6 @@
     line-height: 1rem
     background: $color-white
     color: inherit
-    .list-header-text
-      padding: 12px
-      font-weight: bold
-      word-break: break-word
-    h2.list-header-text
-      font-size: 1.5rem
-    h3.list-header-text
-      font-size: 1.2rem
-    h4.list-header-text
-      font-size: 1.0rem
-    input
-      display: inline-block
-      width: 100%
-      padding: 0
 
     .list-header-content
       display: flex
@@ -37,6 +23,14 @@
       .list-header-text
         flex: 1
         padding: 12px
+        font-weight: bold
+        word-break: break-word
+      h2.list-header-text
+        font-size: 1.5rem
+      h3.list-header-text
+        font-size: 1.2rem
+      h4.list-header-text
+        font-size: 1.0rem
       .list-header-icon
         flex: none
         width: 44px
@@ -45,8 +39,8 @@
         display: flex
         align-items: center
         justify-content: center
-        span,
-        i
+        > span,
+        > i
           flex: none
       .list-header-icon + .list-header-text
         padding: 12px 4px
@@ -56,6 +50,7 @@
         width: 100%
         font-weight: inherit
         font-size: inherit
+        padding: 0
 
     .list-header-content__hovering-show-right-icon
       .list-header-icon
@@ -68,10 +63,55 @@
           width: 44px
           opacity: 1
 
-  footer
+  .list-footer
+    display: inline-block
+    width: 100%
     text-align: left
-    padding: 12px
+    font-size: 1rem
+    line-height: 1rem
+    background: $color-white
+    color: inherit
     border-top: solid 1px $color-border
+
+    .list-footer-content
+      display: flex
+      align-items: stretch
+      width: 100%
+      height: 100%
+      .list-footer-text
+        flex: 1
+        padding: 12px
+      .list-footer-icon
+        flex: none
+        width: 44px
+        cursor: pointer
+        text-align: center
+        display: flex
+        align-items: center
+        justify-content: center
+        > span,
+        > i
+          flex: none
+      .list-footer-icon + .list-footer-text
+        padding: 12px 4px
+      input
+        display: inline-block
+        background: inherit
+        width: 100%
+        font-weight: inherit
+        font-size: inherit
+        padding: 0
+
+    .list-footer-content__hovering-show-right-icon
+      .list-footer-icon
+        width: 0
+        overflow: hidden
+        opacity: 0
+        transition: opacity $timing-slow, width $timing-slow
+      &:hover
+        .list-footer-icon
+          width: 44px
+          opacity: 1
 
   ul
     border-top: solid 1px $color-border
@@ -130,8 +170,8 @@
         display: flex
         align-items: center
         justify-content: center
-        span,
-        i
+        > span,
+        > i
           flex: none
       .list-item-text + .list-item-icon
         padding: 12px 4px
@@ -146,4 +186,3 @@
         .list-item-text + .list-item-icon
           width: 44px
           opacity: 1
-

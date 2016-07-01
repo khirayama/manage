@@ -44,8 +44,12 @@ export default function SettingsPage() {
                 <div className="list-item-text">Delete account</div>
               </li>
             </ul>
-            <footer>
-              <small>2015- © {config.name}</small>
+            <footer className="list-footer">
+              <div className="list-footer-content">
+                <div className="list-footer-text">
+                  <small>2015 - <i className="icon">copyright</i> {config.name}</small>
+                </div>
+              </div>
             </footer>
           </section>
         </div>

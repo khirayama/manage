@@ -5,6 +5,7 @@ $color-background: #f4f4f4
 $color-border: #ecedec
 $color-white: #fff
 $color-light-gray: #fafafa
+$color-middle-gray: #ddd
 $color-gray: #666
 $color-black: #000
 $color-yellow: #e4ae0a
@@ -17,16 +18,13 @@ $timing-slow: .2s ease-out
 .icon
   font-family: 'Material Icons'
   font-style: normal
-  display: inline-block
-  width: 1em
-  height: 1em
-  line-height: 1
+  display: inline
   text-transform: none
-  -webkit-font-smoothing: antialiased
   text-rendering: optimizeLegibility
-  -moz-osx-font-smoothing: grayscale
+  font-smoothing: antialiased
   font-feature-settings: 'liga'
-
+  line-height: inherit
+  vertical-align: text-top
 
 html
   color: $color-base
@@ -69,3 +67,6 @@ body,
 // helper
 .cursor-pointer
   cursor: pointer
+
+.color-middle-gray
+  color: $color-middle-gray
