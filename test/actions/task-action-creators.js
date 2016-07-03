@@ -11,7 +11,7 @@ import {
 } from '../../src/scripts/actions/task-action-creators';
 import taskResource from '../../src/scripts/resources/task';
 import taskCategoryResource from '../../src/scripts/resources/task-category';
-import appDispatcher from '../../src/scripts/dispatchers/app-dispatcher';
+import { subscribe, unsubscribeAll } from '../../src/scripts/dispatchers/app-dispatcher';
 import { actionTypes as types, initialTaskCategoryNames } from '../../src/scripts/constants/constants';
 
 
@@ -23,16 +23,20 @@ describe('TaskActionCreators', () => {
     taskCategoryResource.drop();
     taskCategoryResource.init();
     taskCategoryId = taskCategoryResource.all()[0].id;
-    appDispatcher._listeners = {};
+    unsubscribeAll();
   });
 
   describe('getTasks', () => {
     it('get all tasks', (done) => {
-      appDispatcher.on(types.GET_ALL_TASKS, (tasks) => {
-        assert(tasks[0].categoryName === initialTaskCategoryNames.TODAY);
-        assert(tasks[1].categoryName === initialTaskCategoryNames.LATER);
-        assert(tasks[2].categoryName === initialTaskCategoryNames.SCHEDULE);
-        done();
+      subscribe((action) => {
+        switch (action.type) {
+          case types.GET_ALL_TASKS:
+            assert(action.tasks[0].categoryName === initialTaskCategoryNames.TODAY);
+            assert(action.tasks[1].categoryName === initialTaskCategoryNames.LATER);
+            assert(action.tasks[2].categoryName === initialTaskCategoryNames.SCHEDULE);
+            done();
+            break;
+        }
       });
       getTasks();
     });
@@ -40,11 +44,15 @@ describe('TaskActionCreators', () => {
 
   describe('createTask', () => {
     it('an item', (done) => {
-      appDispatcher.on(types.CREATE_TASK, (task) => {
-        assert(task.id !== undefined);
-        assert(task.text === 'Hello World');
-        assert(task.completed === false);
-        done();
+      subscribe((action) => {
+        switch (action.type) {
+          case types.CREATE_TASK:
+            assert(action.task.id !== undefined);
+            assert(action.task.text === 'Hello World');
+            assert(action.task.completed === false);
+            done();
+            break;
+        }
       });
       createTask('Hello World', taskCategoryId);
     });
@@ -52,9 +60,13 @@ describe('TaskActionCreators', () => {
 
   describe('editTask', () => {
     it('an item', (done) => {
-      appDispatcher.on(types.UPDATE_TASK, (id) => {
-        assert(id !== undefined);
-        done();
+      subscribe((action) => {
+        switch (action.type) {
+          case types.UPDATE_TASK:
+            assert(action.task.id !== undefined);
+            done();
+            break;
+        }
       });
       createTask('Hello World', taskCategoryId);
 
@@ -67,11 +79,15 @@ describe('TaskActionCreators', () => {
 
   describe('updateTask', () => {
     it('an item', (done) => {
-      appDispatcher.on(types.UPDATE_TASK, (task) => {
-        assert(task.id !== undefined);
-        assert(task.text === 'Hello New World');
-        assert(task.completed === false);
-        done();
+      subscribe((action) => {
+        switch (action.type) {
+          case types.UPDATE_TASK:
+            assert(action.task.id !== undefined);
+            assert(action.task.text === 'Hello New World');
+            assert(action.task.completed === false);
+            done();
+            break;
+        }
       });
       createTask('Hello World', taskCategoryId);
 
@@ -84,11 +100,15 @@ describe('TaskActionCreators', () => {
 
   describe('completeTask', () => {
     it('an item', (done) => {
-      appDispatcher.on(types.UPDATE_TASK, (task) => {
-        assert(task.id !== undefined);
-        assert(task.text === 'Hello World');
-        assert(task.completed === true);
-        done();
+      subscribe((action) => {
+        switch (action.type) {
+          case types.UPDATE_TASK:
+            assert(action.task.id !== undefined);
+            assert(action.task.text === 'Hello World');
+            assert(action.task.completed === true);
+            done();
+            break;
+        }
       });
       createTask('Hello World', taskCategoryId);
 
@@ -101,12 +121,16 @@ describe('TaskActionCreators', () => {
 
   describe('deleteTask', () => {
     it('an item', (done) => {
-      appDispatcher.on(types.GET_ALL_TASKS, (tasks_) => {
-        // num of task categories is 3
-        assert(tasks_[0].tasks.length === 0);
-        assert(tasks_[1].tasks.length === 0);
-        assert(tasks_[2].tasks.length === 0);
-        done();
+      subscribe((action) => {
+        switch (action.type) {
+          case types.GET_ALL_TASKS:
+            // num of task categories is 3
+            assert(action.tasks[0].tasks.length === 0);
+            assert(action.tasks[1].tasks.length === 0);
+            assert(action.tasks[2].tasks.length === 0);
+            done();
+            break;
+        }
       });
       createTask('Hello World', taskCategoryId);
 
@@ -119,11 +143,15 @@ describe('TaskActionCreators', () => {
 
   describe('sortTasks', () => {
     it('from < to', (done) => {
-      appDispatcher.on(types.GET_ALL_TASKS, (tasks) => {
-        assert(tasks[0].tasks.length === 3);
-        assert(tasks[0].tasks[0].text === 'Hello World 1');
-        assert(tasks[0].tasks[1].text === 'Hello World 0');
-        done();
+      subscribe((action) => {
+        switch (action.type) {
+          case types.GET_ALL_TASKS:
+            assert(action.tasks[0].tasks.length === 3);
+            assert(action.tasks[0].tasks[0].text === 'Hello World 1');
+            assert(action.tasks[0].tasks[1].text === 'Hello World 0');
+            done();
+            break;
+        }
       });
       createTask('Hello World 0', taskCategoryId);
       createTask('Hello World 1', taskCategoryId);
@@ -131,11 +159,15 @@ describe('TaskActionCreators', () => {
       sortTasks(taskCategoryId, 0, 1);
     });
     it('to < from', (done) => {
-      appDispatcher.on(types.GET_ALL_TASKS, (tasks) => {
-        assert(tasks[0].tasks.length === 3);
-        assert(tasks[0].tasks[0].text === 'Hello World 1');
-        assert(tasks[0].tasks[1].text === 'Hello World 0');
-        done();
+      subscribe((action) => {
+        switch (action.type) {
+          case types.GET_ALL_TASKS:
+            assert(action.tasks[0].tasks.length === 3);
+            assert(action.tasks[0].tasks[0].text === 'Hello World 1');
+            assert(action.tasks[0].tasks[1].text === 'Hello World 0');
+            done();
+            break;
+        }
       });
       createTask('Hello World 0', taskCategoryId);
       createTask('Hello World 1', taskCategoryId);

@@ -11,4 +11,8 @@ export function subscribe(callback) {
   appDispatcher.addListener(ACTION_DISPATCH, callback);
 }
 
+export function unsubscribeAll(callback) {
+  appDispatcher._listeners = {};
+}
+
 export default new MicoEmitter();

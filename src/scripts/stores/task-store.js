@@ -1,7 +1,7 @@
 import MicroStore from './micro-store';
 
 import logger from '../utils/logger';
-import appDispatcher, { subscribe } from '../dispatchers/app-dispatcher';
+import { subscribe } from '../dispatchers/app-dispatcher';
 import { actionTypes as types } from '../constants/constants';
 import { parseTextToItem } from '../utils/text-to-schedule-parser';
 import { validateByJSONSchema } from '../json-schemas/json-schema';
