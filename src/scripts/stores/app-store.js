@@ -1,6 +1,6 @@
 import { pages, actionTypes as types } from '../constants/constants';
 import { getTasks } from '../actions/task-action-creators';
-import appDispatcher from '../dispatchers/app-dispatcher';
+import { subscribe } from '../dispatchers/app-dispatcher';
 import MicroStore from './micro-store';
 import TaskStore from './task-store';
 
@@ -31,19 +31,23 @@ export default class AppStore extends MicroStore {
 
     this.routes();
 
-    this.register(appDispatcher, types.BACK_PAGE, () => {
-      const page = this._history[this._history.length - 2] || this._homePage;
+    subscribe((action) => {
+      console.log(action);
+      switch (action.type) {
+        case types.CHANGE_PAGE:
+          location.hash = action.page;
+          this.emit(action.page);
+          this.dispatchChange();
+          break;
+        case types.BACK_PAGE:
+          const page = this._history[this._history.length - 2] || this._homePage;
 
-      location.hash = page;
-      this._history.splice(this._history.length - 2, 2);
-      this.emit(page);
-      this.dispatchChange();
-    });
-
-    this.register(appDispatcher, types.CHANGE_PAGE, page => {
-      location.hash = page;
-      this.emit(page);
-      this.dispatchChange();
+          location.hash = page;
+          this._history.splice(this._history.length - 2, 2);
+          this.emit(page);
+          this.dispatchChange();
+          break;
+      }
     });
 
     this.emit(this._page);
