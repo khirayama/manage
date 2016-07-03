@@ -81,13 +81,13 @@ export default class AppStore extends MicroStore {
     this._title = 'Task';
 
     this._changePage(pages.TASKS);
-    this.taskStore = this.taskStore || new TaskStore();
-
-    getTasks();
-
-    this.taskStore.addChangeListener(() => {
-      this.dispatchChange();
-    });
+    if (!this.taskStore) {
+      this.taskStore = new TaskStore();
+      getTasks();
+      this.taskStore.addChangeListener(() => {
+        this.dispatchChange();
+      });
+    }
   }
 
   createSettingsPage() {
