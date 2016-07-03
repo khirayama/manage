@@ -1,4 +1,4 @@
-import appDispatcher from '../dispatchers/app-dispatcher';
+import { dispatch } from '../dispatchers/app-dispatcher';
 import Task from '../resources/task';
 import TaskCategory from '../resources/task-category';
 import { actionTypes as types } from '../constants/constants';
@@ -33,7 +33,10 @@ export function getTasks() {
     }
   }
 
-  appDispatcher.emit(types.GET_ALL_TASKS, tasks);
+  dispatch({
+    type: types.GET_ALL_TASKS,
+    tasks
+  });
 }
 
 export function createTask(text, categoryId) {
@@ -49,7 +52,10 @@ export function createTask(text, categoryId) {
 
   entity.isEditing = true;
 
-  appDispatcher.emit(types.CREATE_TASK, entity);
+  dispatch({
+    type: types.CREATE_TASK,
+    task: entity
+  });
 }
 
 export function completeTask(id) {
@@ -62,7 +68,10 @@ export function completeTask(id) {
 
   entity.isEditing = false;
 
-  appDispatcher.emit(types.UPDATE_TASK, entity);
+  dispatch({
+    type: types.UPDATE_TASK,
+    task: entity
+  });
 }
 
 export function editTask(id) {
@@ -72,7 +81,10 @@ export function editTask(id) {
 
   entity.isEditing = true;
 
-  appDispatcher.emit(types.UPDATE_TASK, entity);
+  dispatch({
+    type: types.UPDATE_TASK,
+    task: entity
+  });
 }
 
 export function editNextTask(categoryId, currentOrder) {
@@ -85,7 +97,10 @@ export function editNextTask(categoryId, currentOrder) {
 
   entity.isEditing = true;
 
-  appDispatcher.emit(types.UPDATE_TASK, entity);
+  dispatch({
+    type: types.UPDATE_TASK,
+    task: entity
+  });
 }
 
 export function editPrevTask(categoryId, currentOrder) {
@@ -98,7 +113,10 @@ export function editPrevTask(categoryId, currentOrder) {
 
   entity.isEditing = true;
 
-  appDispatcher.emit(types.UPDATE_TASK, entity);
+  dispatch({
+    type: types.UPDATE_TASK,
+    task: entity
+  });
 }
 
 export function updateTask(id, text) {
@@ -108,7 +126,10 @@ export function updateTask(id, text) {
 
   entity.isEditing = false;
 
-  appDispatcher.emit(types.UPDATE_TASK, entity);
+  dispatch({
+    type: types.UPDATE_TASK,
+    task: entity
+  });
 }
 
 export function deleteTask(categoryId, taskId) {
@@ -204,7 +225,10 @@ export function editTaskCategory(id) {
 
   entity.isEditing = true;
 
-  appDispatcher.emit(types.EDIT_TASK_CATEGORY, entity);
+  dispatch({
+    type: types.EDIT_TASK_CATEGORY,
+    taskCategory: entity
+  });
 }
 
 export function updateTaskCategory(id, name) {
@@ -212,7 +236,10 @@ export function updateTaskCategory(id, name) {
 
   entity.isEditing = false;
 
-  appDispatcher.emit(types.UPDATE_TASK_CATEGORY, entity);
+  dispatch({
+    type: types.UPDATE_TASK_CATEGORY,
+    taskCategory: entity
+  });
 }
 
 export function createTaskCategory(name) {
@@ -224,7 +251,10 @@ export function createTaskCategory(name) {
 
   entity.isEditing = true;
 
-  appDispatcher.emit(types.CREATE_TASK_CATEGORY, entity);
+  dispatch({
+    type: types.CREATE_TASK_CATEGORY,
+    taskCategory: entity
+  });
 }
 
 export function deleteTaskCategory(id) {

@@ -1,7 +1,7 @@
 import MicroStore from './micro-store';
 
 import logger from '../utils/logger';
-import appDispatcher from '../dispatchers/app-dispatcher';
+import appDispatcher, { subscribe } from '../dispatchers/app-dispatcher';
 import { actionTypes as types } from '../constants/constants';
 import { parseTextToItem } from '../utils/text-to-schedule-parser';
 import { validateByJSONSchema } from '../json-schemas/json-schema';
@@ -14,29 +14,35 @@ export default class TaskStore extends MicroStore {
 
     this._tasks = [];
 
-    this.register(appDispatcher, types.GET_ALL_TASKS, tasks => {
-      this.setTasks(tasks);
-      this.dispatchChange();
-    });
-    this.register(appDispatcher, types.CREATE_TASK, task => {
-      this.create(task);
-      this.dispatchChange();
-    });
-    this.register(appDispatcher, types.UPDATE_TASK, task => {
-      this.update(task);
-      this.dispatchChange();
-    });
-    this.register(appDispatcher, types.CREATE_TASK_CATEGORY, taskCategory => {
-      this.addTaskCategory(taskCategory);
-      this.dispatchChange();
-    });
-    this.register(appDispatcher, types.EDIT_TASK_CATEGORY, taskCategory => {
-      this.updateTaskCategory(taskCategory);
-      this.dispatchChange();
-    });
-    this.register(appDispatcher, types.UPDATE_TASK_CATEGORY, taskCategory => {
-      this.updateTaskCategory(taskCategory);
-      this.dispatchChange();
+    subscribe((action) => {
+      switch (action.type) {
+        case types.GET_ALL_TASKS:
+          this.setTasks(action.tasks);
+          this.dispatchChange();
+          break;
+        case types.CREATE_TASK:
+          this.create(action.task);
+          this.dispatchChange();
+          break;
+        case types.UPDATE_TASK:
+          this.update(action.task);
+          this.dispatchChange();
+          break;
+        case types.CREATE_TASK_CATEGORY:
+          this.addTaskCategory(action.taskCategory);
+          this.dispatchChange();
+          break;
+        case types.EDIT_TASK_CATEGORY:
+          this.updateTaskCategory(action.taskCategory);
+          this.dispatchChange();
+          break;
+        case types.UPDATE_TASK_CATEGORY:
+          this.updateTaskCategory(action.taskCategory);
+          this.dispatchChange();
+          break;
+        default:
+          break;
+      }
     });
   }
 

@@ -32,7 +32,6 @@ export default class AppStore extends MicroStore {
     this.routes();
 
     subscribe((action) => {
-      console.log(action);
       switch (action.type) {
         case types.CHANGE_PAGE:
           location.hash = action.page;
