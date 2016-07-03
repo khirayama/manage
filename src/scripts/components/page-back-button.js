@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { backPage } from '../actions/app-action-creators';
+import { dispatch } from '../dispatchers/app-dispatcher';
 
 
 const PageBackButtonPropTypes = {
@@ -15,6 +15,11 @@ export default function PageBackButton(props) {
   } else if (props.text) {
     contentElement = props.text;
   }
+  const backPage = () => {
+    dispatch({
+      type: 'UI_CLICK_PAGE_BACK_BUTTON_IN_PAGE_BACK_BUTTON',
+    });
+  };
   return (
     <div
       className="page-back-button"

@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 
 import TaskList from './task-list';
-import {
-  sortTasks,
-  moveTask,
-  createTaskCategory,
-  sortTaskCategories,
-} from '../actions/task-action-creators';
+import { dispatch } from '../dispatchers/app-dispatcher';
 
 
 const propTypes = {
@@ -36,7 +31,9 @@ export default class TasksPage extends Component {
   }
 
   onClickAddCategoryButton() {
-    createTaskCategory('');
+    dispatch({
+      type: 'UI_CLICK_ADD_CATEGORY_BUTTON_IN_TASK_PAGE',
+    });
   }
 
   _setIsItemDragging(isItemDragging) {
@@ -68,11 +65,14 @@ export default class TasksPage extends Component {
     const newCategoryId = this._order.newCategoryId;
     const to = this._order.to;
 
-    if (currentCategoryId === newCategoryId) {
-      sortTasks(currentCategoryId, from, to);
-    } else {
-      moveTask(currentCategoryId, from, newCategoryId, to);
-    }
+    dispatch({
+      type: 'UI_DRAGEND_ON_ITEM_IN_TASK_PAGE',
+      from,
+      to,
+      currentCategoryId,
+      newCategoryId,
+    });
+
     this._initializeOrder();
     this._setIsItemDragging(false);
   }
@@ -106,7 +106,11 @@ export default class TasksPage extends Component {
     const to = this._taskCategoryOrder.to;
 
     if (from !== null && to !== null && from !== to) {
-      sortTaskCategories(from, to);
+      dispatch({
+        type: 'UI_DRAGEND_ON_LIST_IN_TASK_PAGE',
+        from,
+        to,
+      });
     }
     this._initializeTaskCategoryOrder();
   }

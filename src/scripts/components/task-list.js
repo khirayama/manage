@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 
 import {
-  createTask,
-  editTaskCategory,
   updateTaskCategory,
   deleteTaskCategory,
 } from '../actions/task-action-creators';
@@ -12,6 +10,7 @@ import {
 } from '../constants/constants';
 import promiseConfirm from '../utils/promise-confirm';
 import TaskListItem from './task-list-item';
+import { dispatch } from '../dispatchers/app-dispatcher';
 
 
 const taskListPropTypes = {
@@ -49,11 +48,17 @@ export default class TaskList extends Component {
   }
 
   onClickTitle() {
-    editTaskCategory(this.props.taskCategory.categoryId);
+    dispatch({
+      type: 'UI_CLICK_TITLE_IN_TASK_LIST',
+      categoryId: this.props.taskCategory.categoryId,
+    });
   }
 
   onClickAddButton() {
-    createTask('', this.props.taskCategory.categoryId);
+    dispatch({
+      type: 'UI_CLICK_ADD_BUTTON_IN_TASK_LIST',
+      categoryId: this.props.taskCategory.categoryId,
+    });
   }
 
   onClickDeleteTaskCategoryButton() {
@@ -126,7 +131,10 @@ export default class TaskList extends Component {
   }
 
   _saveTaskCategory() {
-    updateTaskCategory(this.props.taskCategory.categoryId, this.state.value);
+    updateTaskCategory(
+      this.props.taskCategory.categoryId,
+      this.state.value
+    );
   }
 
   _createTaskListItemElement(task) {

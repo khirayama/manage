@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import config from '../../config';
 import { pages } from '../constants/constants';
-import { changePage } from '../actions/app-action-creators';
+import { dispatch } from '../dispatchers/app-dispatcher';
 
 
 const propTypes = {
@@ -26,7 +26,10 @@ export default class Header extends Component {
       leftHref = pages.SETTINGS;
     }
 
-    changePage(leftHref);
+    dispatch({
+      type: 'UI_CLICK_SETTINGS_BUTTON_IN_HEADER',
+      link: leftHref,
+    });
   }
 
   render() {

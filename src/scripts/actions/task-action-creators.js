@@ -1,9 +1,36 @@
-import { dispatch } from '../dispatchers/app-dispatcher';
+import { dispatch, subscribe } from '../dispatchers/app-dispatcher';
 import Task from '../resources/task';
 import TaskCategory from '../resources/task-category';
 import { actionTypes as types } from '../constants/constants';
 import { validateByJSONSchema } from '../json-schemas/json-schema';
 import { TASK_SCHEMA, TASKS_SCHEMA } from '../json-schemas/task';
+
+
+subscribe((action) => {
+  switch (action.type) {
+    case 'UI_DRAGEND_ON_ITEM_IN_TASK_PAGE':
+      if (action.currentCategoryId === action.newCategoryId) {
+        sortTasks(action.currentCategoryId, action.from, action.to);
+      } else {
+        moveTask(action.currentCategoryId, action.from, action.newCategoryId, action.to);
+      }
+      break;
+    case 'UI_CLICK_ADD_CATEGORY_BUTTON_IN_TASK_PAGE':
+      createTaskCategory('');
+      break;
+    case 'UI_DRAGEND_ON_LIST_IN_TASK_PAGE':
+      sortTaskCategories(action.from, action.to);
+      break;
+    case 'UI_CLICK_ADD_BUTTON_IN_TASK_LIST':
+      createTask('', action.categoryId);
+      break;
+    case 'UI_CLICK_TITLE_IN_TASK_LIST':
+      editTaskCategory(action.categoryId);
+      break;
+    default:
+      break;
+  }
+});
 
 
 export function getTasks() {
