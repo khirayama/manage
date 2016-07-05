@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
-import {
-  createTask,
-  completeTask,
-  editTask,
-  editNextTask,
-  editPrevTask,
-  updateTask,
-  deleteTask,
-} from '../actions/task-action-creators';
 import { keyCodes } from '../constants/constants';
+import { dispatch } from '../dispatchers/app-dispatcher';
 
 
 const taskListItemPropTypes = {
@@ -48,16 +40,26 @@ export default class TaskListItem extends Component {
 
   onClickLabel() {
     if (!this.props.task.completed) {
-      editTask(this.props.task.id);
+      dispatch({
+        type: 'UI_CLICK_LABEL',
+        id: this.props.task.id,
+      });
     }
   }
 
   onClickDoneButton() {
-    completeTask(this.props.task.id);
+    dispatch({
+      type: 'UI_CLICK_DONE_BUTTON',
+      id: this.props.task.id,
+    });
   }
 
   onClickDeleteButton() {
-    deleteTask(this.props.task.categoryId, this.props.task.id);
+    dispatch({
+      type: 'UI_CLICK_DELETE_BUTTON_IN_TASK_LIST_ITEM',
+      id: this.props.task.id,
+      categoryId: this.props.task.categoryId,
+    });
   }
 
   onDragStart() {
@@ -91,24 +93,34 @@ export default class TaskListItem extends Component {
 
     switch (true) {
       case (keyCode === keyCodes.ENTER && !shift && !ctrl):
-        this.save();
+        this.save('UI_KEYDOWN_INPUT_WITH_ENTER_IN_TASK_LIST_ITEM');
         break;
       case (keyCode === keyCodes.ENTER && !shift && ctrl):
-        if (this.state.value === '') {
-          deleteTask(this.props.task.categoryId, this.props.task.id);
-        }
-        createTask('', this.props.task.categoryId);
+        dispatch({
+          type: 'UI_KEYDOWN_INPUT_WITH_ENTER_AND_CTRL_IN_TASK_LIST_ITEM',
+          value: this.state.value,
+          id: this.props.task.id,
+          categoryId: this.props.task.categoryId,
+        });
         break;
       case (keyCode === keyCodes.ESC && !shift && !ctrl):
-        this.save();
+        this.save('UI_KEYDOWN_INPUT_WITH_ESC_IN_TASK_LIST_ITEM');
         break;
       case (keyCode === keyCodes.TAB && !shift && !ctrl):
         event.preventDefault();
-        editNextTask(this.props.task.categoryId, this.props.task.order);
+        dispatch({
+          type: 'UI_KEYDOWN_INPUT_WITH_TAB_IN_TASK_LIST_ITEM',
+          categoryId: this.props.task.categoryId,
+          order: this.props.task.order,
+        });
         break;
       case (keyCode === keyCodes.TAB && shift && !ctrl):
         event.preventDefault();
-        editPrevTask(this.props.task.categoryId, this.props.task.order);
+        dispatch({
+          type: 'UI_KEYDOWN_INPUT_WITH_TAB_AND_SHIFT_IN_TASK_LIST_ITEM',
+          categoryId: this.props.task.categoryId,
+          order: this.props.task.order,
+        });
         break;
       default:
         break;
@@ -116,18 +128,16 @@ export default class TaskListItem extends Component {
   }
 
   onBlurInput() {
-    this.save();
+    this.save('UI_BLUR_INPUT_IN_TASK_LIST_ITEM');
   }
 
-  save() {
-    const task = this.props.task;
-    const text = this.state.value.trim();
-
-    if (text !== '') {
-      updateTask(task.id, text);
-    } else {
-      deleteTask(task.categoryId, task.id);
-    }
+  save(type) {
+    dispatch({
+      type: type,
+      id: this.props.task.id,
+      categoryId: this.props.task.categoryId,
+      text: this.state.value,
+    });
   }
 
   selectInputValue() {
