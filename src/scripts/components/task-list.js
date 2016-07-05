@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
 import {
-  updateTaskCategory,
-  deleteTaskCategory,
-} from '../actions/task-action-creators';
-import {
   messages,
   keyCodes,
 } from '../constants/constants';
@@ -64,10 +60,16 @@ export default class TaskList extends Component {
   onClickDeleteTaskCategoryButton() {
     if (this.props.taskCategory.tasks.length) {
       promiseConfirm(messages.CONFIRM_DELETE_TASK_CATEGORY).then(() => {
-        deleteTaskCategory(this.props.taskCategory.categoryId);
+        dispatch({
+          type: 'UI_CLICK_DELETE_TASK_CATEGORY_BUTTON_IN_TASK_LIST',
+          categoryId: this.props.taskCategory.categoryId,
+        });
       }).catch(error => error);
     } else {
-      deleteTaskCategory(this.props.taskCategory.categoryId);
+      dispatch({
+        type: 'UI_CLICK_DELETE_TASK_CATEGORY_BUTTON_IN_TASK_LIST',
+        categoryId: this.props.taskCategory.categoryId,
+      });
     }
   }
 
@@ -78,10 +80,10 @@ export default class TaskList extends Component {
 
     switch (true) {
       case (keyCode === keyCodes.ENTER && !shift && !ctrl):
-        this._saveTaskCategory();
+        this._saveTaskCategory('UI_KEYDOWN_TASK_CATEGORY_INPUT_WITH_ENTER_IN_TASK_LIST');
         break;
       case (keyCode === keyCodes.ESC && !shift && !ctrl):
-        this._saveTaskCategory();
+        this._saveTaskCategory('UI_KEYDOWN_TASK_CATEGORY_INPUT_WITH_ESC_IN_TASK_LIST');
         break;
       default:
         break;
@@ -89,7 +91,7 @@ export default class TaskList extends Component {
   }
 
   onBlurTaskCategoryInput() {
-    this._saveTaskCategory();
+    this._saveTaskCategory('UI_BLUR_TASK_CATEGORY_INPUT_IN_TASK_LIST');
   }
 
   onChangeTaskCategoryInput(event) {
@@ -130,11 +132,12 @@ export default class TaskList extends Component {
     this.props.moveTaskCategory();
   }
 
-  _saveTaskCategory() {
-    updateTaskCategory(
-      this.props.taskCategory.categoryId,
-      this.state.value
-    );
+  _saveTaskCategory(type) {
+    dispatch({
+      type,
+      categoryId: this.props.taskCategory.categoryId,
+      value: this.state.value,
+    });
   }
 
   _createTaskListItemElement(task) {

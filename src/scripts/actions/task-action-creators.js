@@ -8,6 +8,7 @@ import { TASK_SCHEMA, TASKS_SCHEMA } from '../json-schemas/task';
 
 subscribe((event) => {
   switch (event.type) {
+    // component: task-page
     case 'UI_DRAGEND_ON_ITEM_IN_TASK_PAGE':
       if (event.currentCategoryId === event.newCategoryId) {
         sortTasks(event.currentCategoryId, event.from, event.to);
@@ -21,11 +22,23 @@ subscribe((event) => {
     case 'UI_DRAGEND_ON_LIST_IN_TASK_PAGE':
       sortTaskCategories(event.from, event.to);
       break;
+    // component: task-list
     case 'UI_CLICK_ADD_BUTTON_IN_TASK_LIST':
       createTask('', event.categoryId);
       break;
     case 'UI_CLICK_TITLE_IN_TASK_LIST':
       editTaskCategory(event.categoryId);
+      break;
+    case 'UI_KEYDOWN_TASK_CATEGORY_INPUT_WITH_ENTER_IN_TASK_LIST':
+    case 'UI_KEYDOWN_TASK_CATEGORY_INPUT_WITH_ESC_IN_TASK_LIST':
+    case 'UI_BLUR_TASK_CATEGORY_INPUT_IN_TASK_LIST':
+      updateTaskCategory(
+        event.categoryId,
+        event.value
+      );
+      break;
+    case 'UI_CLICK_DELETE_TASK_CATEGORY_BUTTON_IN_TASK_LIST':
+        deleteTaskCategory(event.categoryId);
       break;
     default:
       break;
