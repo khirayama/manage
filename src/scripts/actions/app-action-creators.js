@@ -1,10 +1,10 @@
 import { dispatch, subscribe } from '../dispatchers/app-dispatcher';
 import { actionTypes as types } from '../constants/constants';
 
-subscribe((action) => {
-  switch (action.type) {
+subscribe((event) => {
+  switch (event.type) {
     case 'UI_CLICK_SETTINGS_BUTTON_IN_HEADER':
-      changePage(action.link);
+      changePage(event.link);
       break;
     case 'UI_CLICK_PAGE_BACK_BUTTON_IN_PAGE_BACK_BUTTON':
       backPage();

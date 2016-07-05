@@ -6,26 +6,26 @@ import { validateByJSONSchema } from '../json-schemas/json-schema';
 import { TASK_SCHEMA, TASKS_SCHEMA } from '../json-schemas/task';
 
 
-subscribe((action) => {
-  switch (action.type) {
+subscribe((event) => {
+  switch (event.type) {
     case 'UI_DRAGEND_ON_ITEM_IN_TASK_PAGE':
-      if (action.currentCategoryId === action.newCategoryId) {
-        sortTasks(action.currentCategoryId, action.from, action.to);
+      if (event.currentCategoryId === event.newCategoryId) {
+        sortTasks(event.currentCategoryId, event.from, event.to);
       } else {
-        moveTask(action.currentCategoryId, action.from, action.newCategoryId, action.to);
+        moveTask(event.currentCategoryId, event.from, event.newCategoryId, event.to);
       }
       break;
     case 'UI_CLICK_ADD_CATEGORY_BUTTON_IN_TASK_PAGE':
       createTaskCategory('');
       break;
     case 'UI_DRAGEND_ON_LIST_IN_TASK_PAGE':
-      sortTaskCategories(action.from, action.to);
+      sortTaskCategories(event.from, event.to);
       break;
     case 'UI_CLICK_ADD_BUTTON_IN_TASK_LIST':
-      createTask('', action.categoryId);
+      createTask('', event.categoryId);
       break;
     case 'UI_CLICK_TITLE_IN_TASK_LIST':
-      editTaskCategory(action.categoryId);
+      editTaskCategory(event.categoryId);
       break;
     default:
       break;
