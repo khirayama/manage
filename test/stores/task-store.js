@@ -1,6 +1,6 @@
 import assert from 'power-assert';
 
-import TaskStore from '../../src/scripts/stores/task-store';
+import TaskStore from '../../src/scripts/stores/task-state';
 
 
 describe('TaskStore', () => {
