@@ -5,8 +5,9 @@ import config from '../../config';
 import { pages } from '../constants/constants';
 import Header from '../components/header';
 import Launcher from '../components/launcher';
-import TasksPage from '../scenes/tasks-page';
-import SettingsPage from '../scenes/settings-page';
+import TasksPage from '../components/tasks-page';
+import SettingsPage from '../components/settings-page';
+import HelpPage from '../components/help-page';
 import { getLauncherContents } from '../utils/get-launcher-contents';
 
 
@@ -68,6 +69,13 @@ export default class ManageApp extends Component {
             <SettingsPage page={page} />
           </section>
         );
+      case (pages.HELP):
+        return (
+          <section key={page} className="page-container">
+            <Header page={page} position="bottom" />
+            <HelpPage page={page} />
+          </section>
+        );
       default:
         return (
           <section key={page} className="page-container">
@@ -117,7 +125,11 @@ export default class ManageApp extends Component {
         <ReactCSSTransitionGroup
           transitionName={transitionVariations.slideInOut}
           { ...transitionOptions }
-        >{null}</ReactCSSTransitionGroup>
+        >
+          {(
+            page === pages.HELP
+          ) ? pageElement : null}
+        </ReactCSSTransitionGroup>
 
         <ReactCSSTransitionGroup
           transitionName={transitionVariations.slideUpDown}

@@ -4,6 +4,7 @@ import { actionTypes as types } from '../constants/constants';
 subscribe((event) => {
   switch (event.type) {
     case 'UI_CLICK_SETTINGS_BUTTON_IN_HEADER':
+    case 'UI_CLICK_HELP_LINK_IN_SETTINGS_PAGE':
       changePage(event.link);
       break;
     case 'UI_CLICK_PAGE_BACK_BUTTON_IN_PAGE_BACK_BUTTON':

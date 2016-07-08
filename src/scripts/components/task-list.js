@@ -43,6 +43,12 @@ export default class TaskList extends Component {
     this.onDragEndList = this.onDragEndList.bind(this);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.taskCategory.isEditing && (prevState.value === this.state.value)) {
+      this._selectInputValue();
+    }
+  }
+
   onClickTitle() {
     dispatch({
       type: 'UI_CLICK_TITLE_IN_TASK_LIST',
@@ -132,6 +138,10 @@ export default class TaskList extends Component {
     this.props.moveTaskCategory();
   }
 
+  _selectInputValue() {
+    this.refs.input.select();
+  }
+
   _saveTaskCategory(type) {
     dispatch({
       type,
@@ -165,6 +175,7 @@ export default class TaskList extends Component {
           <input
             autoFocus
             type="text"
+            ref="input"
             value={this.state.value}
             onChange={this.onChangeTaskCategoryInput}
             onKeyDown={this.onKeyDownTaskCategoryInput}

@@ -61,6 +61,10 @@ export default class AppStore extends MicroStore {
     this.on(pages.SETTINGS, () => {
       this.createSettingsPage();
     });
+
+    this.on(pages.HELP, () => {
+      this.createHelpPage();
+    });
   }
 
   _changePage(page) {
@@ -94,5 +98,11 @@ export default class AppStore extends MicroStore {
     this._title = 'Settings';
 
     this._changePage(pages.SETTINGS);
+  }
+
+  createHelpPage() {
+    this._title = 'Help';
+
+    this._changePage(pages.HELP);
   }
 }

@@ -1,6 +1,8 @@
 import React from 'react';
-import config from '../../config';
 
+import config from '../../config';
+import { pages } from '../constants/constants';
+import { dispatch } from '../libs/app-dispatcher';
 import PageBackButton from '../components/page-back-button';
 
 
@@ -28,7 +30,16 @@ export default function SettingsPage() {
             </ul>
           </section>
           <ul className="list">
-            <li className="list-item">
+          <li
+            className="list-item"
+            onClick={
+              () => {
+                dispatch({
+                  type: 'UI_CLICK_HELP_LINK_IN_SETTINGS_PAGE',
+                  link: pages.HELP
+                });
+              }
+            }>
               <div className="list-item-text">Help</div>
             </li>
             <li className="list-item">

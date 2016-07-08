@@ -32,9 +32,9 @@ export default class TaskListItem extends Component {
     this.onBlurInput = this.onBlurInput.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    if (!prevProps.task.isEditing && this.props.task.isEditing) {
-      this.selectInputValue();
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.task.isEditing && (prevState.value === this.state.value)) {
+      this._selectInputValue();
     }
   }
 
@@ -140,7 +140,7 @@ export default class TaskListItem extends Component {
     });
   }
 
-  selectInputValue() {
+  _selectInputValue() {
     this.refs.input.select();
   }
 

@@ -12,6 +12,7 @@ export const keyCodes = {
 export const pages = {
   TASKS: 'TASK_PAGE',
   SETTINGS: 'SETTINGS_PAGE',
+  HELP: 'HELP_PAGE',
 };
 
 export const EVENT_CHANGE = 'CHANGE_STORE';
