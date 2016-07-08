@@ -1,4 +1,5 @@
-import MicroResource from './micro-resource';
+import MicroResource from '../libs/micro-resource';
+
 
 export class TaskResource extends MicroResource {
   constructor(options) {

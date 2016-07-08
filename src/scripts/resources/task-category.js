@@ -1,4 +1,4 @@
-import MicroResource from './micro-resource';
+import MicroResource from '../libs/micro-resource';
 import { initialTaskCategoryNames } from '../constants/constants';
 
 

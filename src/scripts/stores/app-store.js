@@ -1,8 +1,8 @@
 import { pages, actionTypes as types } from '../constants/constants';
 import { getTasks } from '../actions/task-action-creators';
-import { subscribe } from '../dispatchers/app-dispatcher';
-import MicroStore from './micro-store';
-import TaskStore from './task-store';
+import { subscribe } from '../libs/app-dispatcher';
+import MicroStore from '../libs/micro-store';
+import TaskStore from '../states/task-store';
 
 
 export default class AppStore extends MicroStore {

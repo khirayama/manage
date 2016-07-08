@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import config from '../../config';
 import { pages } from '../constants/constants';
-import { dispatch } from '../dispatchers/app-dispatcher';
+import { dispatch } from '../libs/app-dispatcher';
 
 
 const propTypes = {

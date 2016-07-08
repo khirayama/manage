@@ -1,4 +1,4 @@
-import { dispatch, subscribe } from '../dispatchers/app-dispatcher';
+import { dispatch, subscribe } from '../libs/app-dispatcher';
 import Task from '../resources/task';
 import TaskCategory from '../resources/task-category';
 import { actionTypes as types } from '../constants/constants';

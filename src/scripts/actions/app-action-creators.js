@@ -1,4 +1,4 @@
-import { dispatch, subscribe } from '../dispatchers/app-dispatcher';
+import { dispatch, subscribe } from '../libs/app-dispatcher';
 import { actionTypes as types } from '../constants/constants';
 
 subscribe((event) => {

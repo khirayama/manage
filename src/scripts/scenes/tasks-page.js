@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import TaskList from './task-list';
-import { dispatch } from '../dispatchers/app-dispatcher';
+import TaskList from '../components/task-list';
+import { dispatch } from '../libs/app-dispatcher';
 
 
 const propTypes = {

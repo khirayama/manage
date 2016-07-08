@@ -3,11 +3,11 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import config from '../../config';
 import { pages } from '../constants/constants';
-import Header from './header';
-import Launcher from './launcher';
-import TasksPage from './tasks-page';
+import Header from '../components/header';
+import Launcher from '../components/launcher';
+import TasksPage from '../scenes/tasks-page';
+import SettingsPage from '../scenes/settings-page';
 import { getLauncherContents } from '../utils/get-launcher-contents';
-import SettingsPage from './settings-page';
 
 
 const propTypes = {

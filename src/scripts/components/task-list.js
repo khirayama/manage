@@ -6,7 +6,7 @@ import {
 } from '../constants/constants';
 import promiseConfirm from '../utils/promise-confirm';
 import TaskListItem from './task-list-item';
-import { dispatch } from '../dispatchers/app-dispatcher';
+import { dispatch } from '../libs/app-dispatcher';
 
 
 const taskListPropTypes = {

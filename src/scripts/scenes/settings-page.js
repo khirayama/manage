@@ -1,7 +1,7 @@
 import React from 'react';
 import config from '../../config';
 
-import PageBackButton from './page-back-button';
+import PageBackButton from '../components/page-back-button';
 
 
 export default function SettingsPage() {
