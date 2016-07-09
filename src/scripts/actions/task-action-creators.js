@@ -6,78 +6,61 @@ import { validateByJSONSchema } from '../json-schemas/json-schema';
 import { TASK_SCHEMA, TASKS_SCHEMA } from '../json-schemas/task';
 
 
-subscribe((event) => {
-  switch (event.type) {
-    // component: task-page
-    case 'UI_DRAGEND_ON_ITEM_IN_TASK_PAGE':
-      if (event.currentCategoryId === event.newCategoryId) {
-        sortTasks(event.currentCategoryId, event.from, event.to);
-      } else {
-        moveTask(event.currentCategoryId, event.from, event.newCategoryId, event.to);
-      }
-      break;
-    case 'UI_CLICK_ADD_CATEGORY_BUTTON_IN_TASK_PAGE':
-      createTaskCategory('');
-      break;
-    case 'UI_DRAGEND_ON_LIST_IN_TASK_PAGE':
-      sortTaskCategories(event.from, event.to);
-      break;
-    // component: task-list
-    case 'UI_CLICK_ADD_BUTTON_IN_TASK_LIST':
-      createTask('', event.categoryId);
-      break;
-    case 'UI_CLICK_TITLE_IN_TASK_LIST':
-      editTaskCategory(event.categoryId);
-      break;
-    case 'UI_KEYDOWN_TASK_CATEGORY_INPUT_WITH_ENTER_IN_TASK_LIST':
-    case 'UI_KEYDOWN_TASK_CATEGORY_INPUT_WITH_ESC_IN_TASK_LIST':
-    case 'UI_BLUR_TASK_CATEGORY_INPUT_IN_TASK_LIST':
-      updateTaskCategory(
-        event.categoryId,
-        event.value
-      );
-      break;
-    case 'UI_CLICK_DELETE_TASK_CATEGORY_BUTTON_IN_TASK_LIST':
-      deleteTaskCategory(event.categoryId);
-      break;
-    // component: task-list-item
-    case 'UI_KEYDOWN_INPUT_WITH_ENTER_AND_CTRL_IN_TASK_LIST_ITEM':
-      if (event.value === '') {
-        deleteTask(event.categoryId, event.id);
-      }
-      createTask('', event.categoryId);
-      break;
-    case 'UI_CLICK_DONE_BUTTON':
-      completeTask(event.id);
-      break;
-    case 'UI_CLICK_LABEL':
-      editTask(event.id);
-      break;
-    case 'UI_KEYDOWN_INPUT_WITH_TAB_IN_TASK_LIST_ITEM':
-      editNextTask(event.categoryId, event.order);
-      break;
-    case 'UI_KEYDOWN_INPUT_WITH_TAB_AND_SHIFT_IN_TASK_LIST_ITEM':
-      editPrevTask(event.categoryId, event.order);
-      break;
-    case 'UI_BLUR_INPUT_IN_TASK_LIST_ITEM':
-    case 'UI_KEYDOWN_INPUT_WITH_ENTER_IN_TASK_LIST_ITEM':
-    case 'UI_KEYDOWN_INPUT_WITH_ESC_IN_TASK_LIST_ITEM':
-      const text = event.text.trim();
+export default class TaskActionSubscriber {
+  constructor() {
+    subscribe((event) => {
+      switch (event.type) {
+        // component: task-page
+        case 'UI_DRAGEND_ON_ITEM_IN_TASK_PAGE':
+          if (event.currentCategoryId === event.newCategoryId) {
+            sortTasks(event.currentCategoryId, event.from, event.to);
+          } else {
+            moveTask(event.currentCategoryId, event.from, event.newCategoryId, event.to);
+          }
+          break;
+        // component: task-list
+        case 'UI_CLICK_ADD_BUTTON_IN_TASK_LIST':
+          createTask('', event.categoryId);
+          break;
+        // component: task-list-item
+        case 'UI_KEYDOWN_INPUT_WITH_ENTER_AND_CTRL_IN_TASK_LIST_ITEM':
+          if (event.value === '') {
+            deleteTask(event.categoryId, event.id);
+          }
+          createTask('', event.categoryId);
+          break;
+        case 'UI_CLICK_DONE_BUTTON':
+          completeTask(event.id);
+          break;
+        case 'UI_CLICK_LABEL':
+          editTask(event.id);
+          break;
+        case 'UI_KEYDOWN_INPUT_WITH_TAB_IN_TASK_LIST_ITEM':
+          editNextTask(event.categoryId, event.order);
+          break;
+        case 'UI_KEYDOWN_INPUT_WITH_TAB_AND_SHIFT_IN_TASK_LIST_ITEM':
+          editPrevTask(event.categoryId, event.order);
+          break;
+        case 'UI_BLUR_INPUT_IN_TASK_LIST_ITEM':
+        case 'UI_KEYDOWN_INPUT_WITH_ENTER_IN_TASK_LIST_ITEM':
+        case 'UI_KEYDOWN_INPUT_WITH_ESC_IN_TASK_LIST_ITEM':
+          const text = event.text.trim();
 
-      if (text !== '') {
-        updateTask(event.id, text);
-      } else {
-        deleteTask(event.categoryId, event.id);
+          if (text !== '') {
+            updateTask(event.id, text);
+          } else {
+            deleteTask(event.categoryId, event.id);
+          }
+          break;
+        case 'UI_CLICK_DELETE_BUTTON_IN_TASK_LIST_ITEM':
+          deleteTask(event.categoryId, event.id);
+          break;
+        default:
+          break;
       }
-      break;
-    case 'UI_CLICK_DELETE_BUTTON_IN_TASK_LIST_ITEM':
-      deleteTask(event.categoryId, event.id);
-      break;
-    default:
-      break;
+    });
   }
-});
-
+}
 
 export function getTasks() {
   const tasks = [];
@@ -289,97 +272,6 @@ export function moveTask(currentCategoryId, from, newCategoryId, to) {
       });
     }
   });
-
-  getTasks();
-}
-
-export function editTaskCategory(id) {
-  const entity = TaskCategory.get(id);
-
-  entity.isEditing = true;
-
-  dispatch({
-    type: types.EDIT_TASK_CATEGORY,
-    taskCategory: entity
-  });
-}
-
-export function updateTaskCategory(id, name) {
-  const entity = TaskCategory.update(id, { name });
-
-  entity.isEditing = false;
-
-  dispatch({
-    type: types.UPDATE_TASK_CATEGORY,
-    taskCategory: entity
-  });
-}
-
-export function createTaskCategory(name) {
-  const order = TaskCategory.all().length;
-  const entity = TaskCategory.create({
-    name,
-    order,
-  });
-
-  entity.isEditing = true;
-
-  dispatch({
-    type: types.CREATE_TASK_CATEGORY,
-    taskCategory: entity
-  });
-}
-
-export function deleteTaskCategory(id) {
-  const taskCategory = TaskCategory.get(id);
-  const taskCategories = TaskCategory.all();
-  const categoryTasks = Task.where({ categoryId: id }).get();
-
-  // update other task category id
-  taskCategories.forEach(taskCategory_ => {
-    if (taskCategory.order < taskCategory_.order) {
-      TaskCategory.update(taskCategory_.id, {
-        order: taskCategory_.order - 1,
-      });
-    }
-  });
-
-  // remove task belonged this category
-  categoryTasks.forEach(categoryTask => {
-    Task.destroy(categoryTask.id);
-  });
-
-  TaskCategory.destroy(id);
-
-  getTasks();
-}
-
-export function sortTaskCategories(from, to) {
-  const allTaskCategories = TaskCategory.order('order').get();
-
-  if (from < to) {
-    // To move to down.
-    for (let index = from; index <= to; index++) {
-      const taskCategory = allTaskCategories[index];
-
-      if (index === from) {
-        TaskCategory.update(taskCategory.id, { order: to });
-      } else if (index <= to) {
-        TaskCategory.update(taskCategory.id, { order: taskCategory.order - 1 });
-      }
-    }
-  } else if (to < from) {
-    // To move to up.
-    for (let index = to; index <= from; index++) {
-      const taskCategory = allTaskCategories[index];
-
-      if (index === from) {
-        TaskCategory.update(taskCategory.id, { order: to });
-      } else if (index <= from) {
-        TaskCategory.update(taskCategory.id, { order: taskCategory.order + 1 });
-      }
-    }
-  }
 
   getTasks();
 }
