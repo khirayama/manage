@@ -163,19 +163,13 @@ export default class TaskListItem extends Component {
         </div>
       );
     } else {
-      const itemContentProps = {
-        className: 'list-item-text',
-        draggable: true,
-        onClick: this.onClickLabel,
-        onDragStart: this.onDragStart,
-        onDragEnter: this.onDragEnter,
-        onDragEnd: this.onDragEnd,
-      };
-
       if (task.schedule) {
         const schedule = task.schedule;
         itemContent = (
-          <div {...itemContentProps} >
+          <div
+            className="list-item-text"
+            onClick={this.onClickLabel}
+          >
             {task.scheduleText}
             <div className="list-item-note">
               {schedule.year}/{schedule.month}/{schedule.date}({schedule.shortDayName}.)
@@ -183,12 +177,26 @@ export default class TaskListItem extends Component {
           </div>
         );
       } else {
-        itemContent = <div {...itemContentProps} >{task.text}</div>;
+        itemContent = (
+          <div
+            className="list-item-text"
+            onClick={this.onClickLabel}
+          >
+            {task.text}
+          </div>
+        );
       }
     }
+    const itemContentProps = {
+      draggable: true,
+      onDragStart: this.onDragStart,
+      onDragEnter: this.onDragEnter,
+      onDragEnd: this.onDragEnd,
+    };
 
     return (
       <li
+        {...itemContentProps}
         key={task.id}
         className={classNames('list-item', { 'list-item__disabled': task.completed })}
       >
